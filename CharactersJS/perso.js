@@ -1,5 +1,6 @@
 class Personnage{
 	constructor(name, typeHero){
+        initiative: 0,
 		this.attribute = {
 			name: name,
 			typeHero: typeHero,
@@ -76,4 +77,15 @@ Personnage.prototype.equipWeapon = function(weapon){
 			}
 		}
 	}
+}
+
+Personnage.prototype.attackMonster = function(monster){
+    var toHit = Phaser.Math.FloatBetween(1, 20);
+    if(toHit >= monster.armorClass){
+        var damage = Math.floor(Phaser.Math.FloatBetween(1, 7));
+        monster.life -= damage;
+        console.log("life : " + monster.life + " damage " + damage);
+    }
+    else
+        console.log("Miss");
 }

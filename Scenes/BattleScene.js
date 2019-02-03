@@ -14,18 +14,19 @@ class BattleScene extends Phaser.Scene{
 	}
 	
 	create(){
+        this.actorsList = new Array();
+        
         this.listMobs = new Array();
         this.listMobs.push(new Monsters("Witch1"));
         this.listMobs.push(new Monsters("Witch2"));
         this.listMobs.push(new Monsters("Witch3"));
         this.listMobs.push(new Monsters("Witch4"));
-        this.posXMonster = 800 / this.listMobs.length - 80;
+        this.posXMonster = 800 / this.listMobs.length - 40;
         this.posYMonster = 150;
 		this.add.image(0, 0, 'background').setOrigin(0, 0);
         for(var i = 0; i < this.listMobs.length; i++){
             this.add.image(this.posXMonster, this.posYMonster, 'witch');   
-            this.posXMonster += 800 / this.listMobs.length - 80;
-            console.log(this.posXMonster);
+            this.posXMonster += 800 / this.listMobs.length - 40;
         }
         this.rectX = 0;
         this.rectY = 500;
@@ -40,14 +41,40 @@ class BattleScene extends Phaser.Scene{
             this.rectX += 205;
         }
 		this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.actorsList = calculInit(this.herotest, this.listMobs);
+        this.actorsList.sort(function(a, b){
+           return a.initiative - b.initiative;       
+        });
+        
+        this.actorsList.reverse();
+        for(var i = 0; i < this.actorsList.length; i++)
+            console.log(this.actorsList[i].initiative);
 	}
 	
 	update(){
+        /* Only to test */
 		if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
-			this.herotest[0].attribute.life -= 1;
-			this.lifeText[0].setText("HP :" + this.herotest[0].attribute.life + ' / ' + this.herotest[0].attribute.maxLife);
+            this.herotest[0].attackMonster(this.listMobs[0]);
+			/*this.herotest[0].attribute.life -= 1;
+			this.lifeText[0].setText("HP :" + this.herotest[0].attribute.life + ' / ' + this.herotest[0].attribute.maxLife);*/
 		}
-		if(this.herotest[0].attribute.life <= 0)
-			this.scene.start('MapTest', {heros: this.herotest});
+		if(this.herotest[0].attribute.life <= 0){
+            this.herotest[0].attribute.life = this.herotest[0].attribute.maxLife
+            this.scene.start('MapTest', {heros: this.herotest});
+        }
 	}
+    
+}
+function calculInit(herotest, listMobs){
+    var newInit = new Array();
+    for(var i = 0; i < herotest.length; i++){
+        herotest[i].initiative =  Math.ceil(Math.random() * Math.floor(20));
+        newInit.push(herotest[i]);
+    }
+
+    for(var i = 0; i < listMobs.length; i++){
+        listMobs[i].initiative =  Math.ceil(Math.random() * Math.floor(20));
+        newInit.push(listMobs[i]);
+    }
+    return newInit;
 }
