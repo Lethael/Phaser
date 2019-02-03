@@ -17,10 +17,10 @@ class BattleScene extends Phaser.Scene{
         this.actorsList = new Array();
         
         this.listMobs = new Array();
-        this.listMobs.push(new Monsters("Witch1"));
-        this.listMobs.push(new Monsters("Witch2"));
-        this.listMobs.push(new Monsters("Witch3"));
-        this.listMobs.push(new Monsters("Witch4"));
+        this.listMobs.push(new Monsters("Witch1", "witch", 1, 0));
+        this.listMobs.push(new Monsters("Witch2", "witch", 1, 0));
+        this.listMobs.push(new Monsters("Witch3", "witch", 1, 0));
+        this.listMobs.push(new Monsters("Witch4", "witch", 1, 0));
         this.posXMonster = 800 / this.listMobs.length - 40;
         this.posYMonster = 150;
 		this.add.image(0, 0, 'background').setOrigin(0, 0);
