@@ -14,6 +14,8 @@ class BattleScene extends Phaser.Scene{
 	}
 	
 	create(){
+        this.indexArray = 0;
+        this.timeUntilNextAction = 2000;
         this.actorsList = new Array();
         
         this.listMobs = new Array();
@@ -48,7 +50,7 @@ class BattleScene extends Phaser.Scene{
         
 	}
 	
-	update(){
+	update(time, delta){
         /* Only to test */
 		/*if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
             //this.herotest[0].attackMonster(this.listMobs[0]);
@@ -66,17 +68,20 @@ class BattleScene extends Phaser.Scene{
         }
         
         if(!this.boolEnd){
-            for(var i = 0; i < this.actorsList.length; i++){
-                if(this.actorsList[i].constructor.name === "Monsters"){
-                    monsterTurn(this.herotest, this.actorsList[i]);
-                }else{
-                    console.log(this.actorsList[i].attribute.name + " do something");
-                }
-                
-                if(i == this.actorsList.length - 1){
-                    this.boolEnd = true;
-                }
-            }            
+            if(this.actorsList[this.indexArray].constructor.name === "Monsters"){
+                this.timeUntilNextAction -= delta;
+            }else{
+                console.log("Player !");
+                this.indexArray += 1;
+            }
+            if(this.timeUntilNextAction <= 0){
+                monsterTurn(this.herotest, this.actorsList[this.indexArray]);
+                this.indexArray += 1;
+                this.timeUntilNextAction = 2000;
+            }
+            
+            if(this.indexArray == this.actorsList.length)
+                this.boolEnd = true;
         }
 	}
     
