@@ -15,6 +15,7 @@ class BattleScene extends Phaser.Scene{
 	
 	create(){
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.inAction = false;
         // When selecting monster
         this.targetMonster = 0;
         //To know which actor can makes an action
@@ -80,11 +81,16 @@ class BattleScene extends Phaser.Scene{
                 this.rectX += 205;
         }
         
-        if(!this.boolEnd){
             if(this.actorsList[this.indexArray].constructor.name === "Monsters"){
+                //console.log(this.actorsList);
                 this.timeUntilNextAction -= delta;
             }else{
-                this.graphics.strokeRectShape(this.rects);
+                if(!this.inAction){
+                    this.graphics.clear();
+                    this.displayRectTarget(0);
+                    this.inAction = true;
+                }
+                    
                 if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
                     this.graphics.clear();
                     this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]);
@@ -95,48 +101,42 @@ class BattleScene extends Phaser.Scene{
                                 this.actorsList.splice(j, 1);
                             }
                         }
-                        this.listImg[this.targetMonster].destroy();
-                        this.listMobs.splice(this.targetMonster, 1);
-                        this.listImg.splice(this.targetMonster, 1);
+                        this.destroyMobs();
                         this.targetMonster = 0;
+                        if(this.listMobs.length === 0)
+                            this.scene.start('MapTest', {heros: this.herotest});
                     }
+                    this.inAction = false;
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-                    this.test();
-                    console.log(this.rects.x)
                     this.targetMonster += 1;
                     this.graphics.clear();
                     if(this.rects.x >= this.listImg[this.listMobs.length - 1].x - 40){
                         this.targetMonster = 0;
                         this.rects.x = this.listImg[0] - 40;
                     }
-                    this.rects.x = this.listImg[this.targetMonster].x - 40;
+                    this.displayRectTarget(this.targetMonster);
                 }
             }
             if(this.timeUntilNextAction <= 0){
                 this.monsterTurn(this.actorsList[this.indexArray]);
                 this.indexArray += 1;
                 this.timeUntilNextAction = 2000;
+                if(!this.herosAlive()){
+                    console.log("All of your heros are dead...")
+                    this.scene.start('MapTest', {heros: this.herotest});
+                }
             }
             
-            if(this.indexArray >= this.actorsList.length)
-                this.boolEnd = true;
-        }
+            if(this.indexArray >= this.actorsList.length){
+                this.calculInit();  
+                this.indexArray = 0;
+            }
+            
 	}
     
 }
-    
-/*function displayMonster(imgs, monsters, imgMob, battle){
-    battle.posXMonster = 800 / monsters.length - 40;
-    battle.posYMonster = 150;
-    for(var i = 0; i < monsters.length; i++){
-        imgs[i] = battle.add.sprite(battle.posXMonster, battle.posYMonster, imgMob);   
-        battle.posXMonster += 800 / monsters.length - 40;
-        }
-    battle.posXMonster = 800 / battle.listMobs.length - 40;
-}*/
 
 /*
-
     return list of all of them sort by intiative
 */
 BattleScene.prototype.calculInit = function(){
@@ -165,4 +165,28 @@ BattleScene.prototype.monsterTurn = function(monster){
     //catch random hero
     var rndHero = Math.ceil(Math.random() * Math.floor(this.herotest.length)) - 1;
     monster.attackHero(this.herotest[rndHero]);
+}
+
+/*
+    Delete all monster' objects
+        Sprite
+        object
+*/
+BattleScene.prototype.destroyMobs = function(){
+    this.listImg[this.targetMonster].destroy();
+    this.listMobs.splice(this.targetMonster, 1);
+    this.listImg.splice(this.targetMonster, 1);
+}
+
+BattleScene.prototype.displayRectTarget = function(value){
+    this.rects.x = this.listImg[value].x - 40;                
+    this.graphics.strokeRectShape(this.rects);
+}
+
+BattleScene.prototype.herosAlive = function(){
+    for(var i = 0; i < this.herotest.length; i++){
+        if(this.herotest[i].attribute.life > 0)
+            return true;
+    }
+    return false;
 }
