@@ -17,10 +17,10 @@ class BattleScene extends Phaser.Scene{
         this.actorsList = new Array();
         
         this.listMobs = new Array();
-        this.listMobs.push(new Monsters("Witch1", "witch", 1, 0));
-        this.listMobs.push(new Monsters("Witch2", "witch", 1, 0));
-        this.listMobs.push(new Monsters("Witch3", "witch", 1, 0));
-        this.listMobs.push(new Monsters("Witch4", "witch", 1, 0));
+        this.listMobs.push(new Monsters("Witch1", "witch", 1, 1, 1, 0));
+        this.listMobs.push(new Monsters("Witch2", "witch", 1, 1, 1, 0));
+        this.listMobs.push(new Monsters("Witch3", "witch", 1, 1, 1, 0));
+        this.listMobs.push(new Monsters("Witch4", "witch", 1, 1, 1, 0));
         this.posXMonster = 800 / this.listMobs.length - 40;
         this.posYMonster = 150;
 		this.add.image(0, 0, 'background').setOrigin(0, 0);
@@ -40,6 +40,7 @@ class BattleScene extends Phaser.Scene{
             this.lifeText[i] = this.add.text(this.rectX + 5, this.rectY + 20, "HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
             this.rectX += 205;
         }
+        this.rectX = 0;
 		this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.actorsList = calculInit(this.herotest, this.listMobs);
         this.actorsList.sort(function(a, b){
@@ -47,16 +48,20 @@ class BattleScene extends Phaser.Scene{
         });
         
         this.actorsList.reverse();
-        for(var i = 0; i < this.actorsList.length; i++)
-            console.log(this.actorsList[i].initiative);
 	}
 	
 	update(){
         /* Only to test */
 		if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
-            this.herotest[0].attackMonster(this.listMobs[0]);
+            //this.herotest[0].attackMonster(this.listMobs[0]);
+            this.listMobs[0].attackHero(this.herotest[0]);
+            console.log(this.herotest[0].attribute.life)
 			/*this.herotest[0].attribute.life -= 1;
 			this.lifeText[0].setText("HP :" + this.herotest[0].attribute.life + ' / ' + this.herotest[0].attribute.maxLife);*/
+            for(var i = 0; i < this.sizeTab; i++){
+                this.lifeText[i].setText("HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
+                this.rectX += 205;
+            }
 		}
 		if(this.herotest[0].attribute.life <= 0){
             this.herotest[0].attribute.life = this.herotest[0].attribute.maxLife

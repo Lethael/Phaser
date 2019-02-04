@@ -15,8 +15,15 @@ class MapTest extends Phaser.Scene{
     preload ()
     {
         //Load tile set
-        this.load.image("tilesets", "../assets/tilesets/basique.png");
-		this.load.spritesheet('heroTest', 'assets/characters/char.png', { frameWidth: 32, frameHeight: 48 });
+		this.load.spritesheet('heroTest', '../assets/characters/char.png', { frameWidth: 32, frameHeight: 48 });
+        
+        this.load.image("tiles", "../assets/tilesets/basique.png");
+        this.load.tilemapTiledJSON("map", "../assets/maps/test2.json");
+        
+        //  Input Events
+        this.cursors = this.input.keyboard.createCursorKeys();
+        
+        this.player;
     }
     create ()
     {
@@ -32,41 +39,23 @@ class MapTest extends Phaser.Scene{
             this.tabPlayer.push(this.testPlayer);
             this.tabPlayer.push(this.testPlayer2);
         }
-		this.player;
         
 
 		this.cursors;
-		this.score = 0;
-		this.scoreText;
         
-        const level = [
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,  10,  10,  10,   0,   0,   0,   0,   0,   0,   0,  10,  10,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   1,  10,  10,  10,  10,   0,   0,   0,   5,   0,  10,  10,  10,  10,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ], 
-        [  0,   0,   0,   0,   0,   0,  10,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ]
+        const map = this.make.tilemap({key: "map", tileWidth: 32, tileHeight: 32});
+        // basique is the name of the tileset in the json file
+        const tileset = map.addTilesetImage('basique', 'tiles');
+        const layer1 = map.createStaticLayer(0, tileset, 0, 0);
+        const layer2 = map.createStaticLayer(1, tileset);
         
-      ];
-        const map = this.make.tilemap({ data: level, tileWidth: 32, tileHeight: 32 });
-        const tiles = map.addTilesetImage("tilesets");
-        // can have more than 1 layer
-        const layer = map.createStaticLayer(0, tiles, 0, 0);
-		
-		// The player and its settings
-		this.player = this.physics.add.sprite(100, 450, 'heroTest');
+        // spawnPLayer is the name of the OBJECT LAYER
+        const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
+        this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'heroTest');
+        
+        layer2.setCollisionBetween(4, 4);
+        // collide is the property that we set in tiled map editor
+        layer2.setCollisionByProperty({collide: true});
 
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.setCollideWorldBounds(true);
@@ -105,9 +94,9 @@ class MapTest extends Phaser.Scene{
             frames: [{key: 'heroTest', frame: 0}],
             frameRate: 10
         });
-
-        //  Input Events
-        this.cursors = this.input.keyboard.createCursorKeys();
+        
+        
+        this.physics.add.collider(this.player, layer2);
     }
 
     update (time, delta){
