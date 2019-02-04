@@ -43,11 +43,7 @@ class BattleScene extends Phaser.Scene{
         this.rectX = 0;
 		this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.actorsList = calculInit(this.herotest, this.listMobs);
-        this.actorsList.sort(function(a, b){
-           return a.initiative - b.initiative;       
-        });
         
-        this.actorsList.reverse();
 	}
 	
 	update(){
@@ -55,7 +51,6 @@ class BattleScene extends Phaser.Scene{
 		if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
             //this.herotest[0].attackMonster(this.listMobs[0]);
             this.listMobs[0].attackHero(this.herotest[0]);
-            console.log(this.herotest[0].attribute.life)
 			/*this.herotest[0].attribute.life -= 1;
 			this.lifeText[0].setText("HP :" + this.herotest[0].attribute.life + ' / ' + this.herotest[0].attribute.maxLife);*/
             for(var i = 0; i < this.sizeTab; i++){
@@ -81,5 +76,11 @@ function calculInit(herotest, listMobs){
         listMobs[i].initiative =  Math.ceil(Math.random() * Math.floor(20));
         newInit.push(listMobs[i]);
     }
+    
+    newInit.sort(function(a, b){
+           return a.initiative - b.initiative;       
+        });
+        
+    newInit.reverse();
     return newInit;
 }
