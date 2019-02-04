@@ -124,11 +124,6 @@ class BattleScene extends Phaser.Scene{
 	}
     
 }
-
-BattleScene.prototype.test = function(){
-    console.log("je suis dans proto");
-    console.log(this.targetMonster);
-}
     
 /*function displayMonster(imgs, monsters, imgMob, battle){
     battle.posXMonster = 800 / monsters.length - 40;
@@ -141,9 +136,7 @@ BattleScene.prototype.test = function(){
 }*/
 
 /*
-    @params Heros list
-    @params Monsters list
-    
+
     return list of all of them sort by intiative
 */
 BattleScene.prototype.calculInit = function(){
