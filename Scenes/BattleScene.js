@@ -44,23 +44,39 @@ class BattleScene extends Phaser.Scene{
 		this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.actorsList = calculInit(this.herotest, this.listMobs);
         
+        this.boolEnd = false;
+        
 	}
 	
 	update(){
         /* Only to test */
-		if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
+		/*if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
             //this.herotest[0].attackMonster(this.listMobs[0]);
             this.listMobs[0].attackHero(this.herotest[0]);
-			/*this.herotest[0].attribute.life -= 1;
-			this.lifeText[0].setText("HP :" + this.herotest[0].attribute.life + ' / ' + this.herotest[0].attribute.maxLife);*/
-            for(var i = 0; i < this.sizeTab; i++){
-                this.lifeText[i].setText("HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
-                this.rectX += 205;
-            }
+			//this.herotest[0].attribute.life -= 1;
+			//this.lifeText[0].setText("HP :" + this.herotest[0].attribute.life + ' / ' + this.herotest[0].attribute.maxLife);
 		}
 		if(this.herotest[0].attribute.life <= 0){
             this.herotest[0].attribute.life = this.herotest[0].attribute.maxLife
             this.scene.start('MapTest', {heros: this.herotest});
+        }*/
+        for(var i = 0; i < this.sizeTab; i++){
+                this.lifeText[i].setText("HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
+                this.rectX += 205;
+        }
+        
+        if(!this.boolEnd){
+            for(var i = 0; i < this.actorsList.length; i++){
+                if(this.actorsList[i].constructor.name === "Monsters"){
+                    monsterTurn(this.herotest, this.actorsList[i]);
+                }else{
+                    console.log(this.actorsList[i].attribute.name + " do something");
+                }
+                
+                if(i == this.actorsList.length - 1){
+                    this.boolEnd = true;
+                }
+            }            
         }
 	}
     
@@ -83,4 +99,11 @@ function calculInit(herotest, listMobs){
         
     newInit.reverse();
     return newInit;
+}
+
+function monsterTurn(herotest, monster){
+    console.log(monster.name + " attack !");
+    //catch random hero
+    var rndHero = Math.ceil(Math.random() * Math.floor(herotest.length)) - 1;
+    monster.attackHero(herotest[rndHero]);
 }
