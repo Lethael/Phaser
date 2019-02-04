@@ -58,7 +58,7 @@ class BattleScene extends Phaser.Scene{
         this.rectX = 0;
         // end
         
-        this.actorsList = calculInit(this.herotest, this.listMobs);
+        this.actorsList = this.calculInit();
         
         this.boolEnd = false;
         
@@ -101,7 +101,7 @@ class BattleScene extends Phaser.Scene{
                         this.targetMonster = 0;
                     }
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-                    
+                    this.test();
                     console.log(this.rects.x)
                     this.targetMonster += 1;
                     this.graphics.clear();
@@ -113,7 +113,7 @@ class BattleScene extends Phaser.Scene{
                 }
             }
             if(this.timeUntilNextAction <= 0){
-                monsterTurn(this.herotest, this.actorsList[this.indexArray]);
+                this.monsterTurn(this.actorsList[this.indexArray]);
                 this.indexArray += 1;
                 this.timeUntilNextAction = 2000;
             }
@@ -123,6 +123,11 @@ class BattleScene extends Phaser.Scene{
         }
 	}
     
+}
+
+BattleScene.prototype.test = function(){
+    console.log("je suis dans proto");
+    console.log(this.targetMonster);
 }
     
 /*function displayMonster(imgs, monsters, imgMob, battle){
@@ -141,16 +146,16 @@ class BattleScene extends Phaser.Scene{
     
     return list of all of them sort by intiative
 */
-function calculInit(herotest, listMobs){
+BattleScene.prototype.calculInit = function(){
     var newInit = new Array();
-    for(var i = 0; i < herotest.length; i++){
-        herotest[i].initiative =  Math.ceil(Math.random() * Math.floor(20));
-        newInit.push(herotest[i]);
+    for(var i = 0; i < this.herotest.length; i++){
+        this.herotest[i].initiative =  Math.ceil(Math.random() * Math.floor(20));
+        newInit.push(this.herotest[i]);
     }
 
-    for(var i = 0; i < listMobs.length; i++){
-        listMobs[i].initiative =  Math.ceil(Math.random() * Math.floor(20));
-        newInit.push(listMobs[i]);
+    for(var i = 0; i < this.listMobs.length; i++){
+        this.listMobs[i].initiative =  Math.ceil(Math.random() * Math.floor(20));
+        newInit.push(this.listMobs[i]);
     }
     
     newInit.sort(function(a, b){
@@ -162,9 +167,9 @@ function calculInit(herotest, listMobs){
 }
 
 
-function monsterTurn(herotest, monster){
+BattleScene.prototype.monsterTurn = function(monster){
     console.log(monster.name + " attack !");
     //catch random hero
-    var rndHero = Math.ceil(Math.random() * Math.floor(herotest.length)) - 1;
-    monster.attackHero(herotest[rndHero]);
+    var rndHero = Math.ceil(Math.random() * Math.floor(this.herotest.length)) - 1;
+    monster.attackHero(this.herotest[rndHero]);
 }
