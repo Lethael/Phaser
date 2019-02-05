@@ -80,12 +80,13 @@ Personnage.prototype.equipWeapon = function(weapon){
 }
 
 Personnage.prototype.attackMonster = function(monster){
-    var toHit = Phaser.Math.FloatBetween(1, 20);
+    var toHit = Phaser.Math.FloatBetween(1, 20) + 20;
     if(toHit >= monster.armorClass){
-        var damage = Math.floor(Phaser.Math.FloatBetween(1, 7));
+        var damage = Math.floor(Phaser.Math.FloatBetween(1, 7)) + 20;
         monster.life -= damage;
+        return damage;
         console.log("life : " + monster.life + " damage " + damage);
     }
     else
-        console.log("Miss");
+        return 'Miss';
 }

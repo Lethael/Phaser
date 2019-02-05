@@ -27,6 +27,9 @@ Monsters.prototype.attackHero = function(hero){
         for(var i = 0; i < this.damageDice; i++){
                 damage += Math.floor(Phaser.Math.FloatBetween(1, 7));
             }
+        console.log(this.name + " fait " + damage + " de dégâts");
         hero.attribute.life -= damage + this.bonus;
-    }
+        return damage;
+    }else
+        return 'Miss';
 }
