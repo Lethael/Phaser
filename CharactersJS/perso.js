@@ -42,10 +42,6 @@ class Personnage{
 		this.attribute.armorClass = 10 + this.attribute.bonCons;
 
 	}
-	
-	testFunction(){
-		console.log(this.attribute.str);
-	}
 }
 
 Personnage.prototype.calcBonus = function(value){
@@ -97,3 +93,11 @@ Personnage.prototype.waiting = function(){
         this.attribute.bonWait += 1;
     }
 }
+
+/*Personnage.prototype.openInv = function(){
+    if(this.inventory.bag.length){
+        for(var i = 0; i < this.inventory.bag.length; i++){
+            console.log(this.inventory.bag[i].name);
+        }
+    }
+}*/
