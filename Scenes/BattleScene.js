@@ -84,7 +84,7 @@ class BattleScene extends Phaser.Scene{
                     if(this.damageText != undefined)
                         this.damageText.destroy();
                     
-                    this.damageText = this.add.text(400, 40, this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster])).setColor('0xffffff');
+                    this.damageText = this.add.text(395, 40, this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]), {fontSize: '20px', fill: '#FFF'});
                     this.indexArray += 1;
                     if(this.listMobs[this.targetMonster].life <= 0){
                         for(var j = 0; j < this.actorsList.length; j++){
@@ -139,7 +139,8 @@ BattleScene.prototype.displayWindowHeros = function(){
 }
 
 /*
-    return list of all of them sort by intiative
+    return list of all of them 
+    sort by intiative
 */
 BattleScene.prototype.calculInit = function(){
     var newInit = new Array();
@@ -170,7 +171,7 @@ BattleScene.prototype.monsterTurn = function(monster){
     var rndHero = Math.ceil(Math.random() * Math.floor(this.herotest.length)) - 1;
     //this.damageText.setText(monster.attackHero(this.herotest[rndHero]));
     console.log(this.rec[1]);
-    this.damageText = this.add.text(205 * rndHero, 480, monster.attackHero(this.herotest[rndHero])).setColor('0xffffff');
+    this.damageText = this.add.text(205 * rndHero + 95, 480, monster.attackHero(this.herotest[rndHero]), {fontSize: '20px', fill: '#FFF'});
 }
 
 /*
