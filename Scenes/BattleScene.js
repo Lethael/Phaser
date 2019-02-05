@@ -99,56 +99,8 @@ class BattleScene extends Phaser.Scene{
                 if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
                     //this.cursorsMenuAction.clear();
                     this.moveActionCursor();
-                }
-                    
-                if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-                    switch(this.posCursor){
-                        case 0:
-                            this.graphicsRectTargetMonster.clear();
-                            if(this.damageText != undefined)
-                                this.damageText.destroy();
-
-                            this.damageText = this.add.text(395, 40, this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]), {fontSize: '20px', fill: '#FFF'});
-                            this.indexArray += 1;
-                            if(this.listMobs[this.targetMonster].life <= 0){
-                                for(var j = 0; j < this.actorsList.length; j++){
-                                    if(this.listMobs[this.targetMonster] === this.actorsList[j]){
-                                        this.actorsList.splice(j, 1);
-                                    }
-                                }
-                                this.destroyMobs();
-                                this.targetMonster = 0;
-                                if(this.listMobs.length === 0)
-                                    this.scene.start('MapTest', {heros: this.herotest});
-                            }
-                            this.inAction = false;
-                            this.destroyMenuBattle();
-                        break;
-                        case 1:
-                            if(this.damageText != undefined)
-                                    this.damageText.destroy();
-
-                                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
-                        break;
-                            case 2:
-                            if(this.damageText != undefined)
-                                    this.damageText.destroy();
-
-                                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
-                        break;
-                            case 3:
-                            if(this.damageText != undefined)
-                                    this.damageText.destroy();
-
-                                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
-                        break;
-                            case 4:
-                            if(this.damageText != undefined)
-                                    this.damageText.destroy();
-
-                                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
-                        break;
-                    }
+                }else if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+                    this.selectAction();
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
                     this.targetMonster += 1;
                     this.graphicsRectTargetMonster.clear();
@@ -211,6 +163,56 @@ BattleScene.prototype.moveActionCursor = function(){
         this.rectCursors.y += 21;
         this.cursorsMenuAction.strokeRectShape(this.rectCursors);  
     }
+}
+
+BattleScene.prototype.selectAction = function(){
+   switch(this.posCursor){
+        case 0:
+            this.graphicsRectTargetMonster.clear();
+            if(this.damageText != undefined)
+                this.damageText.destroy();
+
+            this.damageText = this.add.text(395, 40, this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]), {fontSize: '20px', fill: '#FFF'});
+            this.indexArray += 1;
+            if(this.listMobs[this.targetMonster].life <= 0){
+                for(var j = 0; j < this.actorsList.length; j++){
+                    if(this.listMobs[this.targetMonster] === this.actorsList[j]){
+                        this.actorsList.splice(j, 1);
+                    }
+                }
+                this.destroyMobs();
+                this.targetMonster = 0;
+                if(this.listMobs.length === 0)
+                    this.scene.start('MapTest', {heros: this.herotest});
+            }
+            this.inAction = false;
+            this.destroyMenuBattle();
+        break;
+        case 1:
+            if(this.damageText != undefined)
+                    this.damageText.destroy();
+
+                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
+        break;
+            case 2:
+            if(this.damageText != undefined)
+                    this.damageText.destroy();
+
+                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
+        break;
+            case 3:
+            if(this.damageText != undefined)
+                    this.damageText.destroy();
+
+                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
+        break;
+            case 4:
+            if(this.damageText != undefined)
+                    this.damageText.destroy();
+
+                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
+        break;
+    } 
 }
 
 BattleScene.prototype.destroyMenuBattle = function(){
