@@ -62,6 +62,8 @@ class BattleScene extends Phaser.Scene{
         
         this.containerStringAction = new Array();
         this.cursorsMenuAction;
+        this.rectCursors;
+        this.posCursor = 0;
         
         this.damageText;
         
@@ -93,27 +95,34 @@ class BattleScene extends Phaser.Scene{
                         if(this.herotest[i] === this.actorsList[this.indexArray])
                             this.createMenuBattle(i);
                 }
+                
+                if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
+                    //this.cursorsMenuAction.clear();
+                    this.moveActionCursor();
+                }
                     
                 if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-                    this.graphicsRectTargetMonster.clear();
-                    if(this.damageText != undefined)
-                        this.damageText.destroy();
-                    
-                    this.damageText = this.add.text(395, 40, this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]), {fontSize: '20px', fill: '#FFF'});
-                    this.indexArray += 1;
-                    if(this.listMobs[this.targetMonster].life <= 0){
-                        for(var j = 0; j < this.actorsList.length; j++){
-                            if(this.listMobs[this.targetMonster] === this.actorsList[j]){
-                                this.actorsList.splice(j, 1);
+                    if(this.posCursor === 0){
+                        this.graphicsRectTargetMonster.clear();
+                        if(this.damageText != undefined)
+                            this.damageText.destroy();
+
+                        this.damageText = this.add.text(395, 40, this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]), {fontSize: '20px', fill: '#FFF'});
+                        this.indexArray += 1;
+                        if(this.listMobs[this.targetMonster].life <= 0){
+                            for(var j = 0; j < this.actorsList.length; j++){
+                                if(this.listMobs[this.targetMonster] === this.actorsList[j]){
+                                    this.actorsList.splice(j, 1);
+                                }
                             }
+                            this.destroyMobs();
+                            this.targetMonster = 0;
+                            if(this.listMobs.length === 0)
+                                this.scene.start('MapTest', {heros: this.herotest});
                         }
-                        this.destroyMobs();
-                        this.targetMonster = 0;
-                        if(this.listMobs.length === 0)
-                            this.scene.start('MapTest', {heros: this.herotest});
+                        this.inAction = false;
+                        this.destroyMenuBattle();
                     }
-                    this.inAction = false;
-                    this.destroyMenuBattle();
                     
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
                     this.targetMonster += 1;
@@ -161,13 +170,30 @@ BattleScene.prototype.createMenuBattle = function(indexPlayer){
     for(var i = 0; i < this.stringActionMenu.length; i++)
         this.containerStringAction[i] = this.add.text(indexPlayer * 205, 405 + i * 20, this.stringActionMenu[i]).setColor('0x000000');
     
-    this.cursorsMenuAction = this.add.graphics()
+    this.cursorsMenuAction = this.add.graphics({lineStyle: {width: 2, color: 0x00000}})
+    this.rectCursors = new Phaser.Geom.Rectangle(indexPlayer * 205 - 1, 400, 80, 18);
+    this.cursorsMenuAction.strokeRectShape(this.rectCursors);
+}
+
+BattleScene.prototype.moveActionCursor = function(){
+    this.cursorsMenuAction.clear();
+    this.posCursor += 1;
+    if(this.posCursor >= this.stringActionMenu.length){
+        this.posCursor = 0;
+        this.rectCursors.y = 400;
+        this.cursorsMenuAction.strokeRectShape(this.rectCursors);
+    }else{
+        this.rectCursors.y += 21;
+        this.cursorsMenuAction.strokeRectShape(this.rectCursors);  
+    }
 }
 
 BattleScene.prototype.destroyMenuBattle = function(){
     this.menuBattle.destroy();
     for(var i = 0; i < this.containerStringAction.length; i++)
         this.containerStringAction[i].destroy();
+    this.posCursor = 0;
+    this.cursorsMenuAction.clear();
 }
 
 /*
