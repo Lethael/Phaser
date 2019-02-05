@@ -61,6 +61,7 @@ class BattleScene extends Phaser.Scene{
         this.stringActionMenu.push("Run");
         
         this.containerStringAction = new Array();
+        this.cursorsMenuAction;
         
         this.damageText;
         
@@ -69,7 +70,7 @@ class BattleScene extends Phaser.Scene{
         this.boolEnd = false;
         
         // Rectangle to select target Monster
-        this.graphics = this.add.graphics({lineStyle: {width: 2, color: 0xffffff}});
+        this.graphicsRectTargetMonster = this.add.graphics({lineStyle: {width: 2, color: 0xffffff}});
         this.rects = new Phaser.Geom.Rectangle(this.listImg[0].x - 40, 75, 80, 140);
         
 	}
@@ -85,7 +86,7 @@ class BattleScene extends Phaser.Scene{
             }else{
                 if(!this.inAction){
                     let posHero = 0;
-                    this.graphics.clear();
+                    this.graphicsRectTargetMonster.clear();
                     this.displayRectTarget(0);
                     this.inAction = true;
                     for(var i = 0; i < this.herotest.length; i++)
@@ -94,7 +95,7 @@ class BattleScene extends Phaser.Scene{
                 }
                     
                 if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-                    this.graphics.clear();
+                    this.graphicsRectTargetMonster.clear();
                     if(this.damageText != undefined)
                         this.damageText.destroy();
                     
@@ -116,7 +117,7 @@ class BattleScene extends Phaser.Scene{
                     
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
                     this.targetMonster += 1;
-                    this.graphics.clear();
+                    this.graphicsRectTargetMonster.clear();
                     if(this.rects.x >= this.listImg[this.listMobs.length - 1].x - 40){
                         this.targetMonster = 0;
                         this.rects.x = this.listImg[0] - 40;
@@ -159,6 +160,8 @@ BattleScene.prototype.createMenuBattle = function(indexPlayer){
     this.menuBattle.fillRect(indexPlayer * 205, 400, 100, 100 );
     for(var i = 0; i < this.stringActionMenu.length; i++)
         this.containerStringAction[i] = this.add.text(indexPlayer * 205, 405 + i * 20, this.stringActionMenu[i]).setColor('0x000000');
+    
+    this.cursorsMenuAction = this.add.graphics()
 }
 
 BattleScene.prototype.destroyMenuBattle = function(){
@@ -215,7 +218,7 @@ BattleScene.prototype.destroyMobs = function(){
 
 BattleScene.prototype.displayRectTarget = function(value){
     this.rects.x = this.listImg[value].x - 40;                
-    this.graphics.strokeRectShape(this.rects);
+    this.graphicsRectTargetMonster.strokeRectShape(this.rects);
 }
 
 BattleScene.prototype.herosAlive = function(){
