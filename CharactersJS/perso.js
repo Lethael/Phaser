@@ -65,8 +65,9 @@ Personnage.prototype.addToInv = function(obj){
 Personnage.prototype.equipWeapon = function(weapon){
 	if(this.inventory.bag.length > 0){
 		if(this.equipments.rightHand == undefined){
-			if(weapon.size === "1 hand"){
+			if(weapon.size === 1){
 				this.equipments.rightHand = weapon;
+                console.log(this.equipments.rightHand.name)
 			}
 			else{
 				this.equipments.rightHand = weapon;
