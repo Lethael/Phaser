@@ -56,10 +56,15 @@ Personnage.prototype.calcBonus = function(value){
 	return bonus;
 }
 
-Personnage.prototype.addToInv = function(obj){
-	if(this.inventory.bag.length <= 10){
-		this.inventory.bag.push(obj);
-	}
+Personnage.prototype.addToInv = function(obj, changeEquipments){
+    if(!changeEquipments){
+        if(this.inventory.bag.length <= 10){
+		  this.inventory.bag.push(obj);
+	   }  
+    }else{
+        this.inventory.bag.push(obj);
+    }
+	
 }
 
 Personnage.prototype.equipWeapon = function(weapon){
@@ -77,7 +82,10 @@ Personnage.prototype.equipWeapon = function(weapon){
 				this.equipments.rightHand = weapon;
 				this.equipments.leftHand = weapon;
 			}
-		}
+		}else{
+            this.addToInv(this.equipments.rightHand, true);
+            this.equipments.rightHand = weapon;
+        }
 	}
 }
 
@@ -94,6 +102,9 @@ Personnage.prototype.attackMonster = function(monster){
         
         if(damage <= 0)
             damage = 1;
+        
+        if(this.equipments.rightHand !== undefined)
+            console.log("Weapon name : " + this.equipments.rightHand.name);
         
         monster.life -= damage;
         return damage;
