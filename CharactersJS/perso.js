@@ -17,7 +17,8 @@ class Personnage{
 			bonStr: 0,
 			bonCons: 0,
 			bonPow: 0,
-			bonPie: 0
+			bonPie: 0,
+            bonWait: 0
 		}
 		this.inventory = {
 			gold: 0,
@@ -89,4 +90,10 @@ Personnage.prototype.attackMonster = function(monster){
     }
     else
         return 'Miss';
+}
+
+Personnage.prototype.waiting = function(){
+    if(this.attribute.bonWait < 2){
+        this.attribute.bonWait += 1;
+    }
 }
