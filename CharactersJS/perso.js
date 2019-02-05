@@ -64,10 +64,14 @@ Personnage.prototype.addToInv = function(obj){
 
 Personnage.prototype.equipWeapon = function(weapon){
 	if(this.inventory.bag.length > 0){
-		if(this.equipments.rightHand == undefined){
+		if(this.equipments.rightHand === undefined){
 			if(weapon.size === 1){
 				this.equipments.rightHand = weapon;
-                console.log(this.equipments.rightHand.name)
+                for(var i = 0; i < this.inventory.bag.length; i++){
+                    if(this.inventory.bag[i] === weapon){
+                        this.inventory.bag.splice(i, 1);
+                    }
+                }
 			}
 			else{
 				this.equipments.rightHand = weapon;
@@ -80,10 +84,19 @@ Personnage.prototype.equipWeapon = function(weapon){
 Personnage.prototype.attackMonster = function(monster){
     var toHit = Phaser.Math.FloatBetween(1, 20) + 20;
     if(toHit >= monster.armorClass){
-        var damage = Math.floor(Phaser.Math.FloatBetween(1, 7)) + 20;
+        var damage = 0;
+        if(this.equipments.rightHand !== undefined){
+            for(var i = 0; i < this.equipments.rightHand.diceDamage; i++)
+                damage += Math.floor(Phaser.Math.FloatBetween(1, 7)) + this.equipments.rightHand.bonusDamage;   
+        }
+        else
+          damage += Math.floor(Phaser.Math.FloatBetween(1, 7)) - 2;
+        
+        if(damage <= 0)
+            damage = 1;
+        
         monster.life -= damage;
         return damage;
-        console.log("life : " + monster.life + " damage " + damage);
     }
     else
         return 'Miss';
