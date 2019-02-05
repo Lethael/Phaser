@@ -27,10 +27,6 @@ class MapTest extends Phaser.Scene{
     }
     create ()
     {
-        //Testing items
-        let it = new Weapon("Sword1", "The first sword", 1, -1, 1);
-        console.log(it.name);
-        console.log(it.description);
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
@@ -39,8 +35,6 @@ class MapTest extends Phaser.Scene{
         if(this.tabPlayer == undefined){
             this.tabPlayer = new Array();
             this.testPlayer = new Personnage('HeroTest');
-            this.testPlayer.addToInv(it);
-            this.testPlayer.equipWeapon(it);
             this.testPlayer2 = new Personnage('HeroineTest');
             this.testPlayer3 = new Personnage('Gimli');
             this.tabPlayer.push(this.testPlayer);
