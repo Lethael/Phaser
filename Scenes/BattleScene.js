@@ -52,6 +52,7 @@ class BattleScene extends Phaser.Scene{
         this.displayWindowHeros();
         // end
         
+        this.menuBattle;
         this.damageText;
         
         this.actorsList = this.calculInit();
@@ -74,9 +75,13 @@ class BattleScene extends Phaser.Scene{
                 this.timeUntilNextAction -= delta;
             }else{
                 if(!this.inAction){
+                    let posHero = 0;
                     this.graphics.clear();
                     this.displayRectTarget(0);
                     this.inAction = true;
+                    for(var i = 0; i < this.herotest.length; i++)
+                        if(this.herotest[i] === this.actorsList[this.indexArray])
+                            this.createMenuBattle(i);
                 }
                     
                 if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
@@ -98,6 +103,9 @@ class BattleScene extends Phaser.Scene{
                             this.scene.start('MapTest', {heros: this.herotest});
                     }
                     this.inAction = false;
+                    this.menuBattle.destroy();
+                    this.attackText.destroy();
+                    
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
                     this.targetMonster += 1;
                     this.graphics.clear();
@@ -138,6 +146,12 @@ BattleScene.prototype.displayWindowHeros = function(){
     this.rectX = 0;
 }
 
+BattleScene.prototype.createMenuBattle = function(indexPlayer){
+    this.menuBattle = this.add.graphics({fillStyle: {color: 0xffffff}});
+    this.menuBattle.fillRect(indexPlayer * 205, 400, 100, 100 );
+    this.attackText = this.add.text(indexPlayer * 205, 405, "Attack").setColor('0x000000');
+}
+
 /*
     return list of all of them 
     sort by intiative
@@ -170,7 +184,6 @@ BattleScene.prototype.monsterTurn = function(monster){
     //catch random hero
     var rndHero = Math.ceil(Math.random() * Math.floor(this.herotest.length)) - 1;
     //this.damageText.setText(monster.attackHero(this.herotest[rndHero]));
-    console.log(this.rec[1]);
     this.damageText = this.add.text(205 * rndHero + 95, 480, monster.attackHero(this.herotest[rndHero]), {fontSize: '20px', fill: '#FFF'});
 }
 
