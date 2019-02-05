@@ -20,6 +20,7 @@ class MapTest extends Phaser.Scene{
         this.load.image("tiles", "../assets/tilesets/basique.png");
         this.load.tilemapTiledJSON("map", "../assets/maps/test2.json");
         
+        this.load.image('axe', '../assets/items/weapons/axes/axe.png');
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
         
@@ -51,6 +52,7 @@ class MapTest extends Phaser.Scene{
         const layer1 = map.createStaticLayer(0, tileset, 0, 0);
         const layer2 = map.createStaticLayer(1, tileset);
         
+        this.axe1 = this.physics.add.sprite(20, 540, 'axe');
         // spawnPLayer is the name of the OBJECT LAYER
         const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
         this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'heroTest');
