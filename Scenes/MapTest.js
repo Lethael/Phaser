@@ -31,9 +31,9 @@ class MapTest extends Phaser.Scene{
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
-        this.rateMob = 50;
+        this.rateMob = 0;
         
-        if(this.tabPlayer == undefined){
+        if(this.tabPlayer === undefined){
             this.tabPlayer = new Array();
             this.testPlayer = new Personnage('HeroTest');
             this.testPlayer2 = new Personnage('HeroineTest');
@@ -49,18 +49,27 @@ class MapTest extends Phaser.Scene{
         const map = this.make.tilemap({key: "map", tileWidth: 32, tileHeight: 32});
         // basique is the name of the tileset in the json file
         const tileset = map.addTilesetImage('basique', 'tiles');
+        const axe = map.addTilesetImage('axe', 'axe');
         const layer1 = map.createStaticLayer(0, tileset, 0, 0);
         const layer2 = map.createStaticLayer(1, tileset);
+        const layer3 = map.createStaticLayer(2, axe);
         
-        this.axe1 = this.physics.add.sprite(20, 540, 'axe');
         // spawnPLayer is the name of the OBJECT LAYER
         const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
+        this.itemsLayer = map.getObjectLayer('items')['objects'];
+        
+        this.items = this.physics.add.staticGroup();
+        this.itemsLayer.forEach(object => {
+        let obj = this.items.create(object.x, object.y, "axe"); 
+           //obj.setScale(object.width/16, object.height/16); 
+           obj.setOrigin(0); 
+           obj.body.width = object.width; 
+           obj.body.height = object.height; 
+    });
         this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'heroTest');
         
-        layer2.setCollisionBetween(4, 4);
         // collide is the property that we set in tiled map editor
-        layer2.setCollisionByProperty({collide: true});
-
+        layer2.setCollisionByProperty({collide: true});        
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.setCollideWorldBounds(true);
 
@@ -98,9 +107,21 @@ class MapTest extends Phaser.Scene{
             frames: [{key: 'heroTest', frame: 0}],
             frameRate: 10
         });
-        
-        
+        this.physics.add.collider(this.player, this.items);
+        /*this.items.children.iterate(function(child){
+            child.setActiveCollision().setAvsB();
+            
+        });*/
+        /*this.physics.world.on('collisionstart', function (event, bodyA, bodyB) {
+        console.log("hello");
+        bodyA.gameObject.setTint(0xff0000);
+        bodyB.gameObject.setTint(0x00ff00);
+
+    });*/
+
+        /*this.physics.add.overlap(this.player, this.items, testOverlap, null, this);*/
         this.physics.add.collider(this.player, layer2);
+        this.physics.add.collider(this.player, layer3);
     }
 
     update (time, delta){
@@ -199,3 +220,6 @@ class MapTest extends Phaser.Scene{
 	}
 
 }
+/*MapTest.prototype.testOverlap = function(){
+    console.log("hiit");
+}*/
