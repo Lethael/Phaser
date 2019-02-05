@@ -27,10 +27,10 @@ class BattleScene extends Phaser.Scene{
         
         //Init Mobs
         this.listMobs = new Array();
-        this.listMobs.push(new Monsters("Witch1", "witch", 1, 1, 1, 0));
-        this.listMobs.push(new Monsters("Witch2", "witch", 1, 1, 1, 0));
-        this.listMobs.push(new Monsters("Witch3", "witch", 1, 1, 1, 0));
-        this.listMobs.push(new Monsters("Witch4", "witch", 1, 1, 1, 0));
+        var rndMobs = Math.floor(Phaser.Math.FloatBetween(1, 5));
+        for(var i = 0; i < rndMobs; i++)
+            this.listMobs.push(new Monsters("Witch"+(i+1), "witch", 1, 1, 1, 0));
+        
         this.listImg = new Array();
         this.posXMonster = 800 / this.listMobs.length - 40;
         this.posYMonster = 150;
@@ -43,20 +43,13 @@ class BattleScene extends Phaser.Scene{
         
         //end Init Mobs
         
-        //Display Player's value
+        //Display Player's values
         this.rectX = 0;
         this.rectY = 500;
 
 		this.rec = new Array();
         this.lifeText = new Array();
-        for(var i = 0; i < this.sizeTab; i++){
-            this.rec[i] = this.add.graphics({fillStyle: {color: 0xffffff}});
-            this.rec[i].fillRect(this.rectX, this.rectY, 200, 200);
-            this.nameText = this.add.text(this.rectX + 5, this.rectY, this.herotest[i].attribute.name).setColor('0x000000');
-            this.lifeText[i] = this.add.text(this.rectX + 5, this.rectY + 20, "HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
-            this.rectX += 205;
-        }
-        this.rectX = 0;
+        this.displayWindowHeros();
         // end
         
         this.actorsList = this.calculInit();
@@ -70,19 +63,12 @@ class BattleScene extends Phaser.Scene{
 	}
 	
 	update(time, delta){
-        /* Only to test */
-		/*
-		if(this.herotest[0].attribute.life <= 0){
-            this.herotest[0].attribute.life = this.herotest[0].attribute.maxLife
-            this.scene.start('MapTest', {heros: this.herotest});
-        }*/
         for(var i = 0; i < this.sizeTab; i++){
                 this.lifeText[i].setText("HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
                 this.rectX += 205;
         }
         
             if(this.actorsList[this.indexArray].constructor.name === "Monsters"){
-                //console.log(this.actorsList);
                 this.timeUntilNextAction -= delta;
             }else{
                 if(!this.inAction){
@@ -134,6 +120,17 @@ class BattleScene extends Phaser.Scene{
             
 	}
     
+}
+
+BattleScene.prototype.displayWindowHeros = function(){
+    for(var i = 0; i < this.sizeTab; i++){
+        this.rec[i] = this.add.graphics({fillStyle: {color: 0xffffff}});
+        this.rec[i].fillRect(this.rectX, this.rectY, 200, 200);
+        this.nameText = this.add.text(this.rectX + 5, this.rectY, this.herotest[i].attribute.name).setColor('0x000000');
+        this.lifeText[i] = this.add.text(this.rectX + 5, this.rectY + 20, "HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
+        this.rectX += 205;
+    }
+    this.rectX = 0;
 }
 
 /*
