@@ -53,6 +53,15 @@ class BattleScene extends Phaser.Scene{
         // end
         
         this.menuBattle;
+        this.stringActionMenu = new Array();
+        this.stringActionMenu.push("Attack");
+        this.stringActionMenu.push("Defense");
+        this.stringActionMenu.push("Skills");
+        this.stringActionMenu.push("Items");
+        this.stringActionMenu.push("Run");
+        
+        this.containerStringAction = new Array();
+        
         this.damageText;
         
         this.actorsList = this.calculInit();
@@ -103,8 +112,7 @@ class BattleScene extends Phaser.Scene{
                             this.scene.start('MapTest', {heros: this.herotest});
                     }
                     this.inAction = false;
-                    this.menuBattle.destroy();
-                    this.attackText.destroy();
+                    this.destroyMenuBattle();
                     
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
                     this.targetMonster += 1;
@@ -149,7 +157,14 @@ BattleScene.prototype.displayWindowHeros = function(){
 BattleScene.prototype.createMenuBattle = function(indexPlayer){
     this.menuBattle = this.add.graphics({fillStyle: {color: 0xffffff}});
     this.menuBattle.fillRect(indexPlayer * 205, 400, 100, 100 );
-    this.attackText = this.add.text(indexPlayer * 205, 405, "Attack").setColor('0x000000');
+    for(var i = 0; i < this.stringActionMenu.length; i++)
+        this.containerStringAction[i] = this.add.text(indexPlayer * 205, 405 + i * 20, this.stringActionMenu[i]).setColor('0x000000');
+}
+
+BattleScene.prototype.destroyMenuBattle = function(){
+    this.menuBattle.destroy();
+    for(var i = 0; i < this.containerStringAction.length; i++)
+        this.containerStringAction[i].destroy();
 }
 
 /*
