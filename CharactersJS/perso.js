@@ -103,9 +103,6 @@ Personnage.prototype.attackMonster = function(monster){
         if(damage <= 0)
             damage = 1;
         
-        if(this.equipments.rightHand !== undefined)
-            console.log("Weapon name : " + this.equipments.rightHand.name);
-        
         monster.life -= damage;
         return damage;
     }
@@ -119,10 +116,10 @@ Personnage.prototype.waiting = function(){
     }
 }
 
-/*Personnage.prototype.openInv = function(){
+Personnage.prototype.openInv = function(){
     if(this.inventory.bag.length){
         for(var i = 0; i < this.inventory.bag.length; i++){
             console.log(this.inventory.bag[i].name);
         }
     }
-}*/
+}

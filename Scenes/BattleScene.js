@@ -75,6 +75,9 @@ class BattleScene extends Phaser.Scene{
         this.graphicsRectTargetMonster = this.add.graphics({lineStyle: {width: 2, color: 0xffffff}});
         this.rects = new Phaser.Geom.Rectangle(this.listImg[0].x - 40, 75, 80, 140);
         
+        this.graphicsItems = this.add.graphics({fillStyle: {color: 0xffffff}});
+        this.listItems = new Array();
+        
 	}
 	
 	update(time, delta){
@@ -202,8 +205,9 @@ BattleScene.prototype.selectAction = function(){
             case 3:
             if(this.damageText != undefined)
                     this.damageText.destroy();
-
-                this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
+            
+            this.openInv();
+                //this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
         break;
             case 4:
             if(this.damageText != undefined)
@@ -220,6 +224,10 @@ BattleScene.prototype.destroyMenuBattle = function(){
         this.containerStringAction[i].destroy();
     this.posCursor = 0;
     this.cursorsMenuAction.clear();
+}
+
+BattleScene.prototype.openInv = function(){
+    this.graphicsItems.fillRect(200, 200, 400, 200);
 }
 
 /*
