@@ -87,7 +87,6 @@ class BattleScene extends Phaser.Scene{
                 this.timeUntilNextAction -= delta;
             }else{
                 if(!this.inAction){
-                    let posHero = 0;
                     this.graphicsRectTargetMonster.clear();
                     this.displayRectTarget(0);
                     this.inAction = true;
