@@ -27,21 +27,29 @@ class MapTest extends Phaser.Scene{
     }
     create ()
     {
+        //Testing items
+        let it = new Weapon("Sword1", "The first sword", 1, -1, 1);
+        console.log(it.name);
+        console.log(it.description);
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
-        this.rateMob = 10;
+        this.rateMob = 50;
         
         if(this.tabPlayer == undefined){
             this.tabPlayer = new Array();
             this.testPlayer = new Personnage('HeroTest');
-            this.testPlayer2 = new Personnage('HeroineTest'); 
+            this.testPlayer.addToInv(it);
+            this.testPlayer.equipWeapon(it);
+            this.testPlayer2 = new Personnage('HeroineTest');
+            this.testPlayer3 = new Personnage('Gimli');
             this.tabPlayer.push(this.testPlayer);
             this.tabPlayer.push(this.testPlayer2);
+            this.tabPlayer.push(this.testPlayer3);
         }
         
 
-		this.cursors;
+		//this.cursors;
         
         const map = this.make.tilemap({key: "map", tileWidth: 32, tileHeight: 32});
         // basique is the name of the tileset in the json file
