@@ -95,10 +95,10 @@ Personnage.prototype.attackMonster = function(monster){
         var damage = 0;
         if(this.equipments.rightHand !== undefined){
             for(var i = 0; i < this.equipments.rightHand.diceDamage; i++)
-                damage += Math.floor(Phaser.Math.FloatBetween(1, 7)) + this.equipments.rightHand.bonusDamage;   
+                damage += Math.floor(Phaser.Math.FloatBetween(1, 7)) + this.equipments.rightHand.bonusDamage + this.attribute.bonStr;   
         }
         else
-          damage += Math.floor(Phaser.Math.FloatBetween(1, 7)) - 2;
+          damage += Math.floor(Phaser.Math.FloatBetween(1, 7)) - 2 + this.attribute.bonStr;
         
         if(damage <= 0)
             damage = 1;
