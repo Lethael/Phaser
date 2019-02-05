@@ -52,6 +52,8 @@ class BattleScene extends Phaser.Scene{
         this.displayWindowHeros();
         // end
         
+        this.damageText = this.add.text(400, 40, "").setColor('0xffffff');
+        
         this.actorsList = this.calculInit();
         
         this.boolEnd = false;
@@ -64,7 +66,7 @@ class BattleScene extends Phaser.Scene{
 	
 	update(time, delta){
         for(var i = 0; i < this.sizeTab; i++){
-                this.lifeText[i].setText("HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife).setColor('0x000000');
+                this.lifeText[i].setText("HP :" + this.herotest[i].attribute.life + ' / ' + this.herotest[i].attribute.maxLife);
                 this.rectX += 205;
         }
         
@@ -79,7 +81,7 @@ class BattleScene extends Phaser.Scene{
                     
                 if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
                     this.graphics.clear();
-                    this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]);
+                    this.damageText.setText(this.actorsList[this.indexArray].attackMonster(this.listMobs[this.targetMonster]));
                     this.indexArray += 1;
                     if(this.listMobs[this.targetMonster].life <= 0){
                         for(var j = 0; j < this.actorsList.length; j++){
@@ -161,7 +163,7 @@ BattleScene.prototype.monsterTurn = function(monster){
     console.log(monster.name + " attack !");
     //catch random hero
     var rndHero = Math.ceil(Math.random() * Math.floor(this.herotest.length)) - 1;
-    monster.attackHero(this.herotest[rndHero]);
+    this.damageText.setText(monster.attackHero(this.herotest[rndHero]));
 }
 
 /*
