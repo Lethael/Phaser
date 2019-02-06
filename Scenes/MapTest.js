@@ -52,7 +52,6 @@ class MapTest extends Phaser.Scene{
         const axe = map.addTilesetImage('axe', 'axe');
         const layer1 = map.createStaticLayer(0, tileset, 0, 0);
         const layer2 = map.createStaticLayer(1, tileset);
-        const layer3 = map.createStaticLayer(2, axe);
         
         // spawnPLayer is the name of the OBJECT LAYER
         const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
@@ -61,11 +60,11 @@ class MapTest extends Phaser.Scene{
         this.items = this.physics.add.staticGroup();
         this.itemsLayer.forEach(object => {
         let obj = this.items.create(object.x, object.y, "axe"); 
-           //obj.setScale(object.width/16, object.height/16); 
            obj.setOrigin(0); 
            obj.body.width = object.width; 
            obj.body.height = object.height; 
     });
+        
         this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'heroTest');
         
         // collide is the property that we set in tiled map editor
@@ -107,24 +106,13 @@ class MapTest extends Phaser.Scene{
             frames: [{key: 'heroTest', frame: 0}],
             frameRate: 10
         });
-        this.physics.add.collider(this.player, this.items);
-        /*this.items.children.iterate(function(child){
-            child.setActiveCollision().setAvsB();
-            
-        });*/
-        /*this.physics.world.on('collisionstart', function (event, bodyA, bodyB) {
-        console.log("hello");
-        bodyA.gameObject.setTint(0xff0000);
-        bodyB.gameObject.setTint(0x00ff00);
 
-    });*/
-
-        /*this.physics.add.overlap(this.player, this.items, testOverlap, null, this);*/
         this.physics.add.collider(this.player, layer2);
-        this.physics.add.collider(this.player, layer3);
     }
 
     update (time, delta){
+        // Check collision between axe and player
+        this.physics.collide(this.player, this.items, this.testCollide);
         this.player.body.setVelocity(0);
 		
 		if (this.gameOver)
@@ -220,6 +208,6 @@ class MapTest extends Phaser.Scene{
 	}
 
 }
-/*MapTest.prototype.testOverlap = function(){
+MapTest.prototype.testCollide = function(){
     console.log("hiit");
-}*/
+}
