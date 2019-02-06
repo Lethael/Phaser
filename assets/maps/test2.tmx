@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="11">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="13">
  <tileset firstgid="1" name="basique" tilewidth="32" tileheight="32" tilecount="12" columns="6">
   <image source="../tilesets/basique.png" width="192" height="64"/>
   <tile id="2">
@@ -9,12 +9,18 @@
   </tile>
  </tileset>
  <tileset firstgid="13" name="axe" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <properties>
+   <property name="typeItem" value="weapon"/>
+  </properties>
   <image source="../items/weapons/axes/axe.png" width="32" height="32"/>
   <tile id="0">
    <properties>
     <property name="collider" type="bool" value="true"/>
    </properties>
   </tile>
+ </tileset>
+ <tileset firstgid="14" name="chest" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../items/chests/chest.png" width="32" height="32"/>
  </tileset>
  <layer id="1" name="Calque de Tile 1" width="25" height="19">
   <data encoding="csv">
@@ -63,13 +69,31 @@
 </data>
  </layer>
  <objectgroup id="8" name="items">
-  <object id="7" name="axe2" gid="13" x="464" y="517" width="32" height="32"/>
+  <object id="7" name="axe" gid="13" x="464" y="517" width="32" height="32">
+   <properties>
+    <property name="typeItem" value="weapon"/>
+   </properties>
+  </object>
+  <object id="11" name="axe" gid="13" x="577" y="575" width="32" height="32">
+   <properties>
+    <property name="typeItem" value="weapon"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup id="10" name="overlapAxe">
-  <object id="8" name="overlapAxe" gid="13" x="464" y="516" width="32" height="32"/>
+ <objectgroup id="11" name="chests">
+  <object id="12" name="chest" gid="14" x="323" y="508" width="32" height="32">
+   <properties>
+    <property name="items" value="axe"/>
+    <property name="items1" value="sword"/>
+    <property name="items2" value="staff"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="spawnPlayer">
   <object id="1" name="spawn" x="371" y="563">
+   <properties>
+    <property name="typeSpawn" value="begin"/>
+   </properties>
    <point/>
   </object>
  </objectgroup>

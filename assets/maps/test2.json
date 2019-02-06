@@ -34,13 +34,37 @@
                  "gid":13,
                  "height":32,
                  "id":7,
-                 "name":"axe2",
+                 "name":"axe",
+                 "properties":[
+                        {
+                         "name":"typeItem",
+                         "type":"string",
+                         "value":"weapon"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
                  "x":464,
                  "y":517
+                }, 
+                {
+                 "gid":13,
+                 "height":32,
+                 "id":11,
+                 "name":"axe",
+                 "properties":[
+                        {
+                         "name":"typeItem",
+                         "type":"string",
+                         "value":"weapon"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":577,
+                 "y":575
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -50,20 +74,36 @@
         }, 
         {
          "draworder":"topdown",
-         "id":10,
-         "name":"overlapAxe",
+         "id":11,
+         "name":"chests",
          "objects":[
                 {
-                 "gid":13,
+                 "gid":14,
                  "height":32,
-                 "id":8,
-                 "name":"overlapAxe",
+                 "id":12,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"items",
+                         "type":"string",
+                         "value":"axe"
+                        }, 
+                        {
+                         "name":"items1",
+                         "type":"string",
+                         "value":"sword"
+                        }, 
+                        {
+                         "name":"items2",
+                         "type":"string",
+                         "value":"staff"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":464,
-                 "y":516
+                 "x":323,
+                 "y":508
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -81,6 +121,12 @@
                  "id":1,
                  "name":"spawn",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"typeSpawn",
+                         "type":"string",
+                         "value":"begin"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -94,8 +140,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":11,
- "nextobjectid":11,
+ "nextlayerid":12,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.2",
@@ -132,6 +178,12 @@
          "imagewidth":32,
          "margin":0,
          "name":"axe",
+         "properties":[
+                {
+                 "name":"typeItem",
+                 "type":"string",
+                 "value":"weapon"
+                }],
          "spacing":0,
          "tilecount":1,
          "tileheight":32,
@@ -145,6 +197,19 @@
                          "value":true
                         }]
                 }],
+         "tilewidth":32
+        }, 
+        {
+         "columns":1,
+         "firstgid":14,
+         "image":"..\/items\/chests\/chest.png",
+         "imageheight":32,
+         "imagewidth":32,
+         "margin":0,
+         "name":"chest",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":32,
          "tilewidth":32
         }],
  "tilewidth":32,
