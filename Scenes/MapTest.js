@@ -55,6 +55,8 @@ class MapTest extends Phaser.Scene{
         
         // spawnPLayer is the name of the OBJECT LAYER
         const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
+        this.axeu = map.findObject("items", obj => obj.name === "axe");
+        console.log(this.axeu);
         this.itemsLayer = map.getObjectLayer('items')['objects'];
         
         this.items = this.physics.add.staticGroup();
@@ -64,6 +66,8 @@ class MapTest extends Phaser.Scene{
            obj.body.width = object.width; 
            obj.body.height = object.height; 
     });
+
+
         
         this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'heroTest');
         
@@ -108,11 +112,12 @@ class MapTest extends Phaser.Scene{
         });
 
         this.physics.add.collider(this.player, layer2);
+        this.physics.add.collider(this.player, this.items, this.testCollide, false, this);
     }
 
     update (time, delta){
         // Check collision between axe and player
-        this.physics.collide(this.player, this.items, this.testCollide);
+
         this.player.body.setVelocity(0);
 		
 		if (this.gameOver)
@@ -208,6 +213,12 @@ class MapTest extends Phaser.Scene{
 	}
 
 }
-MapTest.prototype.testCollide = function(){
-    console.log("hiit");
+
+MapTest.prototype.testCollide = function(test, item){
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+        let newItem = new Items(item.texture.key, "new item");
+        this.tabPlayer[0].addToInv(newItem, false);
+        item.destroy();
+        
+    }
 }
