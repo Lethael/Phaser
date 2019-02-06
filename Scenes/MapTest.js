@@ -21,6 +21,7 @@ class MapTest extends Phaser.Scene{
         this.load.tilemapTiledJSON("map", "../assets/maps/test2.json");
         
         this.load.image('axe', '../assets/items/weapons/axes/axe.png');
+        this.load.image('chest', '../assets/items/chests/chest.png');
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
         
@@ -55,13 +56,17 @@ class MapTest extends Phaser.Scene{
         
         // spawnPLayer is the name of the OBJECT LAYER
         const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
-        this.axeu = map.findObject("items", obj => obj.name === "axe");
-        console.log(this.axeu);
-        this.itemsLayer = map.getObjectLayer('items')['objects'];
+        this.listItems = new Array();
+        //for(var i = 0; i < 2; i++){
+            const chest = map.findObject("chests", obj => obj.name === "chest");
+            this.listItems.push(chest);
+        //}
+        console.log(this.listItems[0].properties.length);
+        this.itemsLayer = map.getObjectLayer('chests')['objects'];
         
         this.items = this.physics.add.staticGroup();
         this.itemsLayer.forEach(object => {
-        let obj = this.items.create(object.x, object.y, "axe"); 
+        let obj = this.items.create(object.x, object.y, "chest"); 
            obj.setOrigin(0); 
            obj.body.width = object.width; 
            obj.body.height = object.height; 
@@ -116,7 +121,6 @@ class MapTest extends Phaser.Scene{
     }
 
     update (time, delta){
-        // Check collision between axe and player
 
         this.player.body.setVelocity(0);
 		
@@ -215,8 +219,10 @@ class MapTest extends Phaser.Scene{
 }
 
 MapTest.prototype.testCollide = function(test, item){
+    let rndObject = Math.ceil(Math.random() * Math.floor(this.listItems[0].properties.length)) - 1;
+    console.log(this.listItems[0].properties[rndObject]);
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        let newItem = new Items(item.texture.key, "new item");
+        let newItem = new Items(this.listItems[0].properties[rndObject].value, "new item");
         this.tabPlayer[0].addToInv(newItem, false);
         item.destroy();
         
