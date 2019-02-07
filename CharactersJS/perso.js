@@ -118,7 +118,7 @@ Personnage.prototype.equipHelmet = function(helmet){
             this.addToInv(this.equipments.helmet, true);
             this.equipments.helmet = helmet;
         }
-        this.attribute.armorClass += armor.bonusCA;
+        this.attribute.armorClass += helmet.bonusCA;
     }
 }
 
@@ -131,7 +131,7 @@ Personnage.prototype.equipLegs = function(legs){
             this.addToInv(this.equipments.legs, true);
             this.equipments.legs = legs;
         }
-        this.attribute.armorClass += armor.bonusCA;
+        this.attribute.armorClass += legs.bonusCA;
     }
 }
 
@@ -144,7 +144,7 @@ Personnage.prototype.equipArms = function(arms){
             this.addToInv(this.equipments.arms, true);
             this.equipments.arms = arms;
         }
-        this.attribute.armorClass += armor.bonusCA;
+        this.attribute.armorClass += arms.bonusCA;
     }
 }
 
