@@ -165,8 +165,23 @@ Personnage.prototype.attackMonster = function(monster){
         monster.life -= damage;
         return damage;
     }
-    else
-        return 'Miss';
+    else{
+        let chanceToLooseDurability = Math.floor(Phaser.Math.FloatBetween(1, 100));
+        if(chanceToLooseDurability < 20){
+            if(this.equipments.rightHand !== undefined){
+                if(this.equipments.leftHand.type === "Weapon"){
+                    this.equipments.rightHand.durability -= 1;
+                    this.equipments.rightHand.durability -= 1;
+                }else{
+                    this.equipments.rightHand.durability -= 1;
+                }
+                if(this.equipments.rightHand.durability % 10 === 0){
+                    this.equipments.rightHand.calcCAByDurability();
+                }
+            }           
+        }
+        return 'Miss';   
+    }
 }
 
 Personnage.prototype.waiting = function(){
