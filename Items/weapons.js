@@ -27,3 +27,11 @@ Weapon.prototype.calculBonusByDurability = function(){
     }
     
 }
+
+Weapon.prototype.looseDurability = function(){
+    this.durability -= 1;
+    //if we downgrade on multiple of 10
+    if(this.durability % 10 === 0){
+        this.calculBonusByDurability();
+    }
+}
