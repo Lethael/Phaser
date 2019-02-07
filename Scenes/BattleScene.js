@@ -6,11 +6,17 @@ class BattleScene extends Phaser.Scene{
 	init(data){
 		this.herotest = data.hero;
         this.sizeTab = data.sizeTab;
+        this.monsters = data.monsters;
 	}
 	
 	preload(){
 		this.load.image('background', 'assets/environment_forest_evening.png');
-		this.load.image('witch', 'assets/characters/death_speaker.png');
+        for(var i = 0; i < this.monsters.length; i++){
+            let pngPath = this.monsters[i].img+'.png';
+            this.load.image(this.monsters[i].name, 'assets/characters/'+pngPath);
+            console.log(pngPath);
+        }
+		  //this.load.image(this.monsters[0].img, 'assets/characters/'+this.monsters[0].img+'.png');
 	}
 	
 	create(){
@@ -28,15 +34,15 @@ class BattleScene extends Phaser.Scene{
         //Init Mobs
         this.listMobs = new Array();
         var rndMobs = Math.floor(Phaser.Math.FloatBetween(1, 5));
-        for(var i = 0; i < rndMobs; i++)
-            this.listMobs.push(new Monsters("Witch"+(i+1), "witch", 1, 1, 1, 0));
+        for(var i = 0; i < this.monsters.length; i++)
+            this.listMobs.push(new Monsters(this.monsters[i].name, this.monsters[i].typeMonster, this.monsters[i].level, 1, 1, 0));
         
         this.listImg = new Array();
         this.posXMonster = 800 / this.listMobs.length - 40;
         this.posYMonster = 150;
 		this.add.image(0, 0, 'background').setOrigin(0, 0).setInteractive();
         for(var i = 0; i < this.listMobs.length; i++){
-            this.listImg[i] = this.add.image(this.posXMonster, this.posYMonster, 'witch');   
+            this.listImg[i] = this.add.image(this.posXMonster, this.posYMonster, this.monsters[i].name);   
             this.posXMonster += 800 / this.listMobs.length - 40;
         }
         this.posXMonster = 800 / this.listMobs.length - 40;
