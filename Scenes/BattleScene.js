@@ -110,13 +110,7 @@ class BattleScene extends Phaser.Scene{
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
                     this.selectAction();
                 }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-                    this.targetMonster += 1;
-                    this.graphicsRectTargetMonster.clear();
-                    if(this.rects.x >= this.listImg[this.listMobs.length - 1].x - 40){
-                        this.targetMonster = 0;
-                        this.rects.x = this.listImg[0] - 40;
-                    }
-                    this.displayRectTarget(this.targetMonster);
+                    this.moveRectTarget();
                 }
             }
             if(this.timeUntilNextAction <= 0){
@@ -285,6 +279,16 @@ BattleScene.prototype.destroyMobs = function(){
 BattleScene.prototype.displayRectTarget = function(value){
     this.rects.x = this.listImg[value].x - 40;                
     this.graphicsRectTargetMonster.strokeRectShape(this.rects);
+}
+
+BattleScene.prototype.moveRectTarget = function(){
+    this.targetMonster += 1;
+    this.graphicsRectTargetMonster.clear();
+    if(this.rects.x >= this.listImg[this.listMobs.length - 1].x - 40){
+        this.targetMonster = 0;
+        this.rects.x = this.listImg[0] - 40;
+    }
+    this.displayRectTarget(this.targetMonster);
 }
 
 BattleScene.prototype.herosAlive = function(){
