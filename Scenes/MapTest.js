@@ -111,7 +111,7 @@ class MapTest extends Phaser.Scene{
         });
 
         this.physics.add.collider(this.player, layer2);
-        this.physics.add.collider(this.player, this.items, this.testCollide, false, this);
+        this.physics.add.collider(this.player, this.items, this.checkCollideWithChests, false, this);
     }
 
     update (time, delta){
@@ -218,22 +218,33 @@ class MapTest extends Phaser.Scene{
 
 }
 
-MapTest.prototype.testCollide = function(test, item){
 
+/*
+    Random item number
+    loop
+    add item to inventory if random <= rate item
+    destroy sprite
+*/
+MapTest.prototype.checkCollideWithChests = function(test, item){
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
         let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 3));
+        console.log(numItems);
         if(numItems > 0){
             for(var i = 0; i < numItems; i++){
                 let rndObject = Math.floor(Phaser.Math.FloatBetween(0, this.listItems.length));
-                if(this.listItems[rndObject].type === "Weapon"){
-                    let newItem = new Weapon(this.listItems[rndObject].name, this.listItems[rndObject].descritpion, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size);
-                    this.tabPlayer[0].addToInv(newItem, false);
+                let randomByRate = Math.floor(Phaser.Math.FloatBetween(0, 100));
+                console.log(randomByRate + ' / rate item : ' + this.listItems[rndObject].rate);
+                if(randomByRate <= this.listItems[rndObject].rate){
+                    if(this.listItems[rndObject].type === "Weapon"){
+                        let newItem = new Weapon(this.listItems[rndObject].name, this.listItems[rndObject].descritpion, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size);
+                        this.tabPlayer[0].addToInv(newItem, false);
+                    }         
                 }
-                item.destroy();      
             }
         }else{
             console.log("No items... Too bad...");
         }
+        item.destroy();
         
     }
 }
