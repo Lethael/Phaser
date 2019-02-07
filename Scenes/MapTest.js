@@ -234,12 +234,16 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                     if(this.listItems[rndObject].type === "Weapon"){
                         let newItem = new Weapon(this.listItems[rndObject].name, this.listItems[rndObject].descritpion, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size);
                         this.tabPlayer[0].addToInv(newItem, false);
-                    }         
+                    }else if(this.listItems[rndObject].type === "Consommable"){
+                        let newItem = new Consommable(this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].gainValue, this.listItems[rndObject].price);
+                        this.tabPlayer[0].addToInv(newItem, false);
+                    }        
                 }
             }
         }else{
             console.log("No items... Too bad...");
         }
+        console.log(this.tabPlayer[0].inventory);
         item.destroy();
         
     }
