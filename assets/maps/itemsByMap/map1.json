@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Wooden axe",
+        "type": "Weapon",
+        "size": 1,
+        "diceDamage": 1,
+        "bonusDamage": -2,
+        "rate": 70
+    },
+    {
+        "name": "Wooden sword",
+        "type": "Weapon",
+        "size": 1,
+        "diceDamage": 1,
+        "bonusDamage": -2,
+        "rate": 70
+    },
+    {
+        "name": "Rusty axe",
+        "type": "Weapon",
+        "size": 1,
+        "diceDamage": 1,
+        "bonusDamage": -1,
+        "rate": 40
+    },
+    {
+        "name": "Rusty sword",
+        "type": "Weapon",
+        "size": 1,
+        "diceDamage": 1,
+        "bonusDamage": -1,
+        "rate": 40
+    }
+]
