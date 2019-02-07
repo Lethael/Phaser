@@ -1,6 +1,6 @@
 class Consommable extends Items{
-    constructor(name, description, gainValue, price){
-        super(name, description);
+    constructor(type, name, description, gainValue, price){
+        super(type, name, description);
         this.gainValue = gainValue;
         this.price = price;
     }
