@@ -34,7 +34,7 @@ class MapTest extends Phaser.Scene{
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
-        this.rateMob = 0;
+        this.rateMob = 60;
         
         if(this.tabPlayer === undefined){
             this.tabPlayer = new Array();
@@ -63,7 +63,6 @@ class MapTest extends Phaser.Scene{
             const chest = map.findObject("chests", obj => obj.name === "chest");
             this.listItems.push(chest);
         }
-        console.log(this.listItems[0].properties.length);
         this.itemsLayer = map.getObjectLayer('chests')['objects'];
         
         this.items = this.physics.add.staticGroup();
@@ -74,8 +73,6 @@ class MapTest extends Phaser.Scene{
            obj.body.height = object.height; 
     });
 
-        console.log(this.listItems);
-        console.log(this.items);
         
         this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'heroTest');
         
@@ -214,8 +211,14 @@ class MapTest extends Phaser.Scene{
 		}
         
         if(this.boolBattle){
-           this.player.body.setVelocity(0);
-           this.scene.start("BattleScene", {hero: this.tabPlayer, sizeTab: this.tabPlayer.length}); 
+            this.player.body.setVelocity(0);
+            let rndMobs = Math.floor(Phaser.Math.FloatBetween(1, 5));
+            let mobsBattle = new Array();
+            for(var i = 0; i < rndMobs; i ++){
+                let indexMob = Math.floor(Phaser.Math.FloatBetween(0, this.testMobs.length));
+                mobsBattle.push(this.testMobs[indexMob]);
+            }
+            this.scene.start("BattleScene", {hero: this.tabPlayer, sizeTab: this.tabPlayer.length, monsters: mobsBattle}); 
         }
 	}
 
