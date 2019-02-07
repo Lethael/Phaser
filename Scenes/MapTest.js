@@ -6,7 +6,6 @@ class MapTest extends Phaser.Scene{
 	
 	init(data){
         if(data != undefined){
-          console.log(data.heros);
 		  this.tabPlayer = data.heros;  
         }
 		
@@ -24,6 +23,8 @@ class MapTest extends Phaser.Scene{
         this.load.image('chest', '../assets/items/chests/chest.png');
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
+        
+        //Json load
         this.load.json('itemsOnMap', 'assets/maps/itemsByMap/map1.json');
         this.load.json('mobs', 'assets/maps/monstersMap1.json');
         
@@ -75,7 +76,7 @@ class MapTest extends Phaser.Scene{
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.setCollideWorldBounds(true);
 
-        // all frames are on the same line it's not a tab[i][j]
+        // all frames are on the same line it's not a array[i][j]
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('heroTest', { start: 4, end: 7 }),
@@ -117,11 +118,6 @@ class MapTest extends Phaser.Scene{
     update (time, delta){
 
         this.player.body.setVelocity(0);
-		
-		if (this.gameOver)
-		{
-			return;
-		}
         
         /*Every seconds when buttons are push
         generate random number 0.1 -> 100
