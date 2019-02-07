@@ -145,9 +145,7 @@ class MapTest extends Phaser.Scene{
             if(isPotion){
                 let boolRestoreHP = this.tabPlayer[0].usePotion(this.tabPlayer[0].inventory.bag[indexPotion]);
                 if(boolRestoreHP){
-                    console.log(this.tabPlayer[0].attribute.life);
                     this.tabPlayer[0].inventory.bag.splice(indexPotion, 1);
-                    console.log(this.tabPlayer[0].inventory.bag);
                 }
                 
             }   
