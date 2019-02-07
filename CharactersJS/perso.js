@@ -101,6 +101,7 @@ Personnage.prototype.equipArmor = function(armor){
         if(this.equipments.chest === undefined){
             this.equipments.chest = armor;
         }else{
+            this.attribute.armorClass -= this.equipments.armor.bonusCA;
             this.addToInv(this.equipments.chest, true);
             this.equipments.chest = armor;
         }
@@ -113,6 +114,7 @@ Personnage.prototype.equipHelmet = function(helmet){
         if(this.equipments.helmet === undefined){
             this.equipments.helmet = helmet;
         }else{
+            this.attribute.armorClass -= this.equipments.helmet.bonusCA;
             this.addToInv(this.equipments.helmet, true);
             this.equipments.helmet = helmet;
         }
@@ -125,6 +127,7 @@ Personnage.prototype.equipLegs = function(legs){
         if(this.equipments.legs === undefined){
             this.equipments.legs = legs;
         }else{
+            this.attribute.armorClass -= this.equipments.legs.bonusCA;
             this.addToInv(this.equipments.legs, true);
             this.equipments.legs = legs;
         }
@@ -137,6 +140,7 @@ Personnage.prototype.equipArms = function(arms){
         if(this.equipments.arms === undefined){
             this.equipments.arms = arms;
         }else{
+            this.attribute.armorClass -= this.equipments.arms.bonusCA;
             this.addToInv(this.equipments.arms, true);
             this.equipments.arms = arms;
         }
