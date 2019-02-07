@@ -28,7 +28,7 @@ class Personnage{
 			rightHand: undefined,
 			leftHand: undefined,
 			head: undefined,
-			armor: undefined,
+			chest: undefined,
             arms: undefined,
 			legs: undefined		
 		}
@@ -94,6 +94,42 @@ Personnage.prototype.equipWeapon = function(weapon){
             this.equipments.rightHand = weapon;
         }
 	}
+}
+
+Personnage.prototype.equipArmor = function(armor){
+    if(this.inventory.bag.length > 0){
+        if(this.equipments.chest === undefined){
+            this.equipments.chest = armor;
+            this.attribute.armorClass += armor.bonusCA;
+        }
+    }
+}
+
+Personnage.prototype.equipHelmet = function(helmet){
+    if(this.inventory.bag.length > 0){
+        if(this.equipments.helmet === undefined){
+            this.equipments.helmet = helmet;
+            this.attribute.armorClass += helmet.bonusCA;
+        }
+    }
+}
+
+Personnage.prototype.equipLegs = function(legs){
+    if(this.inventory.bag.length > 0){
+        if(this.equipments.legs === undefined){
+            this.equipments.legs = legs;
+            this.attribute.armorClass += legs.bonusCA;
+        }
+    }
+}
+
+Personnage.prototype.equipArms = function(arms){
+    if(this.inventory.bag.length > 0){
+        if(this.equipments.arms === undefined){
+            this.equipments.arms = arms;
+            this.attribute.armorClass += arms.bonusCA;
+        }
+    }
 }
 
 Personnage.prototype.attackMonster = function(monster){
