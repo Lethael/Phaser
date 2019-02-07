@@ -47,6 +47,7 @@
         "name": "Leather helmet",
         "type": "Armor",
         "description": "A simple leather helmet",
+        "wear": "head",
         "bonusCA": -1,
         "price": 12,
         "rate": 99
@@ -55,6 +56,7 @@
         "name": "Leather armor",
         "type": "Armor",
         "description": "A simple leather armor",
+        "wear": "chest",
         "bonusCA": -1,
         "price": 12,
         "rate": 99
@@ -63,6 +65,7 @@
         "name": "Leather pants",
         "type": "Armor",
         "description": "A simple leather pants",
+        "wear": "legs",
         "bonusCA": -1,
         "price": 12,
         "rate": 99
@@ -71,6 +74,7 @@
         "name": "Leather gloves",
         "type": "Armor",
         "description": "A simple leather gloves",
+        "wear": "arms",
         "bonusCA": -1,
         "price": 12,
         "rate": 99
