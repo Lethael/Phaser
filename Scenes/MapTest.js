@@ -127,13 +127,11 @@ class MapTest extends Phaser.Scene{
         rateMob+=0.1
         */
         if(Phaser.Input.Keyboard.JustDown(this.key)){
-            this.tabPlayer[0].attribute.life -= 2;
-            console.log(this.tabPlayer[0].attribute.life);
             this.tabPlayer[0].openInv();
             
         }
         
-        if(Phaser.Input.Keyboard.JustDown(this.keyU)){
+        /*if(Phaser.Input.Keyboard.JustDown(this.keyU)){
             let isPotion = false;
             let indexPotion = 0;
             for(let i = 0; i < this.tabPlayer[0].inventory.bag.length; i++){
@@ -149,7 +147,7 @@ class MapTest extends Phaser.Scene{
                 }
                 
             }   
-        }
+        }*/
         
 		if (this.cursors.left.isDown)
 		{
@@ -265,11 +263,11 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                         let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
                         let newItem = new Armor(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].wear, this.listItems[rndObject].bonusCA, this.listItems[rndObject].price, durability);
                         this.tabPlayer[0].addToInv(newItem, false);         
+                    }
                 }
             }
-        }
         }else{
-            console.log("No items... Too bad...");
+            console.log("No item...");
         }
         let rndGold = Math.ceil(Phaser.Math.FloatBetween(0, 100));
         if(rndGold < 20){
@@ -277,7 +275,7 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                 type: "gold",
                 amount: Math.ceil(Phaser.Math.FloatBetween(0, 20))
             };
-            console.log(gold);
+            console.log("You found " + gold.amount + " gold");
             this.tabPlayer[0].addToInv(gold, false);
         }
         item.destroy();
