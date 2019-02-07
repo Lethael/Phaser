@@ -249,7 +249,6 @@ class MapTest extends Phaser.Scene{
 MapTest.prototype.checkCollideWithChests = function(test, item){
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
         let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 3));
-        console.log(numItems);
         if(numItems > 0){
             for(var i = 0; i < numItems; i++){
                 let rndObject = Math.floor(Phaser.Math.FloatBetween(0, this.listItems.length));
@@ -257,10 +256,8 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                 if(randomByRate <= this.listItems[rndObject].rate){
                     if(this.listItems[rndObject].type === "Weapon"){
                         let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
-                        
-                        let newItem = new Weapon(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].descritpion, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size, durability);
+                        let newItem = new Weapon(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size, durability);
                         this.tabPlayer[0].addToInv(newItem, false);
-                        console.log(this.tabPlayer[0].inventory.bag);
                     }else if(this.listItems[rndObject].type === "Consommable"){
                         let newItem = new Consommable(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].gainValue, this.listItems[rndObject].price);
                         this.tabPlayer[0].addToInv(newItem, false);
