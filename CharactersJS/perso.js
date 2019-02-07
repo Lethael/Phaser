@@ -100,8 +100,11 @@ Personnage.prototype.equipArmor = function(armor){
     if(this.inventory.bag.length > 0){
         if(this.equipments.chest === undefined){
             this.equipments.chest = armor;
-            this.attribute.armorClass += armor.bonusCA;
+        }else{
+            this.addToInv(this.equipments.chest, true);
+            this.equipments.chest = armor;
         }
+        this.attribute.armorClass += armor.bonusCA;
     }
 }
 
@@ -109,8 +112,11 @@ Personnage.prototype.equipHelmet = function(helmet){
     if(this.inventory.bag.length > 0){
         if(this.equipments.helmet === undefined){
             this.equipments.helmet = helmet;
-            this.attribute.armorClass += helmet.bonusCA;
+        }else{
+            this.addToInv(this.equipments.helmet, true);
+            this.equipments.helmet = helmet;
         }
+        this.attribute.armorClass += armor.bonusCA;
     }
 }
 
@@ -118,8 +124,11 @@ Personnage.prototype.equipLegs = function(legs){
     if(this.inventory.bag.length > 0){
         if(this.equipments.legs === undefined){
             this.equipments.legs = legs;
-            this.attribute.armorClass += legs.bonusCA;
+        }else{
+            this.addToInv(this.equipments.legs, true);
+            this.equipments.legs = legs;
         }
+        this.attribute.armorClass += armor.bonusCA;
     }
 }
 
@@ -127,8 +136,11 @@ Personnage.prototype.equipArms = function(arms){
     if(this.inventory.bag.length > 0){
         if(this.equipments.arms === undefined){
             this.equipments.arms = arms;
-            this.attribute.armorClass += arms.bonusCA;
+        }else{
+            this.addToInv(this.equipments.arms, true);
+            this.equipments.arms = arms;
         }
+        this.attribute.armorClass += armor.bonusCA;
     }
 }
 
