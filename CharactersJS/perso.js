@@ -124,3 +124,16 @@ Personnage.prototype.openInv = function(){
         }
     }
 }
+
+Personnage.prototype.usePotion(item){
+    if(this.attribute.maxLife === this.attribute.life){
+        console.log("Your life is full");
+        return false;
+    }else{
+        this.attribute.life += item.gainValue;
+        if(this.attribute.life > this.attribute.maxLife){
+            this.attribute.life = this.attribute.maxLife;
+        }
+        return true;
+    }
+}
