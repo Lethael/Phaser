@@ -165,6 +165,7 @@ Personnage.prototype.openInv = function(){
             console.log(this.inventory.bag[i].name);
         }
     }
+    console.log(this.inventory.gold);
 }
 
 Personnage.prototype.usePotion = function(item){
