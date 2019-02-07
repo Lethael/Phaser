@@ -29,6 +29,7 @@ class Personnage{
 			leftHand: undefined,
 			head: undefined,
 			armor: undefined,
+            arms: undefined,
 			legs: undefined		
 		}
 		
