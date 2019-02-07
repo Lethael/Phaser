@@ -24,11 +24,13 @@ class MapTest extends Phaser.Scene{
         this.load.image('chest', '../assets/items/chests/chest.png');
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.load.json('mobs', 'assets/maps/monstersMap1.json');
         
         this.player;
     }
     create ()
     {
+        this.testMobs = this.cache.json.get('mobs');
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;

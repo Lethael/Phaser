@@ -1,0 +1,14 @@
+[
+    {
+        "name": "gobelin",
+        "typeMonster": "Goblin",
+        "level": 1,
+        "amorClass": 12
+    },
+    {
+       "name": "witch",
+        "typeMonster": "Witch",
+        "level": 2,
+        "amorClass": 13 
+    }
+]
