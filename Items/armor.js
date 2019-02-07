@@ -6,6 +6,7 @@ class Armor extends Items{
         this.bonusCA = bonusCA;
         this.price = price;
         this.durability = durability;
+        this.calcCAByDurability();
     }
     
 }
@@ -23,6 +24,6 @@ Armor.prototype.calcCAByDurability = function(){
     else if(this.durability > 79){
         let winBonus = Math.floor((this.durability - 50) / 10);
         this.bonusCA += winBonus;
-        console.log("win bonus : " + this.bonusDamage);
+        console.log("win bonus : " + this.bonusCA);
     }
 }
