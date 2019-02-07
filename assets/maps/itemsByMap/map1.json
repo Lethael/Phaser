@@ -34,5 +34,13 @@
         "diceDamage": 1,
         "bonusDamage": -1,
         "rate": 40
+    },
+    {
+        "name": "Little Potion",
+        "type": "Consommable",
+        "description": "Heal 3 heal points",
+        "gainValue": 3,
+        "price": 12,
+        "rate": 80
     }
 ]
