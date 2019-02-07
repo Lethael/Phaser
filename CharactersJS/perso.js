@@ -58,14 +58,19 @@ Personnage.prototype.calcBonus = function(value){
 }
 
 Personnage.prototype.addToInv = function(obj, changeEquipments){
-    if(!changeEquipments){
-        if(this.inventory.bag.length <= 10){
-		  this.inventory.bag.push(obj);
-            console.log("J'ajoute : " + obj.name);
-	   }  
+    if(obj.type !== "gold"){
+        if(!changeEquipments){
+            if(this.inventory.bag.length <= 10){
+              this.inventory.bag.push(obj);
+                console.log("J'ajoute : " + obj.name);
+           }  
+        }else{
+            this.inventory.bag.push(obj);
+        }
     }else{
-        this.inventory.bag.push(obj);
+        this.inventory.gold += obj.amount;
     }
+        
 	
 }
 
