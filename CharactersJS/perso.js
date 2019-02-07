@@ -18,7 +18,8 @@ class Personnage{
 			bonCons: 0,
 			bonPow: 0,
 			bonPie: 0,
-            bonWait: 0
+            bonWait: 0  //bonus when waiting one turn. Set them values for toHit for damage for armorClass
+    
 		}
 		this.inventory = {
 			gold: 0,
@@ -169,15 +170,9 @@ Personnage.prototype.attackMonster = function(monster){
         let chanceToLooseDurability = Math.floor(Phaser.Math.FloatBetween(1, 100));
         if(chanceToLooseDurability < 20){
             if(this.equipments.rightHand !== undefined){
-                if(this.equipments.leftHand.type === "Weapon"){
-                    this.equipments.rightHand.durability -= 1;
-                    this.equipments.rightHand.durability -= 1;
-                }else{
-                    this.equipments.rightHand.durability -= 1;
-                }
-                if(this.equipments.rightHand.durability % 10 === 0){
-                    this.equipments.rightHand.calcCAByDurability();
-                }
+                // Actually don't testing if the second weapons can be another weapon than the right hand
+                // if two handed weapon, there are the same instance between right and left hand
+                this.equipments.rightHand.looseDurability();
             }           
         }
         return 'Miss';   
