@@ -220,7 +220,7 @@ class MapTest extends Phaser.Scene{
 
 MapTest.prototype.testCollide = function(test, item){
     let rndObject = Math.ceil(Math.random() * Math.floor(this.listItems[0].properties.length)) - 1;
-    console.log(this.listItems[0].properties[rndObject]);
+
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
         let newItem = new Items(this.listItems[0].properties[rndObject].value, "new item");
         this.tabPlayer[0].addToInv(newItem, false);

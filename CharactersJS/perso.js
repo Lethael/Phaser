@@ -60,6 +60,7 @@ Personnage.prototype.addToInv = function(obj, changeEquipments){
     if(!changeEquipments){
         if(this.inventory.bag.length <= 10){
 		  this.inventory.bag.push(obj);
+            console.log("J'ajoute : " + obj.name);
 	   }  
     }else{
         this.inventory.bag.push(obj);
