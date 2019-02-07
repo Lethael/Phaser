@@ -48,7 +48,8 @@ class MapTest extends Phaser.Scene{
             this.tabPlayer.push(this.testPlayer2);
             this.tabPlayer.push(this.testPlayer3);
         }
-                
+        
+        
         const map = this.make.tilemap({key: "map", tileWidth: 32, tileHeight: 32});
         // basique is the name of the tileset in the json file
         const tileset = map.addTilesetImage('basique', 'tiles');
