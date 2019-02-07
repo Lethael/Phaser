@@ -271,7 +271,15 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
         }else{
             console.log("No items... Too bad...");
         }
-        console.log(this.tabPlayer[0].inventory);
+        let rndGold = Math.ceil(Phaser.Math.FloatBetween(0, 100));
+        if(rndGold < 20){
+            let gold = {
+                type: "gold",
+                amount: Math.ceil(Phaser.Math.FloatBetween(0, 20))
+            };
+            console.log(gold);
+            this.tabPlayer[0].addToInv(gold, false);
+        }
         item.destroy();
         
     }
