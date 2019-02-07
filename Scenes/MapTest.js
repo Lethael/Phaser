@@ -57,10 +57,10 @@ class MapTest extends Phaser.Scene{
         // spawnPLayer is the name of the OBJECT LAYER
         const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
         this.listItems = new Array();
-        //for(var i = 0; i < 2; i++){
+        for(var i = 0; i < 2; i++){
             const chest = map.findObject("chests", obj => obj.name === "chest");
             this.listItems.push(chest);
-        //}
+        }
         console.log(this.listItems[0].properties.length);
         this.itemsLayer = map.getObjectLayer('chests')['objects'];
         
@@ -72,7 +72,8 @@ class MapTest extends Phaser.Scene{
            obj.body.height = object.height; 
     });
 
-
+        console.log(this.listItems);
+        console.log(this.items);
         
         this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'heroTest');
         

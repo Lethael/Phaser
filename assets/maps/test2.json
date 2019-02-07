@@ -29,43 +29,7 @@
          "draworder":"topdown",
          "id":8,
          "name":"items",
-         "objects":[
-                {
-                 "gid":13,
-                 "height":32,
-                 "id":7,
-                 "name":"axe",
-                 "properties":[
-                        {
-                         "name":"typeItem",
-                         "type":"string",
-                         "value":"weapon"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":464,
-                 "y":517
-                }, 
-                {
-                 "gid":13,
-                 "height":32,
-                 "id":11,
-                 "name":"axe",
-                 "properties":[
-                        {
-                         "name":"typeItem",
-                         "type":"string",
-                         "value":"weapon"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":577,
-                 "y":575
-                }],
+         "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -104,6 +68,34 @@
                  "width":32,
                  "x":323,
                  "y":508
+                }, 
+                {
+                 "gid":14,
+                 "height":32,
+                 "id":13,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"items",
+                         "type":"string",
+                         "value":"wooden axe"
+                        }, 
+                        {
+                         "name":"items1",
+                         "type":"string",
+                         "value":"wooden sword"
+                        }, 
+                        {
+                         "name":"items2",
+                         "type":"string",
+                         "value":"wooden staff"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":418,
+                 "y":506
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -141,7 +133,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":13,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.2",
