@@ -125,7 +125,7 @@ Personnage.prototype.openInv = function(){
     }
 }
 
-Personnage.prototype.usePotion(item){
+Personnage.prototype.usePotion = function(item){
     if(this.attribute.maxLife === this.attribute.life){
         console.log("Your life is full");
         return false;
