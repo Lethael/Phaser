@@ -1,5 +1,14 @@
 [
     {
+        "name": "Double mega axe",
+        "type": "Weapon",
+        "description": "The double axe for double damage",
+        "size": 2,
+        "diceDamage": 3,
+        "bonusDamage": 6,
+        "rate": 20
+    },
+    {
         "name": "Wooden axe",
         "type": "Weapon",
         "description": "Every adventurers begins with wooden weapon",
