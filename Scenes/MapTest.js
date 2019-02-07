@@ -256,8 +256,11 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                 let randomByRate = Math.floor(Phaser.Math.FloatBetween(0, 100));
                 if(randomByRate <= this.listItems[rndObject].rate){
                     if(this.listItems[rndObject].type === "Weapon"){
-                        let newItem = new Weapon(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].descritpion, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size);
+                        let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
+                        
+                        let newItem = new Weapon(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].descritpion, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size, durability);
                         this.tabPlayer[0].addToInv(newItem, false);
+                        console.log(this.tabPlayer[0].inventory.bag);
                     }else if(this.listItems[rndObject].type === "Consommable"){
                         let newItem = new Consommable(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].gainValue, this.listItems[rndObject].price);
                         this.tabPlayer[0].addToInv(newItem, false);
