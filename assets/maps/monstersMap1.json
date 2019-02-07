@@ -1,14 +1,16 @@
 [
     {
-        "name": "gobelin",
-        "typeMonster": "Goblin",
+        "name": "zombie",
+        "typeMonster": "Undead",
         "level": 1,
-        "amorClass": 12
+        "amorClass": 10,
+        "img": "zombie"
     },
     {
        "name": "witch",
         "typeMonster": "Witch",
         "level": 2,
-        "amorClass": 13 
+        "amorClass": 13 ,
+        "img": "death_speaker"
     }
 ]
