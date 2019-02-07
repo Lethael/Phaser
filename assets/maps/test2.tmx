@@ -70,20 +70,8 @@
  </layer>
  <objectgroup id="8" name="items"/>
  <objectgroup id="11" name="chests">
-  <object id="12" name="chest" gid="14" x="323" y="508" width="32" height="32">
-   <properties>
-    <property name="items" value="axe"/>
-    <property name="items1" value="sword"/>
-    <property name="items2" value="staff"/>
-   </properties>
-  </object>
-  <object id="13" name="chest" gid="14" x="418" y="506" width="32" height="32">
-   <properties>
-    <property name="items" value="wooden axe"/>
-    <property name="items1" value="wooden sword"/>
-    <property name="items2" value="wooden staff"/>
-   </properties>
-  </object>
+  <object id="12" name="chest" gid="14" x="323" y="508" width="32" height="32"/>
+  <object id="13" name="chest" gid="14" x="418" y="506" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="spawnPlayer">
   <object id="1" name="spawn" x="371" y="563">

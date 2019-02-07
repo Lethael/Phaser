@@ -46,22 +46,6 @@
                  "height":32,
                  "id":12,
                  "name":"chest",
-                 "properties":[
-                        {
-                         "name":"items",
-                         "type":"string",
-                         "value":"axe"
-                        }, 
-                        {
-                         "name":"items1",
-                         "type":"string",
-                         "value":"sword"
-                        }, 
-                        {
-                         "name":"items2",
-                         "type":"string",
-                         "value":"staff"
-                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -74,22 +58,6 @@
                  "height":32,
                  "id":13,
                  "name":"chest",
-                 "properties":[
-                        {
-                         "name":"items",
-                         "type":"string",
-                         "value":"wooden axe"
-                        }, 
-                        {
-                         "name":"items1",
-                         "type":"string",
-                         "value":"wooden sword"
-                        }, 
-                        {
-                         "name":"items2",
-                         "type":"string",
-                         "value":"wooden staff"
-                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
