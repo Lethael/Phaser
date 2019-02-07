@@ -110,7 +110,7 @@ class MapTest extends Phaser.Scene{
             frames: [{key: 'heroTest', frame: 0}],
             frameRate: 10
         });
-
+        this.key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.physics.add.collider(this.player, layer2);
         this.physics.add.collider(this.player, this.items, this.checkCollideWithChests, false, this);
     }
@@ -125,7 +125,10 @@ class MapTest extends Phaser.Scene{
         else
         rateMob+=0.1
         */
-
+        if(Phaser.Input.Keyboard.JustDown(this.key)){
+            console.log("open");
+            this.tabPlayer[0].openInv();
+        }
 		if (this.cursors.left.isDown)
 		{
 			this.player.body.setVelocityX(-80);
