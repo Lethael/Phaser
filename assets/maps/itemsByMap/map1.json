@@ -6,7 +6,7 @@
         "size": 2,
         "diceDamage": 3,
         "bonusDamage": 6,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Wooden axe",
@@ -15,7 +15,7 @@
         "size": 1,
         "diceDamage": 1,
         "bonusDamage": -2,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Wooden sword",
@@ -24,7 +24,7 @@
         "size": 1,
         "diceDamage": 1,
         "bonusDamage": -2,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Rusty axe",
@@ -33,7 +33,7 @@
         "size": 1,
         "diceDamage": 1,
         "bonusDamage": -1,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Rusty sword",
@@ -42,7 +42,7 @@
         "size": 1,
         "diceDamage": 1,
         "bonusDamage": -1,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Little Potion",
@@ -50,7 +50,7 @@
         "description": "Heal 3 heal points",
         "gainValue": 3,
         "price": 12,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Leather helmet",
@@ -59,7 +59,7 @@
         "wear": "head",
         "bonusCA": -1,
         "price": 12,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Leather armor",
@@ -68,7 +68,7 @@
         "wear": "chest",
         "bonusCA": -1,
         "price": 12,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Leather pants",
@@ -77,7 +77,7 @@
         "wear": "legs",
         "bonusCA": -1,
         "price": 12,
-        "rate": 20
+        "rate": 80
     },
     {
         "name": "Leather gloves",
@@ -86,6 +86,6 @@
         "wear": "arms",
         "bonusCA": -1,
         "price": 12,
-        "rate": 20
+        "rate": 80
     }
 ]
