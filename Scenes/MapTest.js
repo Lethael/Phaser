@@ -24,17 +24,19 @@ class MapTest extends Phaser.Scene{
         this.load.image('chest', '../assets/items/chests/chest.png');
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.load.json('itemsOnMap', 'assets/maps/itemsByMap/map1.json');
         this.load.json('mobs', 'assets/maps/monstersMap1.json');
         
         this.player;
     }
     create ()
     {
+        this.listItems = this.cache.json.get('itemsOnMap');
         this.testMobs = this.cache.json.get('mobs');
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
-        this.rateMob = 60;
+        this.rateMob = 0;
         
         if(this.tabPlayer === undefined){
             this.tabPlayer = new Array();
@@ -45,10 +47,7 @@ class MapTest extends Phaser.Scene{
             this.tabPlayer.push(this.testPlayer2);
             this.tabPlayer.push(this.testPlayer3);
         }
-        
-
-		//this.cursors;
-        
+                
         const map = this.make.tilemap({key: "map", tileWidth: 32, tileHeight: 32});
         // basique is the name of the tileset in the json file
         const tileset = map.addTilesetImage('basique', 'tiles');
@@ -58,13 +57,8 @@ class MapTest extends Phaser.Scene{
         
         // spawnPLayer is the name of the OBJECT LAYER
         const spawnPoint = map.findObject("spawnPlayer", obj => obj.name === "spawn");
-        this.listItems = new Array();
-        for(var i = 0; i < 2; i++){
-            const chest = map.findObject("chests", obj => obj.name === "chest");
-            this.listItems.push(chest);
-        }
-        this.itemsLayer = map.getObjectLayer('chests')['objects'];
         
+        this.itemsLayer = map.getObjectLayer('chests')['objects'];
         this.items = this.physics.add.staticGroup();
         this.itemsLayer.forEach(object => {
         let obj = this.items.create(object.x, object.y, "chest"); 
@@ -225,12 +219,21 @@ class MapTest extends Phaser.Scene{
 }
 
 MapTest.prototype.testCollide = function(test, item){
-    let rndObject = Math.ceil(Math.random() * Math.floor(this.listItems[0].properties.length)) - 1;
 
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        let newItem = new Items(this.listItems[0].properties[rndObject].value, "new item");
-        this.tabPlayer[0].addToInv(newItem, false);
-        item.destroy();
+        let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 3));
+        if(numItems > 0){
+            for(var i = 0; i < numItems; i++){
+                let rndObject = Math.floor(Phaser.Math.FloatBetween(0, this.listItems.length));
+                if(this.listItems[rndObject].type === "Weapon"){
+                    let newItem = new Weapon(this.listItems[rndObject].name, this.listItems[rndObject].descritpion, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size);
+                    this.tabPlayer[0].addToInv(newItem, false);
+                }
+                item.destroy();      
+            }
+        }else{
+            console.log("No items... Too bad...");
+        }
         
     }
 }
