@@ -19,7 +19,6 @@ Armor.prototype.calcCAByDurability = function(){
     }
     else if(this.durability > 50 && this.durability <= 79){
         this.bonusCA = this.baseBonusCA;
-        console.log("Between 51 & 79");
     }
     else if(this.durability > 79){
         let winBonus = Math.floor((this.durability - 50) / 10);
