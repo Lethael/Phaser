@@ -4,6 +4,9 @@ class Inventory {
         this.imgInv;
         this.imgItem = new Array();
         this.cursor;
+        this.xPosCursor = 0;
+        this.yPosCursor = 0;
+        this.posOnBag = 0;
         this.isOpen = false;
         this.bag = new Array();
         this.gold = 0;
@@ -35,7 +38,7 @@ Inventory.prototype.openInv = function(scene){
                 
         }
     }
-    this.moveOnBag(scene);
+    //this.moveOnBag(scene);
 }
 
 Inventory.prototype.closeInv = function(){
@@ -64,8 +67,14 @@ Inventory.prototype.deleteItemOnBag = function(item){
     }
 }
 
-Inventory.prototype.moveOnBag = function(scene){
+/*Inventory.prototype.moveOnBag = function(scene){
+    console.log(this.cursors);
     let xPos = 288;
     let yPos = 192;
+    //this.cursor = scene.physics.add.image(xPos, yPos, 'cursor');
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
+        xPos += 32;
+        console.log("je passe");
+    }
     this.cursor = scene.physics.add.image(xPos, yPos, 'cursor');
-}
+}*/
