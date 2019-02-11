@@ -46,7 +46,7 @@ class MapTest extends Phaser.Scene{
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
-        this.rateMob = 0;
+        this.rateMob = 50;
         
         if(this.tabPlayer === undefined){
             this.tabPlayer = new Array();
@@ -130,12 +130,6 @@ class MapTest extends Phaser.Scene{
     update (time, delta){
         this.player.body.setVelocity(0);
         
-        /*Every seconds when buttons are push
-        generate random number 0.1 -> 100
-        if this <= rateMobs -> Battle
-        else
-        rateMob+=0.1
-        */
         if(Phaser.Input.Keyboard.JustDown(this.keyI)){
             
             if(!this.tabPlayer[0].newInventory.isOpen){
@@ -153,92 +147,28 @@ class MapTest extends Phaser.Scene{
             this.moveOnBag();
         }
         
-        /*if(Phaser.Input.Keyboard.JustDown(this.keyU)){
-            let isPotion = false;
-            let indexPotion = 0;
-            for(let i = 0; i < this.tabPlayer[0].inventory.bag.length; i++){
-                if(this.tabPlayer[0].inventory.bag[i].type === "Consommable"){
-                    isPotion = true;
-                    indexPotion = i;
-                }
-            }
-            if(isPotion){
-                let boolRestoreHP = this.tabPlayer[0].usePotion(this.tabPlayer[0].inventory.bag[indexPotion]);
-                if(boolRestoreHP){
-                    this.tabPlayer[0].inventory.bag.splice(indexPotion, 1);
-                }
-                
-            }   
-        }*/
+        /*Every seconds when movment key is push
+        generate random number 0.1 -> 100
+        if this <= rateMobs -> Battle
+        else
+        rateMob+=0.1
+        */
         if(!this.tabPlayer[0].newInventory.isOpen){
             if (this.cursors.left.isDown)
             {
-                this.player.body.setVelocityX(-80);
-                this.player.anims.play('left', true);
-
-                this.timeToRandomMob -= delta;
-                if(this.timeToRandomMob <= 0){
-                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                    if(this.rndMob <= this.rateMob){
-                        this.cursors.left.isDown = false;
-                        this.rateMob = 1;
-                        this.boolBattle = true;
-                    }else{
-                        this.rateMob += 0.1;
-                    }
-                    this.timeToRandomMob = 1000;
-                   }
+                this.moveXAndGenerateBattle('left', -80, delta);
             }else if (this.cursors.right.isDown)
             {
-                this.player.body.setVelocityX(80);
-                this.player.anims.play('right', true);
-                this.timeToRandomMob -= delta;
-                if(this.timeToRandomMob <= 0){
-                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                    if(this.rndMob <= this.rateMob){
-                        this.cursors.right.isDown = false;
-                        this.rateMob = 1;
-                        this.boolBattle = true;
-                    }else{
-                        this.rateMob += 0.1;
-                    }
-                    this.timeToRandomMob = 1000;
-                   }
+                this.moveXAndGenerateBattle('right', 80, delta);
             }
 
             else if (this.cursors.up.isDown)
             {
-                this.player.body.setVelocityY(-80);
-                this.player.anims.play('up', true);
-                this.timeToRandomMob -= delta;
-                if(this.timeToRandomMob <= 0){
-                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                    if(this.rndMob <= this.rateMob){
-                        this.cursors.up.isDown = false;
-                        this.rateMob = 1;
-                        this.boolBattle = true;
-                    }else{
-                        this.rateMob += 0.1;
-                    }
-                    this.timeToRandomMob = 1000;
-                   }
+                this.moveYAndGenerateBattle('up', -80, delta);
             }
             else if (this.cursors.down.isDown)
             {
-                this.player.body.setVelocityY(80);
-                this.player.anims.play('down', true);
-                this.timeToRandomMob -= delta;
-                if(this.timeToRandomMob <= 0){
-                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                    if(this.rndMob <= this.rateMob){
-                        this.cursors.down.isDown = false;
-                        this.rateMob = 1;
-                        this.boolBattle = true;
-                    }else{
-                        this.rateMob += 0.1;
-                    }
-                    this.timeToRandomMob = 1000;
-                   }
+                this.moveYAndGenerateBattle('down', 80, delta);
             }
             else
             {
@@ -304,6 +234,41 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
         item.destroy();
         
     }
+}
+
+MapTest.prototype.moveXAndGenerateBattle = function(direction, vel, delta){
+    this.player.body.setVelocityX(vel);
+    this.player.anims.play(direction, true);
+
+    this.timeToRandomMob -= delta;
+    if(this.timeToRandomMob <= 0){
+        this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
+        if(this.rndMob <= this.rateMob){
+            this.cursors.left.isDown = false;
+            this.rateMob = 1;
+            this.boolBattle = true;
+        }else{
+            this.rateMob += 0.1;
+        }
+        this.timeToRandomMob = 1000;
+       }
+}
+
+MapTest.prototype.moveYAndGenerateBattle = function(direction, vel, delta){
+    this.player.body.setVelocityY(vel);
+    this.player.anims.play(direction, true);
+    this.timeToRandomMob -= delta;
+    if(this.timeToRandomMob <= 0){
+        this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
+        if(this.rndMob <= this.rateMob){
+            this.cursors.up.isDown = false;
+            this.rateMob = 1;
+            this.boolBattle = true;
+        }else{
+            this.rateMob += 0.1;
+        }
+        this.timeToRandomMob = 1000;
+       }
 }
 
 /*
