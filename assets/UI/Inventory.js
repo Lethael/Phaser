@@ -20,6 +20,8 @@ Inventory.prototype.openInv = function(scene){
     if(this.imgInv === undefined)
         this.imgInv = scene.physics.add.image(400, 300, 'inv').setScale(0.5);
     this.isOpen = true;
+    this.xPosCursor = 284;
+    this.yPosCursor = 188;
     if(this.bag.length > 0){
         let xPos = 288;
         let yPos = 192;
@@ -40,6 +42,7 @@ Inventory.prototype.openInv = function(scene){
                 
         }
     }
+    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
 }
 
 Inventory.prototype.refreshBag = function(scene){
@@ -67,6 +70,10 @@ Inventory.prototype.closeInv = function(){
     for(let i = 0; i < this.imgItem.length; i++)
         this.imgItem[i].destroy();
     this.isOpen = false;
+    this.xPosCursor = 284;
+    this.yPosCursor = 188;
+    this.posOnArrayBag = 0;
+    this.posOnBag = 0;
 }
 
 Inventory.prototype.addToInv = function(obj, changeEquip){

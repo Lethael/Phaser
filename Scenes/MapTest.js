@@ -46,7 +46,7 @@ class MapTest extends Phaser.Scene{
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
-        this.rateMob = 50;
+        this.rateMob = 0;
         
         if(this.tabPlayer === undefined){
             this.tabPlayer = new Array();
@@ -133,13 +133,9 @@ class MapTest extends Phaser.Scene{
         if(Phaser.Input.Keyboard.JustDown(this.keyI)){
             
             if(!this.tabPlayer[0].newInventory.isOpen){
-                this.tabPlayer[0].newInventory.xPosCursor = 284;
-                this.tabPlayer[0].newInventory.yPosCursor = 188;
                 this.tabPlayer[0].newInventory.openInv(this);
-                this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
             }else{
                 this.tabPlayer[0].newInventory.closeInv();
-                this.tabPlayer[0].newInventory.cursor.destroy();
             }
             
         }
@@ -228,7 +224,6 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                 type: "gold",
                 amount: Math.ceil(Phaser.Math.FloatBetween(0, 20))
             };
-            console.log("You found " + gold.amount + " gold");
             this.tabPlayer[0].addToInv(gold, false);
         }
         item.destroy();
@@ -236,6 +231,9 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
     }
 }
 
+/*
+    ########################### MOVE HERO ###########################
+*/
 MapTest.prototype.moveXAndGenerateBattle = function(direction, vel, delta){
     this.player.body.setVelocityX(vel);
     this.player.anims.play(direction, true);
@@ -270,9 +268,12 @@ MapTest.prototype.moveYAndGenerateBattle = function(direction, vel, delta){
         this.timeToRandomMob = 1000;
        }
 }
+/*
+    ########################### END MOVE HERO ###########################
+*/
 
 /*
-    Move cursor on bag
+    ########################### MOVE CURSOR ON BAG ###########################
 */
 MapTest.prototype.moveOnBag = function(){
         
@@ -309,13 +310,13 @@ MapTest.prototype.moveOnBag = function(){
             find the position of the last column item
             cursor goes on it
         else
-            cursor goes on the nextLine, at the sameColumn
+            cursor goes on the nextLine, at the same column
     */
     if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
         /*
             Get the current line
         */
-        let nbLine = Math.ceil(this.tabPlayer[0].newInventory.posOnArrayBag / 7);
+        let nbLine = Math.ceil(this.tabPlayer[0].newInventory.posOnArrayBag / 8);
         
         if(nbLine < Math.ceil(this.tabPlayer[0].newInventory.bag.length / 7)){
            if(this.tabPlayer[0].newInventory.posOnArrayBag + 8 > this.tabPlayer[0].newInventory.bag.length - 1){
@@ -340,7 +341,8 @@ MapTest.prototype.moveOnBag = function(){
         /*
             Get the current line
         */
-        let nbLine = Math.ceil(this.tabPlayer[0].newInventory.posOnArrayBag / 7);
+        let nbLine = Math.floor(this.tabPlayer[0].newInventory.posOnArrayBag / 8);
+        console.log(nbLine);
         
         if(nbLine > 0){
            if(this.tabPlayer[0].newInventory.posOnArrayBag - 8 < 0){
@@ -369,3 +371,7 @@ MapTest.prototype.moveOnBag = function(){
         this.tabPlayer[0].newInventory.refreshBag(this);
     }
 }
+
+/*
+    ########################### END MOVE CURSOR ON BAG ###########################
+*/
