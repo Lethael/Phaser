@@ -122,6 +122,7 @@ class MapTest extends Phaser.Scene{
         });
         this.key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+        this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.physics.add.collider(this.player, layer2);
         this.physics.add.collider(this.player, this.items, this.checkCollideWithChests, false, this);
     }
@@ -138,12 +139,18 @@ class MapTest extends Phaser.Scene{
         if(Phaser.Input.Keyboard.JustDown(this.key)){
             
             if(!this.tabPlayer[0].newInventory.isOpen){
+                this.tabPlayer[0].newInventory.xPosCursor = 284;
+                this.tabPlayer[0].newInventory.yPosCursor = 188;
                 this.tabPlayer[0].newInventory.openInv(this);
+                this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
             }else{
                 this.tabPlayer[0].newInventory.closeInv();
             }
             console.log(this.tabPlayer[0].newInventory.isOpen);
             
+        }
+        if(this.tabPlayer[0].newInventory.isOpen){
+            this.moveOnBag();
         }
         
         /*if(Phaser.Input.Keyboard.JustDown(this.keyU)){
@@ -294,6 +301,30 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
             this.tabPlayer[0].addToInv(gold, false);
         }
         item.destroy();
+        
+    }
+}
+
+MapTest.prototype.moveOnBag = function(){
+    if(Phaser.Input.Keyboard.JustDown(this.keyRight)){
+        let isDown = false;
+        if(this.tabPlayer[0].newInventory.posOnBag > 0 && this.tabPlayer[0].newInventory.posOnBag % 7 === 0){
+            console.log("down")
+            this.tabPlayer[0].newInventory.xPosCursor = 284;
+            this.tabPlayer[0].newInventory.yPosCursor += 32;
+            this.tabPlayer[0].newInventory.posOnBag = 0;
+            isDown = true;
+        }
+        if(!isDown){
+            this.tabPlayer[0].newInventory.cursor.destroy();
+            this.tabPlayer[0].newInventory.xPosCursor += 32;
+            this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
+            this.tabPlayer[0].newInventory.posOnBag += 1;   
+        }else{
+            this.tabPlayer[0].newInventory.cursor.destroy();
+            this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
+        }
+        
         
     }
 }
