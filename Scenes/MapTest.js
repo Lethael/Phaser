@@ -121,7 +121,7 @@ class MapTest extends Phaser.Scene{
             frameRate: 10
         });
         this.key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keyU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
         this.physics.add.collider(this.player, layer2);
         this.physics.add.collider(this.player, this.items, this.checkCollideWithChests, false, this);
@@ -136,7 +136,7 @@ class MapTest extends Phaser.Scene{
         else
         rateMob+=0.1
         */
-        if(Phaser.Input.Keyboard.JustDown(this.key)){
+        if(Phaser.Input.Keyboard.JustDown(this.keyI)){
             
             if(!this.tabPlayer[0].newInventory.isOpen){
                 this.tabPlayer[0].newInventory.xPosCursor = 284;
