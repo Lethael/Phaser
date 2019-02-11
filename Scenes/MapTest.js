@@ -23,7 +23,7 @@ class MapTest extends Phaser.Scene{
         this.load.image('chest', '../assets/items/chests/chest.png');
         this.load.image('sword', '../assets/items/weapons/swords/orcish_short_sword.png');
         this.load.image('potion', '../assets/items/potions/ruby_old.png');
-        this.load.image('potion', '../assets/items/armors/chest/ring_mail_1_new.png');
+        this.load.image('armor', '../assets/items/armors/chest/ring_mail_1_new.png');
         
         
         this.load.image('inv', "../assets/UI/Inventory/BankStash.png");
@@ -260,17 +260,17 @@ class MapTest extends Phaser.Scene{
 */
 MapTest.prototype.checkCollideWithChests = function(test, item){
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 3));
+        let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 4));
         if(numItems > 0){
             for(var i = 0; i < numItems; i++){
                 let rndObject = Math.floor(Phaser.Math.FloatBetween(0, this.listItems.length));
                 let randomByRate = Math.floor(Phaser.Math.FloatBetween(0, 100));
                 if(randomByRate <= this.listItems[rndObject].rate){
-                    if(this.listItems[rndObject].type === "Weapon"){
+                    if(this.listItems[rndObject].type === "sword" || this.listItems[rndObject].type === "axe"){
                         let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
                         let newItem = new Weapon(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size, durability);
                         this.tabPlayer[0].addToInv(newItem, false);
-                    }else if(this.listItems[rndObject].type === "Consommable"){
+                    }else if(this.listItems[rndObject].type === "consommable"){
                         let newItem = new Consommable(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].gainValue, this.listItems[rndObject].price);
                         this.tabPlayer[0].addToInv(newItem, false);
                     }else if(this.listItems[rndObject].type === "Armor"){
