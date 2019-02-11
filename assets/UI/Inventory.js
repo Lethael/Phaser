@@ -10,8 +10,8 @@ class Inventory {
     
 }
 
-Inventory.prototype.openInv = function(game){
-    this.imgInv = game.physics.add.image(400, 300, 'inv').setScale(0.5);
+Inventory.prototype.openInv = function(scene){
+    this.imgInv = scene.physics.add.image(400, 300, 'inv').setScale(0.5);
     this.isOpen = true;
 }
 
@@ -31,9 +31,9 @@ Inventory.prototype.addToInv = function(obj, changeEquip){
     }
 }
 
-Inventory.prototype.deleteEquipOnBag = function(equip){
+Inventory.prototype.deleteItemOnBag = function(item){
     for(var i = 0; i < this.bag.length; i++){
-        if(this.bag[i] === equip){
+        if(this.bag[i] === item){
             this.bag.splice(i, 1);
         }
     }
