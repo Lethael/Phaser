@@ -3,6 +3,7 @@ class Inventory {
         this.x = 800;
         this.imgInv;
         this.imgItem = new Array();
+        this.cursor;
         this.isOpen = false;
         this.bag = new Array();
         this.gold = 0;
@@ -34,6 +35,7 @@ Inventory.prototype.openInv = function(scene){
                 
         }
     }
+    this.moveOnBag(scene);
 }
 
 Inventory.prototype.closeInv = function(){
@@ -60,4 +62,10 @@ Inventory.prototype.deleteItemOnBag = function(item){
             this.bag.splice(i, 1);
         }
     }
+}
+
+Inventory.prototype.moveOnBag = function(scene){
+    let xPos = 288;
+    let yPos = 192;
+    this.cursor = scene.physics.add.image(xPos, yPos, 'cursor');
 }
