@@ -1,7 +1,7 @@
 [
     {
         "name": "Double mega axe",
-        "type": "Weapon",
+        "type": "axe",
         "description": "The double axe for double damage",
         "size": 2,
         "diceDamage": 3,
@@ -10,7 +10,7 @@
     },
     {
         "name": "Wooden axe",
-        "type": "Weapon",
+        "type": "axe",
         "description": "Every adventurers begins with wooden weapon",
         "size": 1,
         "diceDamage": 1,
@@ -19,7 +19,7 @@
     },
     {
         "name": "Wooden sword",
-        "type": "Weapon",
+        "type": "sword",
         "description": "Every adventurers begins with wooden weapon",
         "size": 1,
         "diceDamage": 1,
@@ -28,7 +28,7 @@
     },
     {
         "name": "Rusty axe",
-        "type": "Weapon",
+        "type": "axe",
         "description": "Be carefull ! Do not cut yourself... It's a nest to diseases...",
         "size": 1,
         "diceDamage": 1,
@@ -37,7 +37,7 @@
     },
     {
         "name": "Rusty sword",
-        "type": "Weapon",
+        "type": "sword",
         "description": "Be carefull ! Do not cut yourself... It's a nest to diseases...",
         "size": 1,
         "diceDamage": 1,
@@ -46,7 +46,7 @@
     },
     {
         "name": "Little Potion",
-        "type": "Consommable",
+        "type": "consommable",
         "description": "Heal 3 heal points",
         "gainValue": 3,
         "price": 12,
@@ -54,7 +54,7 @@
     },
     {
         "name": "Leather helmet",
-        "type": "Armor",
+        "type": "armor",
         "description": "A simple leather helmet",
         "wear": "head",
         "bonusCA": -1,
@@ -63,7 +63,7 @@
     },
     {
         "name": "Leather armor",
-        "type": "Armor",
+        "type": "armor",
         "description": "A simple leather armor",
         "wear": "chest",
         "bonusCA": -1,
@@ -72,7 +72,7 @@
     },
     {
         "name": "Leather pants",
-        "type": "Armor",
+        "type": "armor",
         "description": "A simple leather pants",
         "wear": "legs",
         "bonusCA": -1,
@@ -81,7 +81,7 @@
     },
     {
         "name": "Leather gloves",
-        "type": "Armor",
+        "type": "armor",
         "description": "A simple leather gloves",
         "wear": "arms",
         "bonusCA": -1,
