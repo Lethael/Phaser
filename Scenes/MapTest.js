@@ -122,7 +122,7 @@ class MapTest extends Phaser.Scene{
         });
         this.key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
-        this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
         this.physics.add.collider(this.player, layer2);
         this.physics.add.collider(this.player, this.items, this.checkCollideWithChests, false, this);
     }
@@ -145,8 +145,8 @@ class MapTest extends Phaser.Scene{
                 this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
             }else{
                 this.tabPlayer[0].newInventory.closeInv();
+                this.tabPlayer[0].newInventory.cursor.destroy();
             }
-            console.log(this.tabPlayer[0].newInventory.isOpen);
             
         }
         if(this.tabPlayer[0].newInventory.isOpen){
@@ -170,80 +170,81 @@ class MapTest extends Phaser.Scene{
                 
             }   
         }*/
-        
-		if (this.cursors.left.isDown)
-		{
-			this.player.body.setVelocityX(-80);
-			this.player.anims.play('left', true);
-    
-            this.timeToRandomMob -= delta;
-            if(this.timeToRandomMob <= 0){
-                this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                if(this.rndMob <= this.rateMob){
-                    this.cursors.left.isDown = false;
-                    this.rateMob = 1;
-                    this.boolBattle = true;
-                }else{
-                    this.rateMob += 0.1;
-                }
-                this.timeToRandomMob = 1000;
-               }
-        }else if (this.cursors.right.isDown)
-		{
-			this.player.body.setVelocityX(80);
-			this.player.anims.play('right', true);
-            this.timeToRandomMob -= delta;
-            if(this.timeToRandomMob <= 0){
-                this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                if(this.rndMob <= this.rateMob){
-                    this.cursors.right.isDown = false;
-                    this.rateMob = 1;
-                    this.boolBattle = true;
-                }else{
-                    this.rateMob += 0.1;
-                }
-                this.timeToRandomMob = 1000;
-               }
-		}
-        
-        else if (this.cursors.up.isDown)
-		{
-			this.player.body.setVelocityY(-80);
-            this.player.anims.play('up', true);
-            this.timeToRandomMob -= delta;
-            if(this.timeToRandomMob <= 0){
-                this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                if(this.rndMob <= this.rateMob){
-                    this.cursors.up.isDown = false;
-                    this.rateMob = 1;
-                    this.boolBattle = true;
-                }else{
-                    this.rateMob += 0.1;
-                }
-                this.timeToRandomMob = 1000;
-               }
-		}
-        else if (this.cursors.down.isDown)
-		{
-			this.player.body.setVelocityY(80);
-            this.player.anims.play('down', true);
-            this.timeToRandomMob -= delta;
-            if(this.timeToRandomMob <= 0){
-                this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
-                if(this.rndMob <= this.rateMob){
-                    this.cursors.down.isDown = false;
-                    this.rateMob = 1;
-                    this.boolBattle = true;
-                }else{
-                    this.rateMob += 0.1;
-                }
-                this.timeToRandomMob = 1000;
-               }
-		}
-		else
-		{
-            this.player.anims.play('stop');
-		}
+        if(!this.tabPlayer[0].newInventory.isOpen){
+            if (this.cursors.left.isDown)
+            {
+                this.player.body.setVelocityX(-80);
+                this.player.anims.play('left', true);
+
+                this.timeToRandomMob -= delta;
+                if(this.timeToRandomMob <= 0){
+                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
+                    if(this.rndMob <= this.rateMob){
+                        this.cursors.left.isDown = false;
+                        this.rateMob = 1;
+                        this.boolBattle = true;
+                    }else{
+                        this.rateMob += 0.1;
+                    }
+                    this.timeToRandomMob = 1000;
+                   }
+            }else if (this.cursors.right.isDown)
+            {
+                this.player.body.setVelocityX(80);
+                this.player.anims.play('right', true);
+                this.timeToRandomMob -= delta;
+                if(this.timeToRandomMob <= 0){
+                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
+                    if(this.rndMob <= this.rateMob){
+                        this.cursors.right.isDown = false;
+                        this.rateMob = 1;
+                        this.boolBattle = true;
+                    }else{
+                        this.rateMob += 0.1;
+                    }
+                    this.timeToRandomMob = 1000;
+                   }
+            }
+
+            else if (this.cursors.up.isDown)
+            {
+                this.player.body.setVelocityY(-80);
+                this.player.anims.play('up', true);
+                this.timeToRandomMob -= delta;
+                if(this.timeToRandomMob <= 0){
+                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
+                    if(this.rndMob <= this.rateMob){
+                        this.cursors.up.isDown = false;
+                        this.rateMob = 1;
+                        this.boolBattle = true;
+                    }else{
+                        this.rateMob += 0.1;
+                    }
+                    this.timeToRandomMob = 1000;
+                   }
+            }
+            else if (this.cursors.down.isDown)
+            {
+                this.player.body.setVelocityY(80);
+                this.player.anims.play('down', true);
+                this.timeToRandomMob -= delta;
+                if(this.timeToRandomMob <= 0){
+                    this.rndMob = Phaser.Math.FloatBetween(0.1, 100);
+                    if(this.rndMob <= this.rateMob){
+                        this.cursors.down.isDown = false;
+                        this.rateMob = 1;
+                        this.boolBattle = true;
+                    }else{
+                        this.rateMob += 0.1;
+                    }
+                    this.timeToRandomMob = 1000;
+                   }
+            }
+            else
+            {
+                this.player.anims.play('stop');
+            }   
+        }
         
         if(this.boolBattle){
             this.player.body.setVelocity(0);
@@ -305,26 +306,45 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
     }
 }
 
+/*
+    Move cursor on bag
+*/
 MapTest.prototype.moveOnBag = function(){
-    if(Phaser.Input.Keyboard.JustDown(this.keyRight)){
-        let isDown = false;
-        if(this.tabPlayer[0].newInventory.posOnBag > 0 && this.tabPlayer[0].newInventory.posOnBag % 7 === 0){
-            console.log("down")
-            this.tabPlayer[0].newInventory.xPosCursor = 284;
-            this.tabPlayer[0].newInventory.yPosCursor += 32;
-            this.tabPlayer[0].newInventory.posOnBag = 0;
-            isDown = true;
+/*    if(this.tabPlayer[0].newInventory.posOnArrayBag < this.tabPlayer[0].newInventory.bag.length - 1 && this.tabPlayer[0].newInventory.bag.length > 0){*/
+        
+        if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[0].newInventory.posOnArrayBag < this.tabPlayer[0].newInventory.bag.length - 1){
+            let isDown = false;
+            if(this.tabPlayer[0].newInventory.posOnBag > 0 && this.tabPlayer[0].newInventory.posOnBag % 7 === 0){
+                this.tabPlayer[0].newInventory.downOneLine(this);
+                isDown = true;
+            }
+            if(!isDown){
+                this.tabPlayer[0].newInventory.moveCursor(this, 32, 1);
+            }
+            this.tabPlayer[0].newInventory.posOnArrayBag += 1;
+            console.log("posOnArrayBag : " + this.tabPlayer[0].newInventory.xPosCursor);
         }
-        if(!isDown){
-            this.tabPlayer[0].newInventory.cursor.destroy();
-            this.tabPlayer[0].newInventory.xPosCursor += 32;
-            this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
-            this.tabPlayer[0].newInventory.posOnBag += 1;   
-        }else{
-            this.tabPlayer[0].newInventory.cursor.destroy();
-            this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
+        
+        if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
+            let isDown = false;
+            if(this.tabPlayer[0].newInventory.posOnBag === 0){
+                this.tabPlayer[0].newInventory.upOneLine(this);
+                isDown = true;
+            }
+            if(!isDown){
+                this.tabPlayer[0].newInventory.moveCursor(this, -32, -1);
+            }
+            this.tabPlayer[0].newInventory.posOnArrayBag -= 1;
         }
-        this.tabPlayer[0].newInventory.posOnArrayBag += 1;
-        console.log(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag]);
+            
+    /*}*/
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+        if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'axe' || this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'sword'){
+            this.tabPlayer[0].equipWeapon(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
+        }
+        else if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'armor'){
+            this.tabPlayer[0].equipArmor(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
+        }
+        this.tabPlayer[0].newInventory.refreshBag(this);
     }
 }
