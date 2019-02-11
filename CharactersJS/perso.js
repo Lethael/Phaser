@@ -77,18 +77,16 @@ Personnage.prototype.equipWeapon = function(weapon){
     if(this.equipments.rightHand === undefined){
         if(weapon.size === 1){
             this.equipments.rightHand = weapon;
-            this.newInventory.deleteEquipOnBag(weapon);
         }
         else{
             this.equipments.rightHand = weapon;
             this.equipments.leftHand = weapon;
-            this.newInventory.deleteEquipOnBag(weapon);
         }
     }else{
         this.newInventory.addToInv(this.equipments.rightHand, true);
         this.equipments.rightHand = weapon;
-        this.newInventory.deleteEquipOnBag(weapon);
     }
+    this.newInventory.deleteItemOnBag(weapon);
 }
 
 Personnage.prototype.equipArmor = function(armor){
@@ -102,7 +100,7 @@ Personnage.prototype.equipArmor = function(armor){
         }
         this.attribute.armorClass += armor.bonusCA;
     }
-    this.newInventory.deleteEquipOnBag(armor);
+    this.newInventory.deleteItemOnBag(armor);
 }
 
 Personnage.prototype.equipHelmet = function(helmet){
