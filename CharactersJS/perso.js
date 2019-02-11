@@ -21,6 +21,7 @@ class Personnage{
             bonWait: 0  //bonus when waiting one turn. Set them values for toHit for damage for armorClass
     
 		}
+        this.newInventory = new Inventory();
 		this.inventory = {
 			gold: 0,
 			bag: new Array()
@@ -61,40 +62,33 @@ Personnage.prototype.calcBonus = function(value){
 Personnage.prototype.addToInv = function(obj, changeEquipments){
     if(obj.type !== "gold"){
         if(!changeEquipments){
-            if(this.inventory.bag.length <= 10){
-              this.inventory.bag.push(obj);
-                console.log("J'ajoute : " + obj.name);
-           }  
+            this.newInventory.addToInv(obj, false);
         }else{
-            this.inventory.bag.push(obj);
+            this.newInventory.addToInv(obj, true);
         }
     }else{
-        this.inventory.gold += obj.amount;
+        this.newInventory.gold += obj.amount;
     }
         
 	
 }
 
 Personnage.prototype.equipWeapon = function(weapon){
-	if(this.inventory.bag.length > 0){
-		if(this.equipments.rightHand === undefined){
-			if(weapon.size === 1){
-				this.equipments.rightHand = weapon;
-                for(var i = 0; i < this.inventory.bag.length; i++){
-                    if(this.inventory.bag[i] === weapon){
-                        this.inventory.bag.splice(i, 1);
-                    }
-                }
-			}
-			else{
-				this.equipments.rightHand = weapon;
-				this.equipments.leftHand = weapon;
-			}
-		}else{
-            this.addToInv(this.equipments.rightHand, true);
+    if(this.equipments.rightHand === undefined){
+        if(weapon.size === 1){
             this.equipments.rightHand = weapon;
+            this.newInventory.deleteEquipOnBag(weapon);
         }
-	}
+        else{
+            this.equipments.rightHand = weapon;
+            this.equipments.leftHand = weapon;
+            this.newInventory.deleteEquipOnBag(weapon);
+        }
+    }else{
+        this.newInventory.addToInv(this.equipments.rightHand, true);
+        this.equipments.rightHand = weapon;
+        this.newInventory.deleteEquipOnBag(weapon);
+    }
 }
 
 Personnage.prototype.equipArmor = function(armor){
@@ -103,11 +97,12 @@ Personnage.prototype.equipArmor = function(armor){
             this.equipments.chest = armor;
         }else{
             this.attribute.armorClass -= this.equipments.armor.bonusCA;
-            this.addToInv(this.equipments.chest, true);
+            this.newInventory.addToInv(this.equipments.chest, true);
             this.equipments.chest = armor;
         }
         this.attribute.armorClass += armor.bonusCA;
     }
+    this.newInventory.deleteEquipOnBag(armor);
 }
 
 Personnage.prototype.equipHelmet = function(helmet){
