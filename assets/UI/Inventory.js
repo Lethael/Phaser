@@ -17,7 +17,7 @@ class Inventory {
 }
 
 Inventory.prototype.openInv = function(scene){
-    if(this.imgInv !== null)
+    if(this.imgInv === undefined)
         this.imgInv = scene.physics.add.image(400, 300, 'inv').setScale(0.5);
     this.isOpen = true;
     if(this.bag.length > 0){
@@ -63,7 +63,7 @@ Inventory.prototype.deleteAllSpriteOnInv = function(){
 Inventory.prototype.closeInv = function(){
     this.cursor.destroy();
     this.imgInv.destroy();
-    this.imgInv = null;
+    this.imgInv = undefined;
     for(let i = 0; i < this.imgItem.length; i++)
         this.imgItem[i].destroy();
     this.isOpen = false;
@@ -99,10 +99,10 @@ Inventory.prototype.downOneLine = function(scene, posCursor, x){
     this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
 }
 
-Inventory.prototype.upOneLine = function(scene){
-    this.xPosCursor = 508;
+Inventory.prototype.upOneLine = function(scene, posCursor, x){
+    this.xPosCursor = x;
     this.yPosCursor -= 32;
-    this.posOnBag = 7;
+    this.posOnBag = posCursor;
     this.cursor.destroy();
     this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
 }
