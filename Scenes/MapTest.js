@@ -321,20 +321,21 @@ MapTest.prototype.moveOnBag = function(){
             this.tabPlayer[0].newInventory.moveCursor(this, 32, 1);
         }
         this.tabPlayer[0].newInventory.posOnArrayBag += 1;
-        console.log("Pos On Array Bag right " + this.tabPlayer[0].newInventory.posOnArrayBag);
     }
 
     if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
         let isDown = false;
-        if(this.tabPlayer[0].newInventory.posOnBag === 0){
-            this.tabPlayer[0].newInventory.upOneLine(this);
-            isDown = true;
+        if(this.tabPlayer[0].newInventory.posOnArrayBag > 0){
+            if(this.tabPlayer[0].newInventory.posOnBag === 0){
+                this.tabPlayer[0].newInventory.upOneLine(this, 7, 508);
+                isDown = true;
+            }
+            if(!isDown){
+                this.tabPlayer[0].newInventory.moveCursor(this, -32, -1);
+            }
+            this.tabPlayer[0].newInventory.posOnArrayBag -= 1;
         }
-        if(!isDown){
-            this.tabPlayer[0].newInventory.moveCursor(this, -32, -1);
-        }
-        this.tabPlayer[0].newInventory.posOnArrayBag -= 1;
-        console.log(this.tabPlayer[0].newInventory.posOnBag);
+            
     }
     
     /*
@@ -346,19 +347,44 @@ MapTest.prototype.moveOnBag = function(){
             cursor goes on the nextLine, at the sameColumn
     */
     if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
-        if(this.tabPlayer[0].newInventory.posOnArrayBag + 8 > this.tabPlayer[0].newInventory.bag.length - 1){
-            this.tabPlayer[0].newInventory.posOnArrayBag = this.tabPlayer[0].newInventory.bag.length - 1;
-            let newPosX = (508 - this.tabPlayer[0].newInventory.xPosCursor) / 32;
-            let posXUntilEndLine = 8 - newPosX;
-            newPosX = this.tabPlayer[0].newInventory.posOnArrayBag - newPosX;
-            this.tabPlayer[0].newInventory.posOnBag = newPosX - posXUntilEndLine;
-            this.tabPlayer[0].newInventory.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
-            
+        /*
+            Get the current line
+        */
+        let nbLine = Math.ceil(this.tabPlayer[0].newInventory.posOnArrayBag / 7);
+        
+        if(nbLine < Math.ceil(this.tabPlayer[0].newInventory.bag.length / 7)){
+           if(this.tabPlayer[0].newInventory.posOnArrayBag + 8 > this.tabPlayer[0].newInventory.bag.length - 1){
+                this.tabPlayer[0].newInventory.posOnArrayBag = this.tabPlayer[0].newInventory.bag.length - 1;
+                //508 is the last x position
+                let newPosX = (508 - this.tabPlayer[0].newInventory.xPosCursor) / 32;
+                let posXUntilEndLine = 8 - newPosX;
+                newPosX = this.tabPlayer[0].newInventory.posOnArrayBag - newPosX;
+                this.tabPlayer[0].newInventory.posOnBag = newPosX - posXUntilEndLine;
+                this.tabPlayer[0].newInventory.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
+
+            }
+            else{
+                this.tabPlayer[0].newInventory.posOnArrayBag += 8;
+                this.tabPlayer[0].newInventory.downOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
+            } 
         }
-        else{
-            this.tabPlayer[0].newInventory.posOnArrayBag += 8;
-            this.tabPlayer[0].newInventory.downOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
+
+    }
+    
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
+        /*
+            Get the current line
+        */
+        let nbLine = Math.ceil(this.tabPlayer[0].newInventory.posOnArrayBag / 7);
+        
+        if(nbLine > 0){
+           if(this.tabPlayer[0].newInventory.posOnArrayBag - 8 < 0){
+                this.tabPlayer[0].newInventory.posOnArrayBag = 0;
+            }
+            this.tabPlayer[0].newInventory.posOnArrayBag -= 8;
+            this.tabPlayer[0].newInventory.upOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
         }
+
     }
     
             
