@@ -21,6 +21,8 @@ class MapTest extends Phaser.Scene{
         
         this.load.image('axe', '../assets/items/weapons/axes/axe.png');
         this.load.image('chest', '../assets/items/chests/chest.png');
+        
+        this.load.image('inv', "../assets/UI/Inventory/BankStash.png");
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
         
@@ -32,6 +34,8 @@ class MapTest extends Phaser.Scene{
     }
     create ()
     {
+        //this.invWindow = new Inventory();
+
         this.listItems = this.cache.json.get('itemsOnMap');
         this.testMobs = this.cache.json.get('mobs');
         this.boolBattle = false;
@@ -118,7 +122,6 @@ class MapTest extends Phaser.Scene{
     }
 
     update (time, delta){
-
         this.player.body.setVelocity(0);
         
         /*Every seconds when buttons are push
@@ -128,6 +131,13 @@ class MapTest extends Phaser.Scene{
         rateMob+=0.1
         */
         if(Phaser.Input.Keyboard.JustDown(this.key)){
+            
+            if(!this.tabPlayer[0].newInventory.isOpen){
+                this.tabPlayer[0].newInventory.openInv(this);
+            }else{
+                this.tabPlayer[0].newInventory.closeInv();
+            }
+            console.log(this.tabPlayer[0].newInventory.isOpen);
             this.tabPlayer[0].openInv();
             
         }
