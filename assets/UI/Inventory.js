@@ -7,6 +7,7 @@ class Inventory {
         this.xPosCursor = 0;
         this.yPosCursor = 0;
         this.posOnBag = 0;
+        this.posOnArrayBag = 0;
         this.isOpen = false;
         this.bag = new Array();
         this.gold = 0;
