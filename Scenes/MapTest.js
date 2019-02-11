@@ -21,6 +21,10 @@ class MapTest extends Phaser.Scene{
         
         this.load.image('axe', '../assets/items/weapons/axes/axe.png');
         this.load.image('chest', '../assets/items/chests/chest.png');
+        this.load.image('sword', '../assets/items/weapons/swords/orcish_short_sword.png');
+        this.load.image('potion', '../assets/items/potions/ruby_old.png');
+        this.load.image('potion', '../assets/items/armors/chest/ring_mail_1_new.png');
+        
         
         this.load.image('inv', "../assets/UI/Inventory/BankStash.png");
         //  Input Events
