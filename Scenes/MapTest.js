@@ -268,7 +268,7 @@ class MapTest extends Phaser.Scene{
 */
 MapTest.prototype.checkCollideWithChests = function(test, item){
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 4));
+        let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 30));
         if(numItems > 0){
             for(var i = 0; i < numItems; i++){
                 let rndObject = Math.floor(Phaser.Math.FloatBetween(0, this.listItems.length));
@@ -324,7 +324,7 @@ MapTest.prototype.moveOnBag = function(){
             this.tabPlayer[0].newInventory.cursor.destroy();
             this.tabPlayer[0].newInventory.cursor = this.physics.add.image(this.tabPlayer[0].newInventory.xPosCursor, this.tabPlayer[0].newInventory.yPosCursor, 'cursor');
         }
-        
-        
+        this.tabPlayer[0].newInventory.posOnArrayBag += 1;
+        console.log(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag]);
     }
 }
