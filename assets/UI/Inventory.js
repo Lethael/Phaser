@@ -17,7 +17,8 @@ class Inventory {
 }
 
 Inventory.prototype.openInv = function(scene){
-    this.imgInv = scene.physics.add.image(400, 300, 'inv').setScale(0.5);
+    if(this.imgInv !== null)
+        this.imgInv = scene.physics.add.image(400, 300, 'inv').setScale(0.5);
     this.isOpen = true;
     if(this.bag.length > 0){
         let xPos = 288;
@@ -39,11 +40,30 @@ Inventory.prototype.openInv = function(scene){
                 
         }
     }
-    //this.moveOnBag(scene);
 }
 
+Inventory.prototype.refreshBag = function(scene){
+    
+    this.deleteAllSpriteOnInv();
+    this.openInv(scene);
+    this.xPosCursor = 284;
+    this.yPosCursor = 188;
+    this.posOnArrayBag = 0;
+    this.posOnBag = 0;
+    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
+}
+
+Inventory.prototype.deleteAllSpriteOnInv = function(){
+    for(let i = 0; i < this.imgItem.length; i++)
+        this.imgItem[i].destroy();
+    this.cursor.destroy();
+}
+
+
 Inventory.prototype.closeInv = function(){
+    this.cursor.destroy();
     this.imgInv.destroy();
+    this.imgInv = null;
     for(let i = 0; i < this.imgItem.length; i++)
         this.imgItem[i].destroy();
     this.isOpen = false;
@@ -68,14 +88,28 @@ Inventory.prototype.deleteItemOnBag = function(item){
     }
 }
 
-/*Inventory.prototype.moveOnBag = function(scene){
-    console.log(this.cursors);
-    let xPos = 288;
-    let yPos = 192;
-    //this.cursor = scene.physics.add.image(xPos, yPos, 'cursor');
-    if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-        xPos += 32;
-        console.log("je passe");
-    }
-    this.cursor = scene.physics.add.image(xPos, yPos, 'cursor');
-}*/
+/*
+    down cursor on the first item on the next line
+*/
+Inventory.prototype.downOneLine = function(scene){
+    this.xPosCursor = 284;
+    this.yPosCursor += 32;
+    this.posOnBag = 0;
+    this.cursor.destroy();
+    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
+}
+
+Inventory.prototype.upOneLine = function(scene){
+    this.xPosCursor = 508;
+    this.yPosCursor -= 32;
+    this.posOnBag = 7;
+    this.cursor.destroy();
+    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
+}
+
+Inventory.prototype.moveCursor = function(scene, column, posCursor){
+    this.cursor.destroy();
+    this.xPosCursor += column;
+    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
+    this.posOnBag += posCursor;
+}
