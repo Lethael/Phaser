@@ -91,10 +91,10 @@ Inventory.prototype.deleteItemOnBag = function(item){
 /*
     down cursor on the first item on the next line
 */
-Inventory.prototype.downOneLine = function(scene){
-    this.xPosCursor = 284;
+Inventory.prototype.downOneLine = function(scene, posCursor, x){
+    this.xPosCursor = x;
     this.yPosCursor += 32;
-    this.posOnBag = 0;
+    this.posOnBag = posCursor;
     this.cursor.destroy();
     this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
 }

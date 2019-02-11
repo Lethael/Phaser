@@ -310,34 +310,58 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
     Move cursor on bag
 */
 MapTest.prototype.moveOnBag = function(){
-/*    if(this.tabPlayer[0].newInventory.posOnArrayBag < this.tabPlayer[0].newInventory.bag.length - 1 && this.tabPlayer[0].newInventory.bag.length > 0){*/
         
-        if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[0].newInventory.posOnArrayBag < this.tabPlayer[0].newInventory.bag.length - 1){
-            let isDown = false;
-            if(this.tabPlayer[0].newInventory.posOnBag > 0 && this.tabPlayer[0].newInventory.posOnBag % 7 === 0){
-                this.tabPlayer[0].newInventory.downOneLine(this);
-                isDown = true;
-            }
-            if(!isDown){
-                this.tabPlayer[0].newInventory.moveCursor(this, 32, 1);
-            }
-            this.tabPlayer[0].newInventory.posOnArrayBag += 1;
-            console.log("posOnArrayBag : " + this.tabPlayer[0].newInventory.xPosCursor);
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[0].newInventory.posOnArrayBag < this.tabPlayer[0].newInventory.bag.length - 1){
+        let isDown = false;
+        if(this.tabPlayer[0].newInventory.posOnBag > 0 && this.tabPlayer[0].newInventory.posOnBag % 7 === 0){
+            this.tabPlayer[0].newInventory.downOneLine(this, 0, 284);
+            isDown = true;
         }
-        
-        if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
-            let isDown = false;
-            if(this.tabPlayer[0].newInventory.posOnBag === 0){
-                this.tabPlayer[0].newInventory.upOneLine(this);
-                isDown = true;
-            }
-            if(!isDown){
-                this.tabPlayer[0].newInventory.moveCursor(this, -32, -1);
-            }
-            this.tabPlayer[0].newInventory.posOnArrayBag -= 1;
+        if(!isDown){
+            this.tabPlayer[0].newInventory.moveCursor(this, 32, 1);
         }
+        this.tabPlayer[0].newInventory.posOnArrayBag += 1;
+        console.log("Pos On Array Bag right " + this.tabPlayer[0].newInventory.posOnArrayBag);
+    }
+
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
+        let isDown = false;
+        if(this.tabPlayer[0].newInventory.posOnBag === 0){
+            this.tabPlayer[0].newInventory.upOneLine(this);
+            isDown = true;
+        }
+        if(!isDown){
+            this.tabPlayer[0].newInventory.moveCursor(this, -32, -1);
+        }
+        this.tabPlayer[0].newInventory.posOnArrayBag -= 1;
+        console.log(this.tabPlayer[0].newInventory.posOnBag);
+    }
+    
+    /*
+        Check if cursors will go on item.
+        if not 
+            find the position of the last column item
+            cursor goes on it
+        else
+            cursor goes on the nextLine, at the sameColumn
+    */
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
+        if(this.tabPlayer[0].newInventory.posOnArrayBag + 8 > this.tabPlayer[0].newInventory.bag.length - 1){
+            this.tabPlayer[0].newInventory.posOnArrayBag = this.tabPlayer[0].newInventory.bag.length - 1;
+            let newPosX = (508 - this.tabPlayer[0].newInventory.xPosCursor) / 32;
+            let posXUntilEndLine = 8 - newPosX;
+            newPosX = this.tabPlayer[0].newInventory.posOnArrayBag - newPosX;
+            this.tabPlayer[0].newInventory.posOnBag = newPosX - posXUntilEndLine;
+            this.tabPlayer[0].newInventory.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
             
-    /*}*/
+        }
+        else{
+            this.tabPlayer[0].newInventory.posOnArrayBag += 8;
+            this.tabPlayer[0].newInventory.downOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
+        }
+    }
+    
+            
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
         if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'axe' || this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'sword'){
             this.tabPlayer[0].equipWeapon(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
