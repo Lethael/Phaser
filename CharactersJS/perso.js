@@ -30,7 +30,7 @@ class Personnage{
 			rightHand: undefined,
 			leftHand: undefined,
 			head: undefined,
-			chest: undefined,
+			armor: undefined,
             arms: undefined,
 			legs: undefined		
 		}
@@ -91,12 +91,12 @@ Personnage.prototype.equipWeapon = function(weapon){
 
 Personnage.prototype.equipArmor = function(armor){
     if(this.inventory.bag.length > 0){
-        if(this.equipments.chest === undefined){
-            this.equipments.chest = armor;
+        if(this.equipments.armor === undefined){
+            this.equipments.armor = armor;
         }else{
             this.attribute.armorClass -= this.equipments.armor.bonusCA;
-            this.newInventory.addToInv(this.equipments.chest, true);
-            this.equipments.chest = armor;
+            this.newInventory.addToInv(this.equipments.armor, true);
+            this.equipments.armor = armor;
         }
         this.attribute.armorClass += armor.bonusCA;
     }
