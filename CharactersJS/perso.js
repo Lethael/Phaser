@@ -114,6 +114,7 @@ Personnage.prototype.equipHelmet = function(helmet){
         }
         this.attribute.armorClass += helmet.bonusCA;
     }
+    this.newInventory.deleteItemOnBag(helmet);
 }
 
 Personnage.prototype.equipLegs = function(legs){
@@ -127,6 +128,7 @@ Personnage.prototype.equipLegs = function(legs){
         }
         this.attribute.armorClass += legs.bonusCA;
     }
+    this.newInventory.deleteItemOnBag(legs);
 }
 
 Personnage.prototype.equipArms = function(arms){
@@ -140,6 +142,7 @@ Personnage.prototype.equipArms = function(arms){
         }
         this.attribute.armorClass += arms.bonusCA;
     }
+    this.newInventory.deleteItemOnBag(arms);
 }
 
 Personnage.prototype.attackMonster = function(monster){
@@ -176,15 +179,6 @@ Personnage.prototype.waiting = function(){
     if(this.attribute.bonWait < 2){
         this.attribute.bonWait += 1;
     }
-}
-
-Personnage.prototype.openInv = function(){
-    if(this.inventory.bag.length){
-        for(var i = 0; i < this.inventory.bag.length; i++){
-            console.log(this.inventory.bag[i].name);
-        }
-    }
-    console.log(this.inventory.gold);
 }
 
 Personnage.prototype.usePotion = function(item){

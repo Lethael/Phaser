@@ -138,7 +138,6 @@ class MapTest extends Phaser.Scene{
                 this.tabPlayer[0].newInventory.closeInv();
             }
             console.log(this.tabPlayer[0].newInventory.isOpen);
-            this.tabPlayer[0].openInv();
             
         }
         
