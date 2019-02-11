@@ -27,6 +27,7 @@ class MapTest extends Phaser.Scene{
         
         
         this.load.image('inv', "../assets/UI/Inventory/BankStash.png");
+        this.load.image('cursor', '../assets/UI/Inventory/cursors/cursor.png')
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
         
