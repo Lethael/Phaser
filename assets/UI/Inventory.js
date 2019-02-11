@@ -18,8 +18,20 @@ Inventory.prototype.openInv = function(scene){
         let xPos = 288;
         let yPos = 192;
         for(let i = 0; i < this.bag.length; i++){
-            this.imgItem.push(scene.physics.add.image(xPos, yPos, 'axe'));
+            if(this.bag[i].type === 'sword')
+                this.imgItem.push(scene.physics.add.image(xPos, yPos, 'sword'));
+            else if(this.bag[i].type === 'axe')
+                this.imgItem.push(scene.physics.add.image(xPos, yPos, 'axe'));
+            else if(this.bag[i].type === 'armor')
+                this.imgItem.push(scene.physics.add.image(xPos, yPos, 'armor'));
+            else if(this.bag[i].type === 'consommable')
+                this.imgItem.push(scene.physics.add.image(xPos, yPos, 'potion'));
             xPos += 32;
+            if(i != 0 && i % 7 === 0){
+                yPos += 32;
+                xPos = 288;
+            }
+                
         }
     }
 }
