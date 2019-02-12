@@ -46,7 +46,7 @@ class MapTest extends Phaser.Scene{
         this.boolBattle = false;
         this.rndMob = 0;
         this.timeToRandomMob = 1000;
-        this.rateMob = 0;
+        this.rateMob = 90;
         
         if(this.tabPlayer === undefined){
             this.tabPlayer = new Array();
