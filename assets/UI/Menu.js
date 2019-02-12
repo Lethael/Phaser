@@ -68,34 +68,58 @@ Menu.prototype.openMenu = function(scene){
 }
 
 Menu.prototype.moveCursor = function(){
-    this.cursorMenu.y += 50;
-    this.posCursorOnMenu += 1;
+    if(!this.herosWindow.visible){
+        this.cursorMenu.y += 50;
+        this.posCursorOnMenu += 1;
+    }else{
+        this.cursorMenu.y += 20;
+        this.posCursorOnMenu += 1;
+        if(this.posCursorOnMenu >= this.arrayMenuString.length){
+            this.cursorMenu.y = 105 + 16;
+            this.posCursorOnMenu = 0;
+        }
+    }
+        
 }
 
 Menu.prototype.validateOnMenu = function(listHeros, scene){
     switch(this.posCursorOnMenu){
         case 0 :
-            this.openInventory(listHeros, scene);
+            this.openListHero(listHeros, scene);
             break;
         case 1 :
             console.log("Stats");
             break;
         case 2 :
-            console.log("I forget what is it...");
+            console.log('Do you really want to quit this extraordanary game? Oo');
             break;
     }
 }
 
-Menu.prototype.openInventory = function(listHeros, scene){
+Menu.prototype.openListHero = function(listHeros, scene){
     if(this.herosWindow.visible){
         this.herosWindow.setVisible(false);
     }else{
+        this.posCursorOnMenu = 0;
         this.herosWindow.setVisible(true);
         let yPosName = 110;
         for(let i = 0; i < listHeros.length; i++){
             this.arrayName[i] = scene.add.text(140, yPosName, listHeros[i].attribute.name).setColor('0x000000');
             yPosName += 20;
         }
-        //this.cursorMenu.rotation = 90;
+        this.cursorMenu.x += 200;
+        this.cursorMenu.setDepth(1);
     }
+}
+
+Menu.prototype.closeListHero = function(){
+    this.herosWindow.setVisible(false);
+    let sizeArrayName = this.arrayName.length
+    for(let i = 0; i < sizeArrayName; i++){
+            this.arrayName[i].destroy();
+    }
+}
+
+Menu.prototype.openInventory = function(hero, scene){
+    hero.newInventory.openInv(scene);
 }
