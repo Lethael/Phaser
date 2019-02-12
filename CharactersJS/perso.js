@@ -43,7 +43,6 @@ class Personnage{
 		this.attribute.maxLife = 6 + this.attribute.bonCons;
 		this.attribute.life = this.attribute.maxLife;
 		this.attribute.armorClass = 10 + this.attribute.bonCons;
-
 	}
 }
 
