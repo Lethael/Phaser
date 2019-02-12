@@ -41,7 +41,7 @@ class MapTest extends Phaser.Scene{
     create ()
     {
         //this.invWindow = new Inventory();
-
+        
         this.listItems = this.cache.json.get('itemsOnMap');
         this.testMobs = this.cache.json.get('mobs');
         this.boolBattle = false;
@@ -126,7 +126,7 @@ class MapTest extends Phaser.Scene{
         /*
             ###################### MENU WINDOW ######################
         */
-        this.cursorMenu = this.physics.add.image(120, 105 + 32, 'glove').setScale(0.5);
+        /*this.cursorMenu = this.physics.add.image(120, 105 + 32, 'glove').setScale(0.5);
         this.cursorMenu.setVisible(false);
         this.enumMenu = new Array();
         this.enumMenu.push('Inventory');
@@ -143,10 +143,12 @@ class MapTest extends Phaser.Scene{
             this.arrayMenuString[i] = this.add.text(10, yText, this.enumMenu[i]).setColor('0x000000');
             yText += 50;
             this.arrayMenuString[i].setVisible(false);
-        } 
+        } */
+        this.myNewBestMenu = new Menu(this);
         /*
             ###################### END MENU WINDOW ######################
         */
+        
         this.key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.escapeKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
@@ -169,26 +171,12 @@ class MapTest extends Phaser.Scene{
                 set to not visible menu and string  
         */
         if(Phaser.Input.Keyboard.JustDown(this.escapeKey) && !this.tabPlayer[0].newInventory.isOpen){
-            if(this.menuWindow.visible){
-                this.cursorMenu.y = 105 + 32;
-                this.cursorMenu.setVisible(false);
-                this.menuWindow.setVisible(false);
-                for(let i = 0; i < this.enumMenu.length; i++){
-                    this.arrayMenuString[i].setVisible(false);
-                } 
-                
-            }else{
-                this.cursorMenu.setVisible(true);
-                this.menuWindow.setVisible(true);
-                for(let i = 0; i < this.enumMenu.length; i++){
-                    this.arrayMenuString[i].setVisible(true);
-                } 
-                
-            }
+            this.myNewBestMenu.openMenu(this);
                 
         }
-        if(this.menuWindow.visible){
-            this.moveCursor();
+        if(this.myNewBestMenu.menuWindow.visible){
+            if(Phaser.Input.Keyboard.JustDown(this.cursors.down))
+                this.myNewBestMenu.moveCursor();
         }
         
         if(Phaser.Input.Keyboard.JustDown(this.keyI)){
@@ -210,7 +198,7 @@ class MapTest extends Phaser.Scene{
         else
         rateMob+=0.1
         */
-        if(!this.tabPlayer[0].newInventory.isOpen){
+        if(!this.tabPlayer[0].newInventory.isOpen && !this.myNewBestMenu.menuWindow.visible){
             if (this.cursors.left.isDown)
             {
                 this.moveXAndGenerateBattle('left', -80, delta);
@@ -448,9 +436,3 @@ MapTest.prototype.moveOnBag = function(){
 /*
     ########################### MOVE CURSOR ON MENU ###########################
 */
-MapTest.prototype.moveCursor = function(){
-    if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
-        let yCursor = this.cursorMenu.y;
-        this.cursorMenu.y += 50;
-    }
-}
