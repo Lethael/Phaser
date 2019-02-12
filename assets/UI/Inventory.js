@@ -107,13 +107,20 @@ Inventory.prototype.downOneLine = function(scene, posCursor, x){
     this.cursor.y += 32;
     this.posOnBag = posCursor;
 }
-
+/*
+    up cursor on the first item on the previews line or
+    on the item on the previews line
+*/
 Inventory.prototype.upOneLine = function(scene, posCursor, x){
     this.cursor.x = x;
     this.cursor.y -= 32;
     this.posOnBag = posCursor;
 }
 
+/*
+    posCursor can take 1 or -1
+    column can take 32 or -32
+*/
 Inventory.prototype.moveCursor = function(scene, column, posCursor){
     this.cursor.x += column;
     this.posOnBag += posCursor;
