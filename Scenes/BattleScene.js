@@ -14,9 +14,7 @@ class BattleScene extends Phaser.Scene{
         for(var i = 0; i < this.monsters.length; i++){
             let pngPath = this.monsters[i].img+'.png';
             this.load.image(this.monsters[i].name, 'assets/characters/'+pngPath);
-            console.log(pngPath);
         }
-		  //this.load.image(this.monsters[0].img, 'assets/characters/'+this.monsters[0].img+'.png');
 	}
 	
 	create(){
@@ -33,7 +31,6 @@ class BattleScene extends Phaser.Scene{
         
         //Init Mobs
         this.listMobs = new Array();
-        var rndMobs = Math.ceil(Phaser.Math.FloatBetween(0, 1));
         for(var i = 0; i < this.monsters.length; i++)
             this.listMobs.push(new Monsters(this.monsters[i].name, this.monsters[i].typeMonster, this.monsters[i].level, 1, 1, 0));
         
@@ -89,6 +86,9 @@ class BattleScene extends Phaser.Scene{
         this.graphicsItems = this.add.graphics({fillStyle: {color: 0xffffff}});
         this.listItems = new Array();
         
+        //Keys
+        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        
 	}
 	
 	update(time, delta){
@@ -108,15 +108,21 @@ class BattleScene extends Phaser.Scene{
                         if(this.herotest[i] === this.actorsList[this.indexArray])
                             this.createMenuBattle(i);
                 }
-                
-                if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
-                    //this.cursorsMenuAction.clear();
-                    this.moveActionCursor();
-                }else if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-                    this.selectAction();
-                }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-                    this.moveRectTarget();
+                if(!this.actorsList[this.indexArray].newInventory.isOpen){
+                    if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
+                        //this.cursorsMenuAction.clear();
+                        this.moveActionCursor();
+                    }else if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+                        this.selectAction();
+                    }else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
+                        this.moveRectTarget();
+                    }
+                }else{
+                    if(Phaser.Input.Keyboard.JustDown(this.escape)){
+                        this.actorsList[this.indexArray].newInventory.closeInv();
+                    }
                 }
+                    
             }
             if(this.timeUntilNextAction <= 0){
                 this.monsterTurn(this.actorsList[this.indexArray]);
@@ -124,7 +130,7 @@ class BattleScene extends Phaser.Scene{
                 this.timeUntilNextAction = 2000;
                 if(!this.herosAlive()){
                     console.log("All of your heros are dead...")
-                    this.scene.start('MapTest', {heros: this.herotest});
+                    this.scene.start('BattleScene', {heros: this.herotest});
                 }
             }
             
@@ -190,7 +196,7 @@ BattleScene.prototype.selectAction = function(){
                 this.destroyMobs();
                 this.targetMonster = 0;
                 if(this.listMobs.length === 0)
-                    this.scene.start('MapTest', {heros: this.herotest});
+                    this.scene.start('BattleScene', {heros: this.herotest});
             }
             this.inAction = false;
             this.destroyMenuBattle();
@@ -303,3 +309,105 @@ BattleScene.prototype.herosAlive = function(){
     }
     return false;
 }
+
+/*
+    ########################### MOVE CURSOR ON BAG ###########################
+*/
+BattleScene.prototype.moveOnBag = function(){
+        
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[0].newInventory.posOnArrayBag < this.tabPlayer[0].newInventory.bag.length - 1){
+        let isDown = false;
+        if(this.tabPlayer[0].newInventory.posOnBag > 0 && this.tabPlayer[0].newInventory.posOnBag % 7 === 0){
+            this.tabPlayer[0].newInventory.downOneLine(this, 0, 284);
+            isDown = true;
+        }
+        if(!isDown){
+            this.tabPlayer[0].newInventory.moveCursor(this, 32, 1);
+        }
+        this.tabPlayer[0].newInventory.posOnArrayBag += 1;
+    }
+
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
+        let isDown = false;
+        if(this.tabPlayer[0].newInventory.posOnArrayBag > 0){
+            if(this.tabPlayer[0].newInventory.posOnBag === 0){
+                this.tabPlayer[0].newInventory.upOneLine(this, 7, 508);
+                isDown = true;
+            }
+            if(!isDown){
+                this.tabPlayer[0].newInventory.moveCursor(this, -32, -1);
+            }
+            this.tabPlayer[0].newInventory.posOnArrayBag -= 1;
+        }
+            
+    }
+    
+    /*
+        Check if cursors will go on item.
+        if not 
+            find the position of the last column item
+            cursor goes on it
+        else
+            cursor goes on the nextLine, at the same column
+    */
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
+        /*
+            Get the current line
+        */
+        let nbLine = Math.ceil(this.tabPlayer[0].newInventory.posOnArrayBag / 8);
+        
+        if(nbLine < Math.ceil(this.tabPlayer[0].newInventory.bag.length / 7)){
+           if(this.tabPlayer[0].newInventory.posOnArrayBag + 8 > this.tabPlayer[0].newInventory.bag.length - 1){
+                this.tabPlayer[0].newInventory.posOnArrayBag = this.tabPlayer[0].newInventory.bag.length - 1;
+                //508 is the last x position
+                let newPosX = (508 - this.tabPlayer[0].newInventory.xPosCursor) / 32;
+                let posXUntilEndLine = 8 - newPosX;
+                newPosX = this.tabPlayer[0].newInventory.posOnArrayBag - newPosX;
+                this.tabPlayer[0].newInventory.posOnBag = newPosX - posXUntilEndLine;
+                this.tabPlayer[0].newInventory.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
+
+            }
+            else{
+                this.tabPlayer[0].newInventory.posOnArrayBag += 8;
+                this.tabPlayer[0].newInventory.downOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
+            } 
+        }
+
+    }
+    
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
+        /*
+            Get the current line
+        */
+        let nbLine = Math.floor(this.tabPlayer[0].newInventory.posOnArrayBag / 8);
+        
+        if(nbLine > 0){
+           if(this.tabPlayer[0].newInventory.posOnArrayBag - 8 < 0){
+                this.tabPlayer[0].newInventory.posOnArrayBag = 0;
+            }
+            this.tabPlayer[0].newInventory.posOnArrayBag -= 8;
+            this.tabPlayer[0].newInventory.upOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
+        }
+
+    }
+    
+            
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+        if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'axe' || this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'sword'){
+            this.tabPlayer[0].equipWeapon(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
+        }
+        else if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'armor'){
+            this.tabPlayer[0].equipArmor(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
+        }
+        else if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'consommable'){
+            if(this.tabPlayer[0].usePotion(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])){
+                this.tabPlayer[0].newInventory.deleteItemOnBag(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag]);
+            }
+        }
+        this.tabPlayer[0].newInventory.refreshBag(this);
+    }
+}
+
+/*
+    ########################### END MOVE CURSOR ON BAG ###########################
+*/
