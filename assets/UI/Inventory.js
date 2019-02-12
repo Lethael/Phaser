@@ -118,8 +118,8 @@ Inventory.prototype.upOneLine = function(scene, posCursor, x){
 }
 
 Inventory.prototype.moveCursor = function(scene, column, posCursor){
-    this.cursor.destroy();
     this.xPosCursor += column;
-    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
+    this.cursor.x = this.xPosCursor;
+    this.cursor.y = this.yPosCursor;
     this.posOnBag += posCursor;
 }
