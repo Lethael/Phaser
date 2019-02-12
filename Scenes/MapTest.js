@@ -356,7 +356,6 @@ MapTest.prototype.moveOnBag = function(){
     
             
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        this.tabPlayer[0].attribute.life -= 3;
         if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'axe' || this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'sword'){
             this.tabPlayer[0].equipWeapon(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
         }
