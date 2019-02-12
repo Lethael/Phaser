@@ -135,6 +135,12 @@ class MapTest extends Phaser.Scene{
         this.menuWindow.fillRect(0, 100, 100, 400);     
         this.menuWindow.setVisible(false);
         this.arrayMenuString = new Array();
+        let yText = 110;
+        for(let i = 0; i < this.enumMenu.length; i++){
+            this.arrayMenuString[i] = this.add.text(10, yText, this.enumMenu[i]).setColor('0x000000');
+            yText += 50;
+            this.arrayMenuString[i].setVisible(false);
+        } 
         /*
             ###################### END MENU WINDOW ######################
         */
@@ -152,20 +158,26 @@ class MapTest extends Phaser.Scene{
             this.boolBattle = true;   
         }
         
-        if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
+        /*
+            Open Menu
+            if Menu is not visible
+                set to visible menu and string menu
+            else
+                set to not visible menu and string  
+        */
+        if(Phaser.Input.Keyboard.JustDown(this.escapeKey) && !this.tabPlayer[0].newInventory.isOpen){
             if(this.menuWindow.visible){
                 this.menuWindow.setVisible(false);
                 for(let i = 0; i < this.enumMenu.length; i++){
-                    this.arrayMenuString[i].destroy();
+                    this.arrayMenuString[i].setVisible(false);
                 } 
                 
             }else{
                 this.menuWindow.setVisible(true);
-                let yText = 110;
                 for(let i = 0; i < this.enumMenu.length; i++){
-                    this.arrayMenuString[i] = this.add.text(10, yText, this.enumMenu[i]).setColor('0x000000');
-                    yText += 50;
+                    this.arrayMenuString[i].setVisible(true);
                 } 
+                
             }
                 
         }
