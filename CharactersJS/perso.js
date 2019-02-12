@@ -60,15 +60,17 @@ Personnage.prototype.calcBonus = function(value){
 }
 
 Personnage.prototype.addToInv = function(obj, changeEquipments){
+    let ckeckFullInv = false;
     if(obj.type !== "gold"){
         if(!changeEquipments){
-            this.newInventory.addToInv(obj, false);
+            checkFullInv = this.newInventory.addToInv(obj, false);
         }else{
             this.newInventory.addToInv(obj, true);
         }
     }else{
         this.newInventory.gold += obj.amount;
     }
+    return checkFullInv;
         
 	
 }

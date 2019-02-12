@@ -78,11 +78,15 @@ Inventory.prototype.closeInv = function(){
 
 Inventory.prototype.addToInv = function(obj, changeEquip){
     if(!changeEquip){
-        if(this.bag.length <= 10){
+        if(this.bag.length < 10){
               this.bag.push(obj);
+            return true;
+           }else{
+               return false;
            }   
     }else{
         this.bag.push(obj);
+        return true;
     }
 }
 
