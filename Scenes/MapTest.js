@@ -120,7 +120,26 @@ class MapTest extends Phaser.Scene{
             frames: [{key: 'heroTest', frame: 0}],
             frameRate: 10
         });
+        
+        
+        /*
+            ###################### MENU WINDOW ######################
+        */
+        this.enumMenu = new Array();
+        this.enumMenu.push('Inventory');
+        this.enumMenu.push('Stats');
+        this.enumMenu.push('Quit Game');
+
+        
+        this.menuWindow = this.add.graphics({fillStyle: {color: 0xfffffff}});
+        this.menuWindow.fillRect(0, 100, 100, 400);     
+        this.menuWindow.setVisible(false);
+        this.arrayMenuString = new Array();
+        /*
+            ###################### END MENU WINDOW ######################
+        */
         this.key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.escapeKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
         this.physics.add.collider(this.player, layer2);
@@ -131,6 +150,24 @@ class MapTest extends Phaser.Scene{
         this.player.body.setVelocity(0);
         if(Phaser.Input.Keyboard.JustDown(this.key)){
             this.boolBattle = true;   
+        }
+        
+        if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
+            if(this.menuWindow.visible){
+                this.menuWindow.setVisible(false);
+                for(let i = 0; i < this.enumMenu.length; i++){
+                    this.arrayMenuString[i].destroy();
+                } 
+                
+            }else{
+                this.menuWindow.setVisible(true);
+                let yText = 110;
+                for(let i = 0; i < this.enumMenu.length; i++){
+                    this.arrayMenuString[i] = this.add.text(10, yText, this.enumMenu[i]).setColor('0x000000');
+                    yText += 50;
+                } 
+            }
+                
         }
         
         if(Phaser.Input.Keyboard.JustDown(this.keyI)){
