@@ -342,7 +342,6 @@ MapTest.prototype.moveOnBag = function(){
             Get the current line
         */
         let nbLine = Math.floor(this.tabPlayer[0].newInventory.posOnArrayBag / 8);
-        console.log(nbLine);
         
         if(nbLine > 0){
            if(this.tabPlayer[0].newInventory.posOnArrayBag - 8 < 0){

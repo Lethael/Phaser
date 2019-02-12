@@ -80,7 +80,6 @@ Inventory.prototype.addToInv = function(obj, changeEquip){
     if(!changeEquip){
         if(this.bag.length <= 10){
               this.bag.push(obj);
-                console.log("J'ajoute : " + obj.name);
            }   
     }else{
         this.bag.push(obj);
