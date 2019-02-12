@@ -126,24 +126,6 @@ class MapTest extends Phaser.Scene{
         /*
             ###################### MENU WINDOW ######################
         */
-        /*this.cursorMenu = this.physics.add.image(120, 105 + 32, 'glove').setScale(0.5);
-        this.cursorMenu.setVisible(false);
-        this.enumMenu = new Array();
-        this.enumMenu.push('Inventory');
-        this.enumMenu.push('Stats');
-        this.enumMenu.push('Quit Game');
-
-        
-        this.menuWindow = this.add.graphics({fillStyle: {color: 0xfffffff}});
-        this.menuWindow.fillRect(0, 100, 100, 400);     
-        this.menuWindow.setVisible(false);
-        this.arrayMenuString = new Array();
-        let yText = 110;
-        for(let i = 0; i < this.enumMenu.length; i++){
-            this.arrayMenuString[i] = this.add.text(10, yText, this.enumMenu[i]).setColor('0x000000');
-            yText += 50;
-            this.arrayMenuString[i].setVisible(false);
-        } */
         this.myNewBestMenu = new Menu(this);
         /*
             ###################### END MENU WINDOW ######################
@@ -170,11 +152,14 @@ class MapTest extends Phaser.Scene{
             else
                 set to not visible menu and string  
         */
-        if(Phaser.Input.Keyboard.JustDown(this.escapeKey) && !this.tabPlayer[0].newInventory.isOpen){
-            this.myNewBestMenu.openMenu(this);
-                
+        if(!Inventory.isOpen && !this.myNewBestMenu.herosWindow.visible){
+            if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
+                this.myNewBestMenu.openMenu(this);
+
+            }
         }
-        if(this.myNewBestMenu.menuWindow.visible){
+            
+        if(this.myNewBestMenu.menuWindow.visible && !this.myNewBestMenu.herosWindow.visible){
             if(Phaser.Input.Keyboard.JustDown(this.cursors.down))
                 this.myNewBestMenu.moveCursor();
             if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
@@ -182,17 +167,28 @@ class MapTest extends Phaser.Scene{
             }
         }
         
-        if(Phaser.Input.Keyboard.JustDown(this.keyI)){
-            
-            if(!this.tabPlayer[0].newInventory.isOpen){
-                this.tabPlayer[0].newInventory.openInv(this);
-            }else{
-                this.tabPlayer[0].newInventory.closeInv();
+        if(this.myNewBestMenu.herosWindow.visible && !Inventory.isOpen){
+            if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+                this.myNewBestMenu.openInventory(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu], this);
             }
-            
+            if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
+                this.myNewBestMenu.moveCursor();
+            }
         }
-        if(this.tabPlayer[0].newInventory.isOpen){
+            
+
+        if(Inventory.isOpen){
             this.moveOnBag();
+            if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.closeInv();
+            }
+        }
+        if(!Inventory.isOpen && this.myNewBestMenu.herosWindow.visible && this.myNewBestMenu.menuWindow.visible){
+            console.log("isOpen == false && heroWindow == true")
+           if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
+                this.myNewBestMenu.closeListHero();
+               console.log("close dude?");
+            } 
         }
         
         /*Every seconds when movment key is push
@@ -201,7 +197,7 @@ class MapTest extends Phaser.Scene{
         else
         rateMob+=0.1
         */
-        if(!this.tabPlayer[0].newInventory.isOpen && !this.myNewBestMenu.menuWindow.visible){
+        if(!Inventory.isOpen && !this.myNewBestMenu.menuWindow.visible){
             if (this.cursors.left.isDown)
             {
                 this.moveXAndGenerateBattle('left', -80, delta);
@@ -256,21 +252,21 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                     if(this.listItems[rndObject].type === "sword" || this.listItems[rndObject].type === "axe"){
                         let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
                         let newItem = new Weapon(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size, durability);
-                        let tryAddToInv = this.tabPlayer[0].addToInv(newItem, false);
+                        let tryAddToInv = this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].addToInv(newItem, false);
                         if(!tryAddToInv){
                             console.log('test to add item to : ' + tryAddToInv);
                             this.tabPlayer[1].addToInv(newItem, false);
                         }
                     }else if(this.listItems[rndObject].type === "consommable"){
                         let newItem = new Consommable(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].gainValue, this.listItems[rndObject].price);
-                        if(!this.tabPlayer[0].addToInv(newItem, false)){
+                        if(!this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].addToInv(newItem, false)){
                             console.log('test to add item to : ' + this.tabPlayer[1].attribute.name);
                             this.tabPlayer[1].addToInv(newItem, false);
                         }
                     }else if(this.listItems[rndObject].type === "Armor"){
                         let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
                         let newItem = new Armor(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].wear, this.listItems[rndObject].bonusCA, this.listItems[rndObject].price, durability);
-                        if(!this.tabPlayer[0].addToInv(newItem, false)){
+                        if(!this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].addToInv(newItem, false)){
                             console.log('test to add item to : ' + this.tabPlayer[1].attribute.name);
                             this.tabPlayer[1].addToInv(newItem, false);
                         }         
@@ -286,7 +282,7 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                 type: "gold",
                 amount: Math.ceil(Phaser.Math.FloatBetween(0, 20))
             };
-            this.tabPlayer[0].addToInv(gold, false);
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].addToInv(gold, false);
         }
         item.destroy();
         
@@ -338,30 +334,30 @@ MapTest.prototype.moveYAndGenerateBattle = function(direction, vel, delta){
     ########################### MOVE CURSOR ON BAG ###########################
 */
 MapTest.prototype.moveOnBag = function(){
-        
-    if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[0].newInventory.posOnArrayBag < this.tabPlayer[0].newInventory.bag.length - 1){
+    console.log("Move on bag MF");
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag < this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length - 1){
         let isDown = false;
-        if(this.tabPlayer[0].newInventory.posOnBag > 0 && this.tabPlayer[0].newInventory.posOnBag % 7 === 0){
-            this.tabPlayer[0].newInventory.downOneLine(this, 0, 284);
+        if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag > 0 && this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag % 7 === 0){
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.downOneLine(this, 0, 284);
             isDown = true;
         }
         if(!isDown){
-            this.tabPlayer[0].newInventory.moveCursor(this, 32, 1);
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.moveCursor(this, 32, 1);
         }
-        this.tabPlayer[0].newInventory.posOnArrayBag += 1;
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag += 1;
     }
 
     if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
         let isDown = false;
-        if(this.tabPlayer[0].newInventory.posOnArrayBag > 0){
-            if(this.tabPlayer[0].newInventory.posOnBag === 0){
-                this.tabPlayer[0].newInventory.upOneLine(this, 7, 508);
+        if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag > 0){
+            if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag === 0){
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.upOneLine(this, 7, 508);
                 isDown = true;
             }
             if(!isDown){
-                this.tabPlayer[0].newInventory.moveCursor(this, -32, -1);
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.moveCursor(this, -32, -1);
             }
-            this.tabPlayer[0].newInventory.posOnArrayBag -= 1;
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag -= 1;
         }
             
     }
@@ -378,22 +374,22 @@ MapTest.prototype.moveOnBag = function(){
         /*
             Get the current line
         */
-        let nbLine = Math.ceil(this.tabPlayer[0].newInventory.posOnArrayBag / 8);
+        let nbLine = Math.ceil(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag / 8);
         
-        if(nbLine < Math.ceil(this.tabPlayer[0].newInventory.bag.length / 7)){
-           if(this.tabPlayer[0].newInventory.posOnArrayBag + 8 > this.tabPlayer[0].newInventory.bag.length - 1){
-                this.tabPlayer[0].newInventory.posOnArrayBag = this.tabPlayer[0].newInventory.bag.length - 1;
+        if(nbLine < Math.ceil(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length / 7)){
+           if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag + 8 > this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length - 1){
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag = this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length - 1;
                 //508 is the last x position
-                let newPosX = (508 - this.tabPlayer[0].newInventory.xPosCursor) / 32;
+                let newPosX = (508 - this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.xPosCursor) / 32;
                 let posXUntilEndLine = 8 - newPosX;
-                newPosX = this.tabPlayer[0].newInventory.posOnArrayBag - newPosX;
-                this.tabPlayer[0].newInventory.posOnBag = newPosX - posXUntilEndLine;
-                this.tabPlayer[0].newInventory.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
+                newPosX = this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag - newPosX;
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag = newPosX - posXUntilEndLine;
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
 
             }
             else{
-                this.tabPlayer[0].newInventory.posOnArrayBag += 8;
-                this.tabPlayer[0].newInventory.downOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag += 8;
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.downOneLine(this, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.xPosCursor);
             } 
         }
 
@@ -403,32 +399,32 @@ MapTest.prototype.moveOnBag = function(){
         /*
             Get the current line
         */
-        let nbLine = Math.floor(this.tabPlayer[0].newInventory.posOnArrayBag / 8);
+        let nbLine = Math.floor(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag / 8);
         
         if(nbLine > 0){
-           if(this.tabPlayer[0].newInventory.posOnArrayBag - 8 < 0){
-                this.tabPlayer[0].newInventory.posOnArrayBag = 0;
+           if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag - 8 < 0){
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag = 0;
             }
-            this.tabPlayer[0].newInventory.posOnArrayBag -= 8;
-            this.tabPlayer[0].newInventory.upOneLine(this, this.tabPlayer[0].newInventory.posOnBag, this.tabPlayer[0].newInventory.xPosCursor);
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag -= 8;
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.upOneLine(this, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.xPosCursor);
         }
 
     }
     
             
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'axe' || this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'sword'){
-            this.tabPlayer[0].equipWeapon(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
+        if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'axe' || this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'sword'){
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].equipWeapon(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag])
         }
-        else if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'armor'){
-            this.tabPlayer[0].equipArmor(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])
+        else if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'armor'){
+            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].equipArmor(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag])
         }
-        else if(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag].type === 'consommable'){
-            if(this.tabPlayer[0].usePotion(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag])){
-                this.tabPlayer[0].newInventory.deleteItemOnBag(this.tabPlayer[0].newInventory.bag[this.tabPlayer[0].newInventory.posOnArrayBag]);
+        else if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'consommable'){
+            if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].usePotion(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag])){
+                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.deleteItemOnBag(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag]);
             }
         }
-        this.tabPlayer[0].newInventory.refreshBag(this);
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.refreshBag(this);
     }
 }
 

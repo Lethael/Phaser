@@ -8,18 +8,17 @@ class Inventory {
         this.yPosCursor = 0;
         this.posOnBag = 0;
         this.posOnArrayBag = 0;
-        this.isOpen = false;
+        //Inventory.isOpen = false;
         this.bag = new Array();
         this.gold = 0;
-    }
-    
-    
+    }  
 }
+Inventory.isOpen = false; 
 
 Inventory.prototype.openInv = function(scene){
     if(this.imgInv === undefined)
         this.imgInv = scene.physics.add.image(400, 300, 'inv').setScale(0.5);
-    this.isOpen = true;
+    Inventory.isOpen = true;
     this.xPosCursor = 284;
     this.yPosCursor = 188;
     if(this.bag.length > 0){
@@ -69,7 +68,7 @@ Inventory.prototype.closeInv = function(){
     this.imgInv = undefined;
     for(let i = 0; i < this.imgItem.length; i++)
         this.imgItem[i].destroy();
-    this.isOpen = false;
+    Inventory.isOpen = false;
     this.xPosCursor = 284;
     this.yPosCursor = 188;
     this.posOnArrayBag = 0;
