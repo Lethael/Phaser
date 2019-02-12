@@ -33,7 +33,7 @@ class BattleScene extends Phaser.Scene{
         
         //Init Mobs
         this.listMobs = new Array();
-        var rndMobs = Math.floor(Phaser.Math.FloatBetween(1, 5));
+        var rndMobs = Math.ceil(Phaser.Math.FloatBetween(0, 1));
         for(var i = 0; i < this.monsters.length; i++)
             this.listMobs.push(new Monsters(this.monsters[i].name, this.monsters[i].typeMonster, this.monsters[i].level, 1, 1, 0));
         
@@ -41,11 +41,16 @@ class BattleScene extends Phaser.Scene{
         this.posXMonster = 800 / this.listMobs.length - 40;
         this.posYMonster = 150;
 		this.add.image(0, 0, 'background').setOrigin(0, 0).setInteractive();
-        for(var i = 0; i < this.listMobs.length; i++){
-            this.listImg[i] = this.add.image(this.posXMonster, this.posYMonster, this.monsters[i].name);   
-            this.posXMonster += 800 / this.listMobs.length - 40;
+        if(this.listMobs.length > 1){
+            for(var i = 0; i < this.listMobs.length; i++){
+                this.listImg[i] = this.add.image(this.posXMonster, this.posYMonster, this.monsters[i].name);   
+                this.posXMonster += 800 / this.listMobs.length - 40;
+            }
+            this.posXMonster = 800 / this.listMobs.length - 40;
+        }else{
+            this.listImg[0] = this.add.image(800/2 - 80, this.posYMonster, this.monsters[0].name);
         }
-        this.posXMonster = 800 / this.listMobs.length - 40;
+            
         
         //end Init Mobs
         
@@ -205,8 +210,8 @@ BattleScene.prototype.selectAction = function(){
             case 3:
             if(this.damageText != undefined)
                     this.damageText.destroy();
-            
-            this.openInv();
+            this.actorsList[this.indexArray].newInventory.openInv(this);
+            //this.openInv();
                 //this.damageText = this.add.text(395, 40, "Not implemented yet...", {fontSize: '20px', fill: '#FFF'});
         break;
             case 4:
