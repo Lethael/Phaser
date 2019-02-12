@@ -27,7 +27,8 @@ class MapTest extends Phaser.Scene{
         
         
         this.load.image('inv', "../assets/UI/Inventory/BankStash.png");
-        this.load.image('cursor', '../assets/UI/Inventory/cursors/cursor.png')
+        this.load.image('cursor', '../assets/UI/Inventory/cursors/cursor.png');
+        this.load.image('glove', '../assets/UI/Inventory/cursors/glove3.png');
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
         
@@ -125,6 +126,8 @@ class MapTest extends Phaser.Scene{
         /*
             ###################### MENU WINDOW ######################
         */
+        this.cursorMenu = this.physics.add.image(120, 105 + 32, 'glove').setScale(0.5);
+        this.cursorMenu.setVisible(false);
         this.enumMenu = new Array();
         this.enumMenu.push('Inventory');
         this.enumMenu.push('Stats');
@@ -167,12 +170,15 @@ class MapTest extends Phaser.Scene{
         */
         if(Phaser.Input.Keyboard.JustDown(this.escapeKey) && !this.tabPlayer[0].newInventory.isOpen){
             if(this.menuWindow.visible){
+                this.cursorMenu.y = 105 + 32;
+                this.cursorMenu.setVisible(false);
                 this.menuWindow.setVisible(false);
                 for(let i = 0; i < this.enumMenu.length; i++){
                     this.arrayMenuString[i].setVisible(false);
                 } 
                 
             }else{
+                this.cursorMenu.setVisible(true);
                 this.menuWindow.setVisible(true);
                 for(let i = 0; i < this.enumMenu.length; i++){
                     this.arrayMenuString[i].setVisible(true);
@@ -180,6 +186,9 @@ class MapTest extends Phaser.Scene{
                 
             }
                 
+        }
+        if(this.menuWindow.visible){
+            this.moveCursor();
         }
         
         if(Phaser.Input.Keyboard.JustDown(this.keyI)){
@@ -435,3 +444,13 @@ MapTest.prototype.moveOnBag = function(){
 /*
     ########################### END MOVE CURSOR ON BAG ###########################
 */
+
+/*
+    ########################### MOVE CURSOR ON MENU ###########################
+*/
+MapTest.prototype.moveCursor = function(){
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
+        let yCursor = this.cursorMenu.y;
+        this.cursorMenu.y += 50;
+    }
+}
