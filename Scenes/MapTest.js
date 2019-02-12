@@ -129,6 +129,9 @@ class MapTest extends Phaser.Scene{
 
     update (time, delta){
         this.player.body.setVelocity(0);
+        if(Phaser.Input.Keyboard.JustDown(this.key)){
+            this.boolBattle = true;   
+        }
         
         if(Phaser.Input.Keyboard.JustDown(this.keyI)){
             
@@ -204,14 +207,24 @@ MapTest.prototype.checkCollideWithChests = function(test, item){
                     if(this.listItems[rndObject].type === "sword" || this.listItems[rndObject].type === "axe"){
                         let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
                         let newItem = new Weapon(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].diceDamage, this.listItems[rndObject].bonusDamage, this.listItems[rndObject].size, durability);
-                        this.tabPlayer[0].addToInv(newItem, false);
+                        let tryAddToInv = this.tabPlayer[0].addToInv(newItem, false);
+                        if(!tryAddToInv){
+                            console.log('test to add item to : ' + tryAddToInv);
+                            this.tabPlayer[1].addToInv(newItem, false);
+                        }
                     }else if(this.listItems[rndObject].type === "consommable"){
                         let newItem = new Consommable(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].gainValue, this.listItems[rndObject].price);
-                        this.tabPlayer[0].addToInv(newItem, false);
+                        if(!this.tabPlayer[0].addToInv(newItem, false)){
+                            console.log('test to add item to : ' + this.tabPlayer[1].attribute.name);
+                            this.tabPlayer[1].addToInv(newItem, false);
+                        }
                     }else if(this.listItems[rndObject].type === "Armor"){
                         let durability = Math.ceil(Phaser.Math.FloatBetween(0, 100));
                         let newItem = new Armor(this.listItems[rndObject].type, this.listItems[rndObject].name, this.listItems[rndObject].description, this.listItems[rndObject].wear, this.listItems[rndObject].bonusCA, this.listItems[rndObject].price, durability);
-                        this.tabPlayer[0].addToInv(newItem, false);         
+                        if(!this.tabPlayer[0].addToInv(newItem, false)){
+                            console.log('test to add item to : ' + this.tabPlayer[1].attribute.name);
+                            this.tabPlayer[1].addToInv(newItem, false);
+                        }         
                     }
                 }
             }
