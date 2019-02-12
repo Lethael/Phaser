@@ -177,6 +177,9 @@ class MapTest extends Phaser.Scene{
         if(this.myNewBestMenu.menuWindow.visible){
             if(Phaser.Input.Keyboard.JustDown(this.cursors.down))
                 this.myNewBestMenu.moveCursor();
+            if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+                this.myNewBestMenu.validateOnMenu();
+            }
         }
         
         if(Phaser.Input.Keyboard.JustDown(this.keyI)){
