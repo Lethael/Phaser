@@ -99,27 +99,22 @@ Inventory.prototype.deleteItemOnBag = function(item){
 }
 
 /*
-    down cursor on the first item on the next line
+    down cursor on the first item on the next line or
+    on the item on the next line
 */
 Inventory.prototype.downOneLine = function(scene, posCursor, x){
-    this.xPosCursor = x;
-    this.yPosCursor += 32;
+    this.cursor.x = x;
+    this.cursor.y += 32;
     this.posOnBag = posCursor;
-    this.cursor.destroy();
-    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
 }
 
 Inventory.prototype.upOneLine = function(scene, posCursor, x){
-    this.xPosCursor = x;
-    this.yPosCursor -= 32;
+    this.cursor.x = x;
+    this.cursor.y -= 32;
     this.posOnBag = posCursor;
-    this.cursor.destroy();
-    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
 }
 
 Inventory.prototype.moveCursor = function(scene, column, posCursor){
-    this.xPosCursor += column;
-    this.cursor.x = this.xPosCursor;
-    this.cursor.y = this.yPosCursor;
+    this.cursor.x += column;
     this.posOnBag += posCursor;
 }
