@@ -13,6 +13,7 @@ class MapTest extends Phaser.Scene{
 
     preload ()
     {
+        this.load.bitmapFont('myfont', '../assets/UI/fonts/font/font.png', '../assets/UI/fonts/font/font.fnt');
         //Load tile set
 		this.load.spritesheet('heroTest', '../assets/characters/char.png', { frameWidth: 32, frameHeight: 48 });
         
@@ -39,9 +40,7 @@ class MapTest extends Phaser.Scene{
         this.player;
     }
     create ()
-    {
-        //this.invWindow = new Inventory();
-        
+    {        
         this.listItems = this.cache.json.get('itemsOnMap');
         this.testMobs = this.cache.json.get('mobs');
         this.boolBattle = false;
@@ -137,6 +136,7 @@ class MapTest extends Phaser.Scene{
 
         this.physics.add.collider(this.player, layer2);
         this.physics.add.collider(this.player, this.items, this.checkCollideWithChests, false, this);
+        
     }
 
     update (time, delta){
