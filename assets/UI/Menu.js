@@ -69,16 +69,38 @@ Menu.prototype.openMenu = function(scene){
     }
 }
 
-Menu.prototype.moveCursor = function(){
+/*
+    2 values on y and pos
+    when down/up is pushed on menuWindow
+        y = 50/-50
+        pos = 1/-1
+    when down/up is pushed on heroWindow
+        y = 20/-20
+        pos = 1/-1
+*/
+Menu.prototype.moveCursor = function(y, pos){
+    // On menuWindow
     if(!this.herosWindow.visible){
-        this.cursorMenu.y += 50;
-        this.posCursorOnMenu += 1;
-    }else{
-        this.cursorMenu.y += 20;
-        this.posCursorOnMenu += 1;
+        this.cursorMenu.y += y;
+        this.posCursorOnMenu += pos;
         if(this.posCursorOnMenu >= this.arrayMenuString.length){
             this.cursorMenu.y = 105 + 16;
             this.posCursorOnMenu = 0;
+        }else if(this.posCursorOnMenu < 0){
+            this.cursorMenu.y = this.cursorMenu.y + 50 * this.arrayMenuString.length;
+            this.posCursorOnMenu = this.arrayMenuString.length - 1;
+            
+        }
+    // On heroWindow
+    }else{
+        this.cursorMenu.y += y;
+        this.posCursorOnMenu += pos;
+        if(this.posCursorOnMenu >= this.arrayName.length){
+            this.cursorMenu.y = 105 + 16;
+            this.posCursorOnMenu = 0;
+        }else if(this.posCursorOnMenu < 0){
+            this.cursorMenu.y = this.cursorMenu.y + 20 * this.arrayName.length;
+            this.posCursorOnMenu = this.arrayName.length - 1;
         }
     }
         
@@ -109,7 +131,7 @@ Menu.prototype.openListHero = function(listHeros, scene){
             this.arrayName[i] = this.message.setText(scene, 140, yPosName, listHeros[i].attribute.name);
             yPosName += 20;
         }
-        this.cursorMenu.x += 200;
+        this.cursorMenu.x += 150;
         this.cursorMenu.setDepth(1);
     }
 }
