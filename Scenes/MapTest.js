@@ -145,25 +145,15 @@ class MapTest extends Phaser.Scene{
     update (time, delta){
 
         this.player.body.setVelocity(0);
-        if(Phaser.Input.Keyboard.JustDown(this.key)){
-            this.boolBattle = true;   
-        }
         
-        /*
-            Open Menu
-            if Menu is not visible
-                set to visible menu and string menu
-            else
-                set to not visible menu and string  
-        */
-        if(!Inventory.isOpen && !this.myNewBestMenu.herosWindow.visible){
+        if(Menu.menuSelect !== Menu.listMenu.INV && Menu.menuSelect !== Menu.listMenu.STATS){
             if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
                 this.myNewBestMenu.openMenu(this);
 
             }
         }
-            
-        if(this.myNewBestMenu.menuWindow.visible && !this.myNewBestMenu.herosWindow.visible){
+        
+        if(Menu.menuSelect === Menu.listMenu.MAIN){
             if(Phaser.Input.Keyboard.JustDown(this.cursors.down))
                 this.myNewBestMenu.moveCursor(50, 1);
             if(Phaser.Input.Keyboard.JustDown(this.cursors.up))
@@ -173,32 +163,48 @@ class MapTest extends Phaser.Scene{
             }
         }
         
-        if(this.myNewBestMenu.herosWindow.visible && !Inventory.isOpen){
-            if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-                this.myNewBestMenu.openInventory(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu], this);
+        /*
+            Behaviour if Inventory menu or Stats menu
+        */
+        if((Menu.menuSelect === Menu.listMenu.INV || Menu.menuSelect === Menu.listMenu.STATS) && !Inventory.isOpen){
+            if(Menu.menuSelect === Menu.listMenu.INV){
+                if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+                    this.myNewBestMenu.openInventory(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu], this);
+                }
+            }else if(Menu.menuSelect === Menu.listMenu.STATS){
+                if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
+                    console.log("Coucou les stats !");
+                }
             }
+                
             if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
                 this.myNewBestMenu.moveCursor(20, 1);
             }
             if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
                 this.myNewBestMenu.moveCursor(-20, -1);
             }
-        }
             
-
+        }
+        
+        /*
+            Behaviour from Inventory
+        */
         if(Inventory.isOpen){
             this.moveOnBag();
             if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
                 this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.closeInv();
             }
         }
-        if(!Inventory.isOpen && this.myNewBestMenu.herosWindow.visible && this.myNewBestMenu.menuWindow.visible){
-            console.log("isOpen == false && heroWindow == true")
+        if(!Inventory.isOpen && (Menu.menuSelect === Menu.listMenu.INV || Menu.menuSelect === Menu.listMenu.STATS)){
            if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
                 this.myNewBestMenu.closeListHero();
-               console.log("close dude?");
             } 
         }
+
+        
+        /*if(Phaser.Input.Keyboard.JustDown(this.key)){
+            this.boolBattle = true;   
+        }*/
         
         /*Every seconds when movment key is push
         generate random number 0.1 -> 100
@@ -421,7 +427,7 @@ MapTest.prototype.moveOnBag = function(){
     
             
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].selectItem(this);
+    this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].selectItem(this);
     } 
 }
 
