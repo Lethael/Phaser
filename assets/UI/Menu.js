@@ -125,7 +125,7 @@ Menu.prototype.closeListHero = function(){
 Menu.prototype.openInventory = function(hero, scene){
     // To hide cursor behind inventory
     this.cursorMenu.setDepth(0);
-    hero.newInventory.openInv(scene);
+    hero.newInventory.openInv(scene, this.message);
 }
 
 
