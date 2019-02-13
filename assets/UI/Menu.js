@@ -1,6 +1,8 @@
 class Menu{
     constructor(scene){
         scene.load.image('glove', '../assets/UI/Inventory/cursors/glove3.png');
+        this.message = new Text(scene);
+        
         this.cursorMenu = scene.physics.add.image(120, 105 + 16, 'glove').setScale(0.5);
         this.cursorMenu.rotation = -45;
         this.cursorMenu.setVisible(false);
@@ -20,8 +22,10 @@ class Menu{
         this.arrayMenuString = new Array();
         let yText = 110;
         for(let i = 0; i < this.enumMenu.length; i++){
-            this.arrayMenuString[i] = scene.add.text(10, yText, this.enumMenu[i]).setColor('0x000000');
+            let text;
+            text = this.message.setText(scene, 10, yText, this.enumMenu[i]);
             yText += 50;
+            this.arrayMenuString.push(text);
             this.arrayMenuString[i].setVisible(false);
         }
         
@@ -104,7 +108,7 @@ Menu.prototype.openListHero = function(listHeros, scene){
         this.herosWindow.setVisible(true);
         let yPosName = 110;
         for(let i = 0; i < listHeros.length; i++){
-            this.arrayName[i] = scene.add.text(140, yPosName, listHeros[i].attribute.name).setColor('0x000000');
+            this.arrayName[i] = this.message.setText(scene, 140, yPosName, listHeros[i].attribute.name);
             yPosName += 20;
         }
         this.cursorMenu.x += 200;
