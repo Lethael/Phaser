@@ -13,6 +13,7 @@ class MapTest extends Phaser.Scene{
 
     preload ()
     {
+        this.load.image('dialogBox', '../assets/UI/Messages/Message_01.png');
         this.load.bitmapFont('myfont', '../assets/UI/fonts/font/font.png', '../assets/UI/fonts/font/font.fnt');
         //Load tile set
 		this.load.spritesheet('heroTest', '../assets/characters/char.png', { frameWidth: 32, frameHeight: 48 });
@@ -138,9 +139,11 @@ class MapTest extends Phaser.Scene{
         this.physics.add.collider(this.player, layer2);
         this.physics.add.collider(this.player, this.items, this.checkCollideWithChests, false, this);
         
+        this.physics.add.image(305, 420, 'dialogBox').setScale(2, 1.5);
     }
 
     update (time, delta){
+
         this.player.body.setVelocity(0);
         if(Phaser.Input.Keyboard.JustDown(this.key)){
             this.boolBattle = true;   
@@ -162,7 +165,9 @@ class MapTest extends Phaser.Scene{
             
         if(this.myNewBestMenu.menuWindow.visible && !this.myNewBestMenu.herosWindow.visible){
             if(Phaser.Input.Keyboard.JustDown(this.cursors.down))
-                this.myNewBestMenu.moveCursor();
+                this.myNewBestMenu.moveCursor(50, 1);
+            if(Phaser.Input.Keyboard.JustDown(this.cursors.up))
+                this.myNewBestMenu.moveCursor(-50, -1);
             if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
                 this.myNewBestMenu.validateOnMenu(this.tabPlayer, this);
             }
@@ -173,7 +178,10 @@ class MapTest extends Phaser.Scene{
                 this.myNewBestMenu.openInventory(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu], this);
             }
             if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
-                this.myNewBestMenu.moveCursor();
+                this.myNewBestMenu.moveCursor(20, 1);
+            }
+            if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
+                this.myNewBestMenu.moveCursor(-20, -1);
             }
         }
             
