@@ -334,7 +334,6 @@ MapTest.prototype.moveYAndGenerateBattle = function(direction, vel, delta){
     ########################### MOVE CURSOR ON BAG ###########################
 */
 MapTest.prototype.moveOnBag = function(){
-    console.log("Move on bag MF");
     if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag < this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length - 1){
         let isDown = false;
         if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag > 0 && this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag % 7 === 0){
@@ -430,8 +429,4 @@ MapTest.prototype.moveOnBag = function(){
 
 /*
     ########################### END MOVE CURSOR ON BAG ###########################
-*/
-
-/*
-    ########################### MOVE CURSOR ON MENU ###########################
 */
