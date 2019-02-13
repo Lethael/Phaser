@@ -3,7 +3,7 @@ class Menu{
         scene.load.image('glove', '../assets/UI/Inventory/cursors/glove3.png');
         this.message = new Text(scene);
         
-        this.cursorMenu = scene.physics.add.image(120, 105 + 16, 'glove').setScale(0.5);
+        this.cursorMenu = scene.physics.add.image(150, 105 + 16, 'glove').setScale(0.5);
         this.cursorMenu.rotation = -45;
         this.cursorMenu.setVisible(false);
         
@@ -16,8 +16,8 @@ class Menu{
         this.enumMenu.push('Quit Game');
 
         
-        this.menuWindow = scene.add.graphics({fillStyle: {color: 0xfffffff}});
-        this.menuWindow.fillRect(0, 100, 100, 400);     
+        this.menuWindow = scene.add.graphics({fillStyle: {color: 0x7f7f7f}});
+        this.menuWindow.fillRect(0, 100, 150, 400);     
         this.menuWindow.setVisible(false);
         this.arrayMenuString = new Array();
         let yText = 110;
@@ -38,8 +38,8 @@ class Menu{
             #################### HEROS MENU ####################
         */
         // To see wich hero can be selected
-        this.herosWindow = scene.add.graphics({fillStyle: {color: 0xffffff}});
-        this.herosWindow.fillRect(120, 100, 300, 300);
+        this.herosWindow = scene.add.graphics({fillStyle: {color: 0x7f7f7f}});
+        this.herosWindow.fillRect(120, 100, 200, 200);
         this.herosWindow.setVisible(false);
         
         this.arrayName = new Array();
@@ -52,18 +52,16 @@ class Menu{
 }
 
 Menu.prototype.openMenu = function(scene){
-    console.log(this.cursorMenu);
     if(this.menuWindow.visible){
-        this.cursorMenu.y = 105 + 32;
+        this.cursorMenu.y = 105 + 16;
+        this.posCursorOnMenu = 0;
         this.cursorMenu.setVisible(false);
         this.menuWindow.setVisible(false);
-        for(let i = 0; i < this.enumMenu.length; i++){
-            this.arrayMenuString[i].setVisible(false);
-        } 
+        this.hideMenuText(); 
 
     }else{
-        this.cursorMenu.setVisible(true);
         this.menuWindow.setVisible(true);
+        this.cursorMenu.setVisible(true).setDepth(1);
         for(let i = 0; i < this.enumMenu.length; i++){
             this.arrayMenuString[i].setVisible(true);
         } 
@@ -118,12 +116,25 @@ Menu.prototype.openListHero = function(listHeros, scene){
 
 Menu.prototype.closeListHero = function(){
     this.herosWindow.setVisible(false);
-    let sizeArrayName = this.arrayName.length
-    for(let i = 0; i < sizeArrayName; i++){
-            this.arrayName[i].destroy();
-    }
+    this.hideListHeros();
+    this.cursorMenu.x = 150;
+    this.cursorMenu.y = 105 + 16;
+    this.posCursorOnMenu = 0;
 }
 
 Menu.prototype.openInventory = function(hero, scene){
+    // To hide cursor behind inventory
+    this.cursorMenu.setDepth(0);
     hero.newInventory.openInv(scene);
+}
+
+
+Menu.prototype.hideMenuText = function(){
+    for(let i = 0; i < this.arrayMenuString.length; i++)
+        this.arrayMenuString[i].setVisible(false);
+}
+
+Menu.prototype.hideListHeros = function(){
+    for(let i = 0; i < this.arrayName.length; i++)
+        this.arrayName[i].setVisible(false);
 }
