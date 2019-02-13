@@ -8,7 +8,6 @@ class Inventory {
         this.yPosCursor = 0;
         this.posOnBag = 0;
         this.posOnArrayBag = 0;
-        //Inventory.isOpen = false;
         this.bag = new Array();
         this.gold = 0;
     }  
@@ -52,6 +51,7 @@ Inventory.prototype.refreshBag = function(scene){
     this.yPosCursor = 188;
     this.posOnArrayBag = 0;
     this.posOnBag = 0;
+    this.cursor.destroy();
     this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
 }
 
