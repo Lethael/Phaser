@@ -43,9 +43,8 @@ Inventory.prototype.openInv = function(scene, mess){
     }
     this.imgItem.push(scene.physics.add.image(270, 65, 'gold').setScale(0.5));
     //When font will have numbers
-//    this.displayGold = mess.setText(scene, 262, 58, "Gold : " + this.gold.toString()).setScale(0.5);
-    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
-    console.log(this.gold); 
+    //this.displayGold = mess.setText(scene, 262, 58, "Gold : " + this.gold.toString()).setScale(0.5);
+    this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor'); 
 }
 
 Inventory.prototype.refreshBag = function(scene){
