@@ -206,7 +206,7 @@ class MapTest extends Phaser.Scene{
         else
         rateMob+=0.1
         */
-        if(!Inventory.isOpen && !this.myNewBestMenu.menuWindow.visible){
+        if(!this.myNewBestMenu.menuWindow.visible){
             if (this.cursors.left.isDown)
             {
                 this.moveXAndGenerateBattle('left', -80, delta);
@@ -421,19 +421,8 @@ MapTest.prototype.moveOnBag = function(){
     
             
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'axe' || this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'sword'){
-            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].equipWeapon(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag])
-        }
-        else if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'armor'){
-            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].equipArmor(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag])
-        }
-        else if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag].type === 'consommable'){
-            if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].usePotion(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag])){
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.deleteItemOnBag(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag[this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag]);
-            }
-        }
-        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.refreshBag(this);
-    }
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].selectItem(this);
+    } 
 }
 
 /*
