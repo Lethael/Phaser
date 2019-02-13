@@ -194,3 +194,24 @@ Personnage.prototype.usePotion = function(item){
         return true;
     }
 }
+
+Personnage.prototype.selectItem = function(scene){
+    if(this.newInventory.bag[this.newInventory.posOnArrayBag].type === 'axe' || this.newInventory.bag[this.newInventory.posOnArrayBag].type === 'sword'){
+        
+            this.equipWeapon(this.newInventory.bag[this.newInventory.posOnArrayBag]);
+        
+        }
+        else if(this.newInventory.bag[this.newInventory.posOnArrayBag].type === 'armor'){
+            
+            this.equipArmor(this.newInventory.bag[this.newInventory.posOnArrayBag]);
+            
+        }
+        else if(this.newInventory.bag[this.newInventory.posOnArrayBag].type === 'consommable'){
+            if(this.usePotion(this.newInventory.bag[this.newInventory.posOnArrayBag])){
+                
+                this.newInventory.deleteItemOnBag(this.newInventory.bag[this.newInventory.posOnArrayBag]);
+                
+            }
+        }
+        this.newInventory.refreshBag(scene);
+}
