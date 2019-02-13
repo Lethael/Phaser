@@ -47,9 +47,19 @@ class Menu{
         /*
             #################### END HEROS MENU ####################
         */
+        
     }
     
 }
+
+Menu.listMenu = {
+            MAIN: "main",
+            INV: "inventory",
+            STATS: "stats",
+            QUIT: "quit"
+        };
+
+Menu.menuSelect;
 
 Menu.prototype.openMenu = function(scene){
     if(this.menuWindow.visible){
@@ -64,13 +74,14 @@ Menu.prototype.openMenu = function(scene){
         this.cursorMenu.setVisible(true).setDepth(1);
         for(let i = 0; i < this.enumMenu.length; i++){
             this.arrayMenuString[i].setVisible(true);
-        } 
+        }
+        Menu.menuSelect = Menu.listMenu.MAIN;
 
     }
 }
 
 /*
-    2 values on y and pos
+    2 values : y and pos
     when down/up is pushed on menuWindow
         y = 50/-50
         pos = 1/-1
@@ -107,15 +118,20 @@ Menu.prototype.moveCursor = function(y, pos){
 }
 
 Menu.prototype.validateOnMenu = function(listHeros, scene){
+    console.log(this.listMenu);
     switch(this.posCursorOnMenu){
         case 0 :
+            Menu.menuSelect = Menu.listMenu.INV;
             this.openListHero(listHeros, scene);
             break;
         case 1 :
+            Menu.menuSelect = Menu.listMenu.STATS;
+            this.openListHero(listHeros, scene);
             console.log("Stats");
             break;
         case 2 :
-            console.log('Do you really want to quit this extraordanary game? Oo');
+            Menu.menuSelect = Menu.listMenu.QUIT;
+            console.log('Do you really want to quit this extraordinary game? Oo');
             break;
     }
 }
@@ -131,6 +147,7 @@ Menu.prototype.openListHero = function(listHeros, scene){
             this.arrayName[i] = this.message.setText(scene, 140, yPosName, listHeros[i].attribute.name);
             yPosName += 20;
         }
+        this.cursorMenu.y = 105 + 16;
         this.cursorMenu.x += 150;
         this.cursorMenu.setDepth(1);
     }
@@ -142,6 +159,7 @@ Menu.prototype.closeListHero = function(){
     this.cursorMenu.x = 150;
     this.cursorMenu.y = 105 + 16;
     this.posCursorOnMenu = 0;
+    Menu.menuSelect = Menu.listMenu.MAIN;
 }
 
 Menu.prototype.openInventory = function(hero, scene){
