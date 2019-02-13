@@ -9,12 +9,13 @@ class Inventory {
         this.posOnBag = 0;
         this.posOnArrayBag = 0;
         this.bag = new Array();
-        this.gold = 0;
+        this.gold = 10;
+        this.displayGold;
     }  
 }
 Inventory.isOpen = false; 
 
-Inventory.prototype.openInv = function(scene){
+Inventory.prototype.openInv = function(scene, mess){
     if(this.imgInv === undefined)
         this.imgInv = scene.physics.add.image(400, 300, 'inv').setScale(0.5);
     Inventory.isOpen = true;
@@ -40,7 +41,11 @@ Inventory.prototype.openInv = function(scene){
                 
         }
     }
+    this.imgItem.push(scene.physics.add.image(270, 65, 'gold').setScale(0.5));
+    //When font will have numbers
+//    this.displayGold = mess.setText(scene, 262, 58, "Gold : " + this.gold.toString()).setScale(0.5);
     this.cursor = scene.physics.add.image(this.xPosCursor, this.yPosCursor, 'cursor');
+    console.log(this.gold); 
 }
 
 Inventory.prototype.refreshBag = function(scene){
