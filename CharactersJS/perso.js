@@ -195,6 +195,13 @@ Personnage.prototype.usePotion = function(item){
     }
 }
 
+Personnage.prototype.moveOnBag = function(direction){
+    if(direction === 'right' || direction === 'left')
+        this.newInventory.moveOnBag(direction);
+    else
+        this.newInventory.moveUpAndDown(direction);
+}
+
 Personnage.prototype.selectItem = function(scene){
     if(this.newInventory.bag[this.newInventory.posOnArrayBag].type === 'axe' || this.newInventory.bag[this.newInventory.posOnArrayBag].type === 'sword'){
         
