@@ -145,7 +145,9 @@ class MapTest extends Phaser.Scene{
     update (time, delta){
 
         this.player.body.setVelocity(0);
-        
+        /*
+            ######################## BEHAVIOUR MENU ########################
+        */
         if(Menu.menuSelect !== Menu.listMenu.INV && Menu.menuSelect !== Menu.listMenu.STATS){
             if(Phaser.Input.Keyboard.JustDown(this.escapeKey)){
                 this.myNewBestMenu.openMenu(this);
@@ -200,6 +202,10 @@ class MapTest extends Phaser.Scene{
                 this.myNewBestMenu.closeListHero();
             } 
         }
+        
+        /*
+            ######################## END BEHAVIOUR MENU ########################
+        */
 
         
         /*if(Phaser.Input.Keyboard.JustDown(this.key)){
@@ -258,7 +264,7 @@ class MapTest extends Phaser.Scene{
 */
 MapTest.prototype.checkCollideWithChests = function(test, item){
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-        let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 30));
+        let numItems =  Math.floor(Phaser.Math.FloatBetween(0, 70));
         if(numItems > 0){
             for(var i = 0; i < numItems; i++){
                 let rndObject = Math.floor(Phaser.Math.FloatBetween(0, this.listItems.length));
@@ -349,85 +355,28 @@ MapTest.prototype.moveYAndGenerateBattle = function(direction, vel, delta){
     ########################### MOVE CURSOR ON BAG ###########################
 */
 MapTest.prototype.moveOnBag = function(){
-    if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag < this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length - 1){
-        let isDown = false;
-        if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag > 0 && this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag % 7 === 0){
-            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.downOneLine(this, 0, 284);
-            isDown = true;
-        }
-        if(!isDown){
-            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.moveCursor(this, 32, 1);
-        }
-        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag += 1;
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].moveOnBag('right');
     }
 
     if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
-        let isDown = false;
-        if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag > 0){
-            if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag === 0){
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.upOneLine(this, 7, 508);
-                isDown = true;
-            }
-            if(!isDown){
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.moveCursor(this, -32, -1);
-            }
-            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag -= 1;
-        }
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].moveOnBag('left');
             
     }
     
-    /*
-        Check if cursors will go on item.
-        if not 
-            find the position of the last column item
-            cursor goes on it
-        else
-            cursor goes on the nextLine, at the same column
-    */
     if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
-        /*
-            Get the current line
-        */
-        let nbLine = Math.ceil(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag / 8);
-        
-        if(nbLine < Math.ceil(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length / 7)){
-           if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag + 8 > this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length - 1){
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag = this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.bag.length - 1;
-                //508 is the last x position
-                let newPosX = (508 - this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.xPosCursor) / 32;
-                let posXUntilEndLine = 8 - newPosX;
-                newPosX = this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag - newPosX;
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag = newPosX - posXUntilEndLine;
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
-
-            }
-            else{
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag += 8;
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.downOneLine(this, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.xPosCursor);
-            } 
-        }
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].moveOnBag('down');
 
     }
     
     if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
-        /*
-            Get the current line
-        */
-        let nbLine = Math.floor(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag / 8);
-        
-        if(nbLine > 0){
-           if(this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag - 8 < 0){
-                this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag = 0;
-            }
-            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnArrayBag -= 8;
-            this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.upOneLine(this, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.posOnBag, this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].newInventory.xPosCursor);
-        }
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].moveOnBag('up');
 
     }
     
             
     if(Phaser.Input.Keyboard.JustDown(this.cursors.space)){
-    this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].selectItem(this);
+        this.tabPlayer[this.myNewBestMenu.posCursorOnMenu].selectItem(this);
     } 
 }
 
