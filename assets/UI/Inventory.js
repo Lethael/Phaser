@@ -25,6 +25,10 @@ Inventory.prototype.openInv = function(scene, mess){
         let xPos = 288;
         let yPos = 192;
         for(let i = 0; i < this.bag.length; i++){
+            if(i != 0 && i % 8 === 0){
+                yPos += 32;
+                xPos = 288;
+            }
             if(this.bag[i].type === 'sword')
                 this.imgItem.push(scene.physics.add.image(xPos, yPos, 'sword'));
             else if(this.bag[i].type === 'axe')
@@ -34,10 +38,6 @@ Inventory.prototype.openInv = function(scene, mess){
             else if(this.bag[i].type === 'consommable')
                 this.imgItem.push(scene.physics.add.image(xPos, yPos, 'potion'));
             xPos += 32;
-            if(i != 0 && i % 7 === 0){
-                yPos += 32;
-                xPos = 288;
-            }
                 
         }
     }
@@ -81,7 +81,7 @@ Inventory.prototype.closeInv = function(){
 
 Inventory.prototype.addToInv = function(obj, changeEquip){
     if(!changeEquip){
-        if(this.bag.length < 10){
+        if(this.bag.length < 100){
               this.bag.push(obj);
             return true;
            }else{
@@ -104,6 +104,7 @@ Inventory.prototype.deleteItemOnBag = function(item){
 /*
     down cursor on the first item on the next line or
     on the item on the next line
+    posCursor = 0 if down 1 line after right push
 */
 Inventory.prototype.downOneLine = function(scene, posCursor, x){
     this.cursor.x = x;
@@ -115,6 +116,7 @@ Inventory.prototype.downOneLine = function(scene, posCursor, x){
     on the item on the previews line
 */
 Inventory.prototype.upOneLine = function(scene, posCursor, x){
+    
     this.cursor.x = x;
     this.cursor.y -= 32;
     this.posOnBag = posCursor;
@@ -127,4 +129,77 @@ Inventory.prototype.upOneLine = function(scene, posCursor, x){
 Inventory.prototype.moveCursor = function(scene, column, posCursor){
     this.cursor.x += column;
     this.posOnBag += posCursor;
+}
+
+/*
+    Only Right and Left
+*/
+Inventory.prototype.moveOnBag = function(direction){
+    if(direction === 'right'){
+        if(this.posOnArrayBag < this.bag.length - 1){
+            let isDown = false;
+            if(this.posOnBag > 0 && this.posOnBag % 7 === 0){
+                this.downOneLine(this, 0, 284);
+                isDown = true;
+            }
+            if(!isDown){
+                this.moveCursor(this, 32, 1);
+            }
+            this.posOnArrayBag += 1;
+        }
+        
+    }else if(direction === 'left'){
+        let isUp = false;
+        if(this.posOnArrayBag > 0){
+            if(this.posOnBag === 0){
+                this.upOneLine(this, 7, 508);
+                isUp = true;
+            }
+            if(!isUp){
+                this.moveCursor(this, -32, -1);
+            }
+            this.posOnArrayBag -= 1;
+        }
+    }
+        
+}
+
+/*
+    Only up and Down
+*/
+Inventory.prototype.moveUpAndDown = function(direction){
+    if(direction === 'down'){
+       let nbLine = Math.ceil(this.posOnArrayBag / 8);
+        console.log("nbLine : " + nbLine);
+        if(nbLine < Math.ceil(this.bag.length / 8) - 1){
+            console.log("nbLine : " + Math.ceil(this.bag.length / 8));
+           if(this.posOnArrayBag + 8 > this.bag.length - 1){
+                this.posOnArrayBag = this.bag.length - 1;
+                //508 is the last x position
+                let newPosX = (508 - this.xPosCursor) / 32;
+                let posXUntilEndLine = 8 - newPosX;
+                newPosX = this.posOnArrayBag - newPosX;
+                this.posOnBag = newPosX - posXUntilEndLine;
+                this.downOneLine(this, newPosX - posXUntilEndLine, 284 + newPosX * 32 - posXUntilEndLine * 32);
+
+            }
+            else{
+                this.posOnArrayBag += 8;
+                this.downOneLine(this, this.posOnBag, this.xPosCursor);
+            } 
+        } 
+    }else{
+        let nbLine = Math.ceil(this.posOnArrayBag / 8);
+        
+        if(nbLine > 0){
+           if(this.posOnArrayBag === 8){
+                this.posOnArrayBag = 0;
+            }else{
+                this.posOnArrayBag -= 8;
+            }
+            this.upOneLine(this, this.posOnBag, this.xPosCursor);
+        }
+
+    }
+        
 }
